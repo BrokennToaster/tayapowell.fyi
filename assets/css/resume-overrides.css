@@ -1,0 +1,284 @@
+.resume-role-title {
+	color: #273b56;
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.25;
+}
+
+.resume-specialties {
+	color: #64748b;
+	font-size: 0.95rem;
+	letter-spacing: 0;
+	line-height: 1.5;
+	margin: 0.35rem auto 0;
+	max-width: 48rem;
+}
+
+.resume-nav {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem 1.5rem;
+	justify-content: center;
+	margin-top: 1rem;
+}
+
+.resume-nav a {
+	border-bottom: 2px solid transparent;
+	color: #405677;
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding: 0.3rem 0.15rem;
+}
+
+.resume-nav a:hover,
+.resume-nav a:focus-visible {
+	border-bottom-color: #fe655c;
+	color: #273b56;
+}
+
+.resume-contact-reveal {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+	justify-content: center;
+	padding-top: 0.75rem;
+}
+
+.resume-contact-reveal a {
+	color: #405677;
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.resume-print-button {
+	z-index: 1;
+}
+
+.top-bar .resume-print-button {
+	left: 0;
+	right: auto;
+	top: 1rem;
+}
+
+.resume-position-meta {
+	display: grid !important;
+	font-size: 0.8rem;
+	gap: 0.3rem;
+	grid-template-columns: minmax(0, 1fr);
+	justify-content: initial !important;
+	margin-bottom: 0.4rem !important;
+}
+
+.resume-company-name {
+	background: transparent;
+	border-radius: 0;
+	color: #273b56;
+	max-width: 100%;
+	padding: 0;
+	width: fit-content;
+}
+
+.resume-position-time {
+	color: #64748b;
+	font-size: 0.8rem;
+	line-height: 1.45;
+}
+
+#additional-experience .resume-position-meta > strong + strong {
+	color: #273b56;
+	font-weight: 700;
+	max-width: 100%;
+	padding: 0;
+	width: fit-content;
+}
+
+.resume-projects-full {
+	font-size: 0.95rem;
+}
+
+.resume-project-list {
+	display: grid;
+	gap: 0;
+}
+
+.resume-project-entry {
+	border-bottom: 1px solid #dfe5ee;
+	margin: 0;
+	padding: 1rem 0;
+}
+
+.resume-project-entry:first-child {
+	padding-top: 0;
+}
+
+.resume-project-entry:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.resume-project-heading {
+	align-items: baseline;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 1.25rem;
+	justify-content: space-between;
+}
+
+.resume-project-heading .item-heading {
+	font-size: 1.05rem;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.resume-project-type {
+	color: #64748b;
+	font-size: 0.85rem;
+	white-space: nowrap;
+}
+
+.resume-project-entry .resume-timeline-list {
+	margin: 0.4rem 0 0;
+}
+
+@media (max-width: 575.98px) {
+	.resume-name {
+		font-size: 1.5rem;
+		letter-spacing: 0.08em;
+		white-space: nowrap;
+	}
+
+	.resume-role-title {
+		font-size: 1.25rem;
+	}
+
+	.resume-specialties {
+		font-size: 0.875rem;
+	}
+
+	.resume-nav {
+		gap: 0.25rem 1rem;
+	}
+
+}
+
+@media print {
+	@page {
+		margin: 12mm;
+	}
+
+	body,
+	body.light-mode {
+		background: #fff !important;
+		color: #111 !important;
+		font-size: 9pt !important;
+	}
+
+	.top-bar,
+	.resume-nav,
+	.resume-print-button,
+	.footer {
+		display: none !important;
+	}
+
+	.main-content-wrapper,
+	.main-content-wrapper > .container-fluid,
+	.resume-wrapper {
+		background: #fff !important;
+		box-shadow: none !important;
+		margin: 0 !important;
+		max-width: none !important;
+		padding: 0 !important;
+		width: 100% !important;
+	}
+
+	.resume-header,
+	.resume-body {
+		padding: 0 !important;
+	}
+
+	.resume-profile-pic {
+		border: 0 !important;
+		display: block;
+		height: 18mm;
+		margin: 0 auto 2mm;
+		max-width: 18mm;
+		position: static;
+		width: 18mm;
+	}
+
+	.resume-name,
+	.resume-role-title,
+	.resume-section-heading,
+	.resume-position-title,
+	.resume-degree,
+	.resume-lang-name {
+		color: #111 !important;
+	}
+
+	.resume-name {
+		font-size: 20pt;
+		letter-spacing: 0.12em;
+	}
+
+	.resume-specialties,
+	.resume-position-time,
+	.resume-position-meta {
+		color: #333 !important;
+	}
+
+	.resume-contact {
+		border-color: #999 !important;
+		padding: 2mm !important;
+	}
+
+	.resume-body .row {
+		display: grid !important;
+		gap: 6mm;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+	}
+
+	.resume-body .row > [class*="col-"] {
+		border: 0 !important;
+		flex: initial !important;
+		max-width: none !important;
+		padding: 0 !important;
+		width: auto !important;
+	}
+
+	.resume-timeline::before {
+		display: none !important;
+	}
+
+	.resume-section-heading-icon {
+		background: transparent !important;
+		color: #333 !important;
+	}
+
+	.resume-company-name,
+	#additional-experience .resume-position-meta > strong + strong {
+		background: transparent !important;
+		padding: 0 !important;
+	}
+
+	.resume-project-entry {
+		break-inside: avoid-page;
+	}
+
+	.resume-timeline-item,
+	#additional-experience > ul > li {
+		break-inside: avoid-page;
+	}
+
+	hr {
+		border-color: #aaa !important;
+		opacity: 1;
+	}
+
+	a {
+		color: inherit !important;
+		text-decoration: none !important;
+	}
+}

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"> 
 <head>
-	<title>Shine - FREE Bootstrap 5 Resume/CV Template For Developers</title>
+	<title>Taya Powell | Mechanical Engineer</title>
 	
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Profolio Bootstrap 5 Template">
-	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
+	<meta name="description" content="Mechanical Engineer resume for Taya Powell">
+	<meta name="author" content="Taya Powell">    
 	<link rel="shortcut icon" href="favicon.ico"> 
 	
 	<!-- Google Fonts -->	
@@ -20,9 +20,13 @@
 	
 	<!-- FontAwesome JS -->
     <script defer src="assets/fontawesome/js/all.js"></script>
+	<script defer src="assets/js/jspdf.umd.min.js"></script>
+	<script defer src="assets/js/contact-reveal.js"></script>
+	<script defer src="assets/js/resume-pdf.js"></script>
 
 	<!-- Theme CSS -->  
 	<link id="theme-style" rel="stylesheet" href="assets/css/shine.css">
+	<link rel="stylesheet" href="assets/css/resume-overrides.css">
 
 </head> 
 
@@ -36,17 +40,9 @@
 					<div class="top-bar text-center position-relative">
 						<div class="top-bar-inner">
 							
-							<a class="btn btn-primary top-bar-cta" href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/shine-free-bootstrap-5-light-mode-resume-cv-template-for-developers/">Hire Me</a>
+							<button class="btn btn-primary top-bar-cta resume-print-button" type="button" data-resume-pdf><i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>View/Print Resume</button>
+							<button class="btn btn-primary top-bar-cta" type="button" data-contact-toggle aria-controls="contact-details" aria-expanded="false">Contact Me</button>
 					
-							<ul class="social-list list-inline mx-auto">
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="#"><i class="fa-brands fa-x-twitter fa-fw"></i></a></li>
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="#"><i class="fa-brands fa-github fa-fw"></i></a></li>
-								
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="#"><i class="fa-brands fa-linkedin-in fa-fw"></i></a></li>
-								
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="#"><i class="fa-brands fa-stack-overflow fa-fw"></i></a></li>
-								
-							</ul><!--//social-list-->
 							
 						</div><!--//top-bar-inner-->
 						
@@ -55,17 +51,22 @@
 					<div class="resume-wrapper mx-auto rounded-2">
 						<div class="resume-header px-4 px-lg-5">
 							<div class="resume-profile-holder text-center">
-								<img class="resume-profile-pic rounded-circle" src="assets/images/profile.png" alt="image">
-								
-								<h2 class="resume-name text-uppercase">Daniel Lopez </h2>
-								<div class="resume-role-title text-uppercase">Senior App Developer</div>
+								<img class="resume-profile-pic rounded-circle" src="Profile.jpg" alt="Taya Powell" width="160" height="160">
+								<h2 class="resume-name text-uppercase">Taya Powell</h2>
+								<div class="resume-role-title">Mechanical Engineer</div>
+								<div class="resume-specialties">Product Development <span aria-hidden="true">&middot;</span> Aesthetic &amp; Functional CAD Design <span aria-hidden="true">&middot;</span> Prototyping &amp; Testing</div>
 								<div class="resume-contact mt-4">
 									<ul class="resume-contact-list list-unstyled list-inline mb-0 justify-content-between">
-										<li class="list-inline-item me-md-3 me-lg-5"><i class="resume-contact-icon bi bi-telephone-inbound me-2"></i> +123-4567890</li>
-										<li class="list-inline-item me-md-3 me-lg-5"><i class="resume-contact-icon bi bi-envelope me-2"></i> hello@yourwebsite.com</li>
-										<li class="list-inline-item me-lg-5"><i class="resume-contact-icon bi bi-globe me-2"></i> www.yourwebsite.com</li>
+										<li class="list-inline-item me-md-3 me-lg-5"><i class="resume-contact-icon bi bi-geo-alt me-2"></i>Austin, TX · Relocating from Utah</li>
+										<li class="list-inline-item me-lg-5"><i class="resume-contact-icon bi bi-linkedin me-2"></i><a href="https://www.linkedin.com/in/tayarpowell2828/" target="_blank" rel="noopener">LinkedIn</a></li>
 									</ul>
+									<div class="resume-contact-reveal" id="contact-details" hidden aria-live="polite"></div>
 								</div><!--//resume-contact-->
+								<nav class="resume-nav" aria-label="Resume sections">
+									<a href="#experience">Experience</a>
+									<a href="#projects">Projects</a>
+									<a href="#education">Education</a>
+								</nav>
 							</div><!--//profile-holder-->
 						</div><!--//resume-header-->
 						
@@ -73,39 +74,40 @@
 							<div class="row">
 								<div class="col-main col-12 col-lg-8 pe-lg-4">
 									<section class="resume-summary-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-person me-2"></i>About Me</h3>
+										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-person me-2"></i>Professional Summary</h3>
 										<div class="resume-summary-desc">
-											Summarise your career profile here lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+										Mechanical Engineer focused on product development, aesthetic and functional CAD design, prototyping, and testing. Brings hands-on experience in industrial CAD, field verification, equipment selection, point-cloud modeling, fabrication, and technical documentation to turn design requirements into clear, buildable solutions.
 										</div>
 									</section><!--//resume-section-->
 									
 									<hr>
 									
-									<section class="resume-experience-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-briefcase me-2"></i>Work Experience</h3>
+									<section id="experience" class="resume-experience-section resume-section">
+										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-briefcase me-2"></i>Engineering Experience</h3>
 										<div class="resume-timeline position-relative">
 										    <article class="resume-timeline-item position-relative pb-5">
 											    
 											    <div class="resume-timeline-item-header mb-2">
 												    
 												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2024 - Present</div>
-													    <div class="resume-company-name">Google</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">Tech Lead</h3>
+											    <div class="resume-position-time">Jul 2025 - May 2026</div>
+										    <div class="resume-company-name">REDD Engineering &amp; Construction, Inc.</div>
+											</div>
+										        <h3 class="resume-position-title mb-1">Mechanical Designer</h3>
+										        <div class="resume-position-time">North Salt Lake, Utah, United States</div>
 
-											    </div><!--//resume-timeline-item-header-->
-											    <div class="resume-timeline-item-desc">
-												 
-												   
-												    <ul class="resume-timeline-list">
-													    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porta est diam, et blandit ipsum suscipit facilisis. Praesent nec semper eros. Aliquam quis turpis sed metus mollis luctus vitae rhoncus mi. </li>
-													    <li>Vivamus accumsan purus at urna tincidunt convallis. Sed nisi dolor, elementum eget tempus ac, blandit ac mi. Aliquam id tellus ut arcu luctus accumsan in at odio. </li>
-													    
-													    <li>Morbi condimentum, lorem in pharetra mollis, purus justo sollicitudin dolor, tristique vulputate mi odio sit amet ante.</li>
-													    <li>Blanditiis praesentium voluptatum deleniti atque corrupti.</li>
-												    </ul>
-												    
+										    </div><!--//resume-timeline-item-header-->
+										    <div class="resume-timeline-item-desc">
+										    <ul class="resume-timeline-list">
+											    <li data-resume-pdf>Advanced to Junior Project Engineer. Served as primary CAD reference for a 20-person engineering team, advising designers on pipe routing, spatial constraints, and weld clearances.</li>
+											    <li data-resume-pdf>Generated 130+ total CAD drawing sheets (structural, architectural, mechanical) and authored 100+ piping ISOs with Bills of Materials across industrial projects in AutoCAD Plant 3D.</li>
+											    <li data-resume-pdf>Authored and restructured 35+ P&amp;IDs and PFDs from scratch to improve system readability, converting 3D laser scan point clouds into verified Plant 3D models for as-built documentation.</li>
+											    <li>Performed field walkdowns and engineering verification activities to reconcile CAD design models with existing site conditions and ensure drawing accuracy.</li>
+											    <li>Supported equipment selection and engineering coordination by building vendor bid tabulations (valves, elevators), reviewing shop drawings against design specifications, and enforcing NFPA code compliance.</li>
+											    <li><strong>ANSOL Production Containers – 3D Scan-to-Model Package:</strong> Converted 3D laser scan point clouds into updated AutoCAD Plant 3D as-built models for two ANSOL production containers prior to transport. Generated client-ready drawing packages including piping ISOs with Bills of Materials (BOMs), updated P&amp;IDs, and structural/architectural layouts.
+											    </li>
+											</ul>
+										<p>This role gave me experience working within multidisciplinary engineering projects where accuracy, documentation, and coordination were critical. I worked across CAD design, field verification, equipment selection, and engineering documentation, while developing a stronger understanding of how design decisions translate into physical industrial systems. My work also gave me hands-on experience with 3D laser scanning and point-cloud processing, from collecting site data through rebuilding existing conditions in CAD.</p>
 											    </div><!--//resume-timeline-item-desc-->
 		
 										    </article><!--//resume-timeline-item-->
@@ -115,43 +117,21 @@
 											    <div class="resume-timeline-item-header mb-2">
 												    
 												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2019 - 2024</div>
-													    <div class="resume-company-name">Meta</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">Senior App Developer</h3>
+											    <div class="resume-position-time">Oct 2019 - Jul 2022</div>
+											    <div class="resume-company-name">AMET Inc.</div>
+											</div>
+										        <h3 class="resume-position-title mb-1">Mechanical Engineering Intern</h3>
+										        <div class="resume-position-time">Rexburg, ID</div>
 
-											    </div><!--//resume-timeline-item-header-->
-											    <div class="resume-timeline-item-desc">
-												    <ul class="resume-timeline-list">
-													    
-													    <li>Praesent nec semper eros. Aliquam quis turpis sed metus mollis luctus vitae rhoncus mi. At vero eos et accusamus et iusto odio dignissimos.</li>
-													    <li>Proin tempus eu arcu in semper. Quisque gravida, sem ut vehicula ultrices, diam est viverra odio, eget tristique tortor tortor sed neque.</li>
-													    <li>Suspendisse quis pharetra elit. Curabitur vitae cursus lacus, et bibendum magna. Donec in orci eu augue posuere mattis ut in turpis.</li>
-												    </ul>
-												    
-											    </div><!--//resume-timeline-item-desc-->
-		
-										    </article><!--//resume-timeline-item-->
-										    <article class="resume-timeline-item position-relative">
-
-											    <div class="resume-timeline-item-header mb-2">
-												    
-												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2017 - 2019</div>
-													    <div class="resume-company-name">Coinbase</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">App Developer</h3>
-
-											    </div><!--//resume-timeline-item-header-->
-											    <div class="resume-timeline-item-desc">
-												    <ul class="resume-timeline-list">
-													    
-													    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-													    <li>Nulla velit dui, ultrices sit amet arcu eget, sodales lacinia lorem.</li>
-													    <li>Quisque semper nisi mauris, non ullamcorper nunc consectetur eget. </li>
-													   
-												    </ul>
-												    
+										    </div><!--//resume-timeline-item-header-->
+										    <div class="resume-timeline-item-desc">
+											    <ul class="resume-timeline-list">
+											    <li data-resume-pdf>Standardized controller icons, notices, and port labels across product lines; designed custom control panel overlays and deployed 1,000+ physical machine labels using Adobe Illustrator.</li>
+											    <li>Developed advanced proficiency in Adobe Illustrator within three months and continued refining production-ready graphics for industrial equipment throughout the internship.</li>
+											    <li data-resume-pdf>Optimized SolidWorks CAD libraries by repairing 50+ vendor fastener and hardware models, resolving geometry flaws and eliminating rebuild errors in large assemblies.</li>
+											    <li data-resume-pdf>Supported engineering documentation and CAD standardization for automated welding systems serving industrial, aerospace, and nuclear applications.</li>
+											</ul>
+										<p>My internship at AMET gave me an early opportunity to work at the intersection of engineering, visual design, and technical documentation. I learned to use Adobe Illustrator at a professional level very quickly, creating graphics and physical labeling for large automated welding systems while working within existing product standards. I also gained experience working with SolidWorks assemblies and troubleshooting vendor CAD models when geometry or rebuild issues caused problems. Although my role was primarily focused on documentation, CAD support, and visual communication, it taught me how much careful attention to detail matters when information will ultimately be used on real equipment.</p>
 											    </div><!--//resume-timeline-item-desc-->
 		
 										    </article><!--//resume-timeline-item-->
@@ -160,91 +140,43 @@
 								</div><!--//col-8-->
 								<div class="col-12 col-lg-4 ps-lg-4">
 									
-									<section class="resume-skills-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-gear me-2"></i>Tech Stack</h3>
-										
-										<ul class="list-unstyled">
-								        <li class="mb-2">
-								            <div class="resume-skill-name">JavaScript</div>
-											<div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 98%"></div>
-											</div>
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">ReactJS</div>
-								            <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 95%"></div>
-											</div>
-									        
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">Python</div>
-									        <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 92%"></div>
-											</div>
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">MongoDB</div>
-									        <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 86%"></div>
-											</div>
-								        </li>
-
-							        </ul>
+									<section id="technical-skills" class="resume-skills-section resume-section">
+<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-gear me-2"></i>Technical Skills</h3>
+										<ul class="list-unstyled resume-timeline-list">
+											<li><strong>Mechanical Design:</strong> SolidWorks (part modeling, surface modeling, assemblies), AutoCAD &amp; Plant 3D, 3D scanning, point clouds, engineering drawings, BOMs</li>
+											<li><strong>Prototyping &amp; Manufacturing:</strong> 3D printing, injection molding, laser cutting, composite layups, reverse engineering, machining, fabrication</li>
+											<li><strong>Engineering Analysis:</strong> FEA, mechanical systems analysis, design validation, product testing</li>
+											<li><strong>Tools &amp; Programming:</strong> Python, MATLAB, Arduino (C++), Visual Basic, Microsoft Excel, Bluebeam, Adobe Illustrator, Photoshop</li>
+										</ul>
 										
 									</section><!--//resume-section-->
 									
 									<hr>
 									
-									<section class="resume-skills-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-person-gear me-2"></i>Soft Skills</h3>
-										<ul class="list-inline">
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Leadership</span></li>
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Project Management</span></li>
-								            
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">DevOps</span></li>
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Public Speaking</span></li>
-								            
-								            				           
-							            </ul>
-									</section><!--//resume-section-->
-									
+									<section id="certifications" class="resume-skills-section resume-section">
+											<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-award me-2"></i>Certifications</h3>
+											<ul class="list-unstyled resume-timeline-list">
+												<li>Fundamentals of Engineering (FE Mechanical), EIT Eligible</li>
+												<li>CSWA (Academic, Sheet Metal)</li>
+											</ul>
+										</section><!--//resume-section-->
 									<hr>
 									
-									<section class="resume-projects-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-code-slash me-2"></i>Projects</h3>
-										<div class="item">
-											<h4 class="item-heading"><i class="item-icon bi bi-square-fill me-2"></i><a href="#">Project lorem Ipsum</a></h4>
-											<div class="item-desc">
-												Project desc goes here aenean ut libero sit amet ante fermentum scelerisque non a leo.
-											</div>
-										</div><!--//item-->
-										<div class="item">
-											<h4 class="item-heading"><i class="item-icon bi bi-square-fill me-2"></i><a href="#">Volutpat App</a></h4>
-											<div class="item-desc">
-												You can link to your project Github page.
-											</div>
-										</div><!--//item-->
-									
-											
-									</section>
-									
-									<hr>
-									
-									<section class="resume-educate-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-book me-2"></i>Education</h3>
+									<section id="education" class="resume-educate-section resume-section">
+										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-book me-2"></i>Education</h3>
 										<ul class="list-unstyled">
-										    <li class="mb-2">
-										        <div class="resume-degree font-weight-bold">MSc in Computer Science</div>
-										        <div class="resume-degree-org">Oxford University</div>
-										        <div class="resume-degree-time">2016 - 2017</div>
-										    </li>
-										    <li>
-										        <div class="resume-degree font-weight-bold">BSc Maths and Physics</div>
-										        <div class="resume-degree-org">University of California, Berkeley</div>
-										        <div class="resume-degree-time">2012 - 2016</div>
-										    </li>
-									    </ul>
+											<li class="mb-2">
+												<div class="resume-degree font-weight-bold">Bachelor's Degree (B.S.) in Mechanical Engineering</div>
+												<div class="resume-degree-org">Brigham Young University-Idaho</div>
+												<div class="resume-degree-time">April 2025</div>
+												<div class="resume-degree-highlight">Awarded “Best Calculations” for the capstone project designing hands-on statics lab demonstrations to support engineering instruction.</div>
+											</li>
+											<li class="mb-2">
+												<div class="resume-degree font-weight-bold">General Studies</div>
+												<div class="resume-degree-org">Austin Community College</div>
+												<div class="resume-degree-time">2014 - 2016</div>
+											</li>
+										</ul>
 									</section><!--//resume-section-->
 									
 									<hr>
@@ -253,7 +185,7 @@
 										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-translate me-2"></i>Languages</h3>
 										 <ul class="list-unstyled resume-lang-list">
 										    <li class="mb-2">
-										        <div class="resume-lang-name">English</div>
+										        <div class="resume-lang-name">English (Native)</div>
 										        <div class="resume-level-indicator row gx-0 flex-nowrap">
 											        <div class="col"><span class="item item-full"></span></div>
 											        <div class="col"><span class="item item-full"></span></div>
@@ -268,7 +200,7 @@
 										        </div><!--//resume-level-indicator-->
 										    </li>
 										     <li class="mb-2">
-										        <div class="resume-lang-name">Spanish</div>
+										        <div class="resume-lang-name">Spanish (Fluent)</div>
 										        <div class="resume-level-indicator row gx-0 flex-nowrap">
 											        <div class="col"><span class="item item-full"></span></div>
 											        <div class="col"><span class="item item-full"></span></div>
@@ -282,26 +214,143 @@
 											        <div class="col"><span class="item"></span></div>
 										        </div><!--//resume-level-indicator-->
 										    </li>
-										</ul>
-									</section>
-									
-									
-									
-								</div><!--//col-side-->
-							</div><!--//row-->
-					    </div><!--//resume-body-->
-				    </div><!--//resume-wrapper-->
-				</div><!--//container-fluid-->
+								</ul>
+							</section>
+						</div><!--//col-side-->
+					</div><!--//row-->
+					<hr>
+					<section id="projects" class="resume-section resume-projects-full">
+						<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-tools me-2"></i>Projects</h3>
+						<div class="resume-project-list">
+							<article class="resume-project-entry">
+								<div class="resume-project-heading">
+									<h4 class="item-heading">Statics Instructional System</h4>
+									<div class="resume-project-type">Team · Capstone project</div>
+								</div>
+								<ul class="resume-timeline-list">
+									<li>Designed and fabricated 3 statics demonstration units with integrated sensor measurement systems for department use in lab courses.</li>
+									<li>Applied Lean, Accurate, Reliable, Direct principles to technical report writing, reducing final report length by 50% while improving readability and clarity.</li>
+								</ul>
+							</article>
+							<article class="resume-project-entry">
+								<div class="resume-project-heading">
+									<h4 class="item-heading">Custom Ergonomic Mouse Prototype</h4>
+									<div class="resume-project-type">Individual &amp; team</div>
+								</div>
+								<ul class="resume-timeline-list">
+									<li>Executed individual concept development (3D printing, rapid prototyping) and user surveys, collaborating in a team to produce selected mouse enclosures through manual injection molding and finishing.</li>
+								</ul>
+							</article>
+							<article class="resume-project-entry">
+								<div class="resume-project-heading">
+									<h4 class="item-heading">Composite Material Fabrication &amp; Testing</h4>
+									<div class="resume-project-type">Individual</div>
+								</div>
+								<ul class="resume-timeline-list">
+									<li>Fabricated carbon fiber, fiberglass, and natural fiber composite samples utilizing vacuum bagging techniques.</li>
+									<li>Evaluated material performance through tensile testing and physical property analysis across iterative fabrication trials.</li>
+								</ul>
+							</article>
+						</div>
+					</section>
+					<section id="additional-experience" class="resume-section mt-4">
+						<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-briefcase me-2"></i>Additional Experience</h3>
+						<ul class="list-unstyled resume-timeline-list">
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>Jan 2024 - Sep 2024</strong><strong>The Peaks at South Jordan Memory Care</strong></div>
+								<h4 class="resume-position-title mb-1">Administrative Assistant</h4>
+								<div class="resume-position-time">South Jordan, Utah, United States</div>
+								<ul>
+									<li>Served as a front-office administrative assistant and first point of contact for staff, residents, families, visitors, and vendors, handling phones, messages, records, paperwork, and daily facility needs.</li>
+									<li>Maintained detailed, time-stamped documentation of visitor interactions, resident movements, staff communications, and significant events.</li>
+									<li>Troubleshot office technology including computers, software, and printers, resolving issues independently and coordinating with IT when needed.</li>
+									<li>Digitized and reformatted a comprehensive emergency protocol manual, rebuilding pages with handwritten updates while preserving its organization and usability.</li>
+									<li>Created reference and training materials documenting role procedures, facility information, and privacy and security guidelines.</li>
+								</ul>
+								<p>Working in a memory care facility required organization, technical problem-solving, discretion, and adaptability. I became the first person staff came to when office technology stopped cooperating and learned to research solutions before escalating problems to IT. I also took on projects requiring careful attention to detail, including digitizing the emergency protocol manual and creating practical resources for future staff. Maintaining detailed records taught me the importance of documenting what happened, when, and in what context. Although the role was primarily administrative, I continued to interact with residents and families and help people feel heard and cared for during difficult moments.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>May 2015 - May 2020</strong><strong>ReNee Fine Arts Rendering</strong></div>
+								<h4 class="resume-position-title mb-1">Owner</h4>
+								<div class="resume-position-time">United States</div>
+								<ul>
+									<li>Founded and independently operated FARENdering, a digital portrait business creating stylized artwork from customer photographs using Procreate on iPad.</li>
+									<li>Developed the business identity, including a custom logo, website, Facebook page, and Instagram presence, and established my own pricing and commission process.</li>
+									<li>Created original artwork for paid commissions as well as promotional and practice pieces to develop my style, evaluate customer interest, and build a portfolio.</li>
+									<li>Managed customer communication and delivered custom portraits for children and pets.</li>
+								</ul>
+								<p>I started ReNee Fine Arts Rendering as a self-directed creative project and maintained it for nearly ten years. The business began as an experiment in turning a creative skill into something people could actually purchase, and I handled the process independently from creating artwork and developing the visual identity to setting prices, communicating with customers, and building an online presence. Most of my work was created as practice or portfolio material, giving me room to experiment with different styles and learn what people responded to. The experience gave me an early opportunity to develop a product independently, present it to an audience, and take responsibility for the process from concept to delivery.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>Apr 2019 - Sep 2019</strong><strong>The Ridge Senior Living</strong></div>
+								<h4 class="resume-position-title mb-1">Life Enrichment Coordinator</h4>
+								<div class="resume-position-time">Salt Lake City, Utah, United States</div>
+								<ul>
+									<li>Independently set up, led, and cleaned up daily activities, adapting planned activities to residents' abilities and interests and improvising when circumstances changed.</li>
+									<li>Led a wide range of activities including light exercise, bingo, floral arranging, gardening, coloring, aromatherapy, music, dancing, and other creative activities.</li>
+									<li>Coordinated with CNAs, families, new residents, vendors, and visiting entertainers to support resident needs and keep activities running smoothly.</li>
+									<li>Adapted communication and activities for residents with dementia, learning to meet individuals where they were and create moments of comfort, connection, and engagement.</li>
+								</ul>
+								<p>This position was one of the most personally meaningful experiences I've had. Working in memory care taught me that meaningful engagement often requires more creativity and flexibility than following a planned activity. I learned to adapt quickly to different personalities, abilities, moods, and circumstances, while finding ways to help residents feel comfortable, included, and understood. I also gained experience communicating with families, care staff, new residents, and outside vendors and entertainers, often balancing several needs at once. The experience gave me a deeper appreciation for a kind of empathy that requires both creativity and careful attention to the person in front of you.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>Oct 2017 - Apr 2019</strong><strong>The Church of Jesus Christ of Latter-day Saints</strong></div>
+								<h4 class="resume-position-title mb-1">Full Time Volunteer</h4>
+								<div class="resume-position-time">Chesapeake, Virginia, United States</div>
+								<ul>
+									<li>Served as a full-time Spanish-speaking missionary for 18 months, teaching the gospel, working with Spanish-speaking communities, and communicating with people from a wide range of backgrounds.</li>
+									<li>Developed strong conversational Spanish through daily immersion and independently conducted lessons, answered questions, and built relationships in Spanish; also learned French and Haitian Creole to communicate with members of the local Haitian community.</li>
+									<li>Led several assigned areas as a senior missionary, maintaining knowledge of people being taught, local members and resources, and area logistics, then training incoming companions to continue the work effectively.</li>
+									<li>Organized daily schedules, planned and adapted lessons, participated in community service, maintained records, and helped digitize apartment records so information could be passed between missionaries.</li>
+								</ul>
+								<p>My mission taught me how to communicate with people who had very different backgrounds, personalities, beliefs, and levels of interest. Much of the work involved approaching complete strangers, starting conversations quickly, answering difficult questions, and inviting people to consider ideas that were unfamiliar to them. Rejection was a normal part of the work, and I learned to keep approaching people with genuine care rather than letting an unsuccessful conversation determine the next one. I also learned to adapt constantly, whether that meant changing a lesson to meet someone's needs, finding a way to communicate across language barriers, or taking responsibility for an area and helping a new companion understand the people and community there. Most importantly, I saw how meaningful it can be to help someone find hope, community, and a stronger connection to their faith.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>May 2017 - Aug 2017</strong><strong>Challenger Sports</strong></div>
+								<h4 class="resume-position-title mb-1">Summer Camp Assistant Director</h4>
+								<div class="resume-position-time">Austin, Texas, United States</div>
+								<ul>
+									<li>Conducted outbound calls and texts to families who had previously hosted international soccer coaches, inviting them to host again for upcoming camps.</li>
+									<li>Communicated with registered families about the hosting experience, answering questions and sharing testimonials gathered from previous host families.</li>
+									<li>Maintained detailed outreach logs and coordinated questions and follow-up with a manager based in Texas.</li>
+									<li>Researched answers to family questions with my manager and either provided the information directly or connected families with him for additional support.</li>
+								</ul>
+								<p>I worked remotely with a team based in Texas to recruit and support host families for international soccer camps. Much of the role involved reaching out to people I had never spoken with, starting conversations, learning what mattered to them, and helping them decide whether hosting was a good fit for their family. I especially enjoyed talking with previous hosts and collecting their experiences and testimonials to share with new families. The position gave me practical experience with outreach, customer communication, organized follow-up, and working independently while staying connected with a remote manager.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>Jan 2017 - Aug 2017</strong><strong>Brigham Young University - Idaho</strong></div>
+								<h4 class="resume-position-title mb-1">Graphic Designer</h4>
+								<div class="resume-position-time">Rexburg, ID</div>
+								<ul>
+									<li>Supported faculty using Brightspace by creating and editing courses, adjusting gradebooks and weighting systems, troubleshooting issues, and testing course views from both student and instructor perspectives.</li>
+									<li>Provided technical support by phone and helped faculty identify solutions to course and system issues, often researching and implementing fixes directly.</li>
+									<li>Created infographics, course banners, and video graphics using Adobe Photoshop and Illustrator, including graphics later incorporated into animated videos.</li>
+									<li>Helped replace copyrighted textbook imagery with royalty-free alternatives or original recreated graphics for a professor's course materials.</li>
+								</ul>
+								<p>I worked with the Faculty Technology Center to help professors build and manage their Brightspace courses and solve technical problems. The role required me to learn an unfamiliar system quickly, understand how changes affected both instructors and students, and translate technical solutions into practical instructions. I also developed my graphic design skills by creating visual materials for courses and educational content. One project involved reviewing a textbook's imagery for copyright concerns and helping replace the images with royalty-free or newly recreated graphics. The combination of technical troubleshooting, visual design, and customer support made this a particularly fun role and gave me a foundation I continued building on through later engineering and design work.</p>
+							</li>
+							<li>
+								<div class="resume-position-meta d-flex justify-content-between mb-1"><strong>Jul 2009 - Aug 2016</strong><strong>Powell Wedding Photography</strong></div>
+								<h4 class="resume-position-title mb-1">Photographers Assistant</h4>
+								<div class="resume-position-time">Austin, Texas, United States</div>
+								<ul>
+									<li>Progressed from assisting with basic camera setup to serving as a second shooter for weddings, independently capturing candid moments, detail shots, and portions of wedding-day coverage across multiple locations.</li>
+									<li>Developed practical photography skills in camera settings, composition, lighting, and shooting in challenging environments, including dimly lit venues and heavily colored interiors.</li>
+									<li>Managed photography workflow using Adobe Lightroom and Photo Mechanic, independently culling large collections of images and performing minor edits while contributing to my mother's photography business.</li>
+									<li>Assisted with real estate photography by transporting and setting up equipment, supporting on-location shoots, and helping prepare and process images.</li>
+								</ul>
+								<p>I began assisting my mother with wedding photography at age 11 and continued through age 18, gradually taking on more responsibility as my photography skills developed. What started as basic assistance eventually became genuine second-shooter experience, with my own portfolio of wedding work and the ability to work independently within a larger photography team. I found that I particularly enjoyed candid photography and detail work, where composition, lighting, and attention to small visual details mattered. I also learned to work quickly and adapt when venues, lighting, schedules, and locations changed throughout a wedding day. My experience eventually gave me enough independent work to apply for photography positions outside my mother's business, including a paid second-shooting opportunity with another photographer.</p>
+							</li>
+						</ul>
+					</section>
+				</div><!--//resume-body-->
+			</div><!--//resume-wrapper-->
+			</div><!--//container-fluid-->
 			</div><!--//main-content-wrapper-->
-		
-		
-		</div><!--//row-->
-	
-	</div><!--//container-->
-	
-	<footer class="footer text-center py-4">
-		<!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-		<small class="copyright">Designed with <span class="sr-only">love</span><i class="bi bi-heart-fill" style="color:#fe655c"></i> by <a class="theme-link" href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
-	</footer>
+			</div><!--//container-fluid-->
 
-</body>
+				<footer class="footer text-center py-4">
+					<small class="copyright">Taya Powell &bull; Mechanical Engineer</small>
+				</footer>
+			</body>
+			</html>
