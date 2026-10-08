@@ -411,7 +411,6 @@
 	.vb-btn.ghost { background: transparent; color: #cfd6e0; border-color: #39485b; }
 	.vb-btn:hover { filter: brightness(1.08); }
 	.vb-btn.disabled { background: #8b97ad; color: #e8ecf3; cursor: not-allowed; }
-	.vb-hint { display: none; }
 	.resume-sheet { width: 8.5in; max-width: 100%; min-height: 11in; margin: 28px auto; padding: 0.55in 0.62in; background: #fff; box-shadow: 0 8px 30px rgba(17, 24, 32, 0.18); }
 	.resume-header { text-align: center; }
 	.resume-header h1 { margin: 0 0 8px; color: #111820; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase; }
@@ -433,7 +432,6 @@
 	@media (max-width: 640px) {
 		.viewer-bar { padding: 8px 10px; gap: 8px; }
 		.viewer-bar .brand { font-size: 11px; }
-		.vb-hint { display: block; width: 100%; font-size: 11.5px; line-height: 1.4; color: #cfd6e0; }
 		.resume-sheet { margin: 0; padding: 18px 14px; box-shadow: none; }
 		.resume-header h1 { font-size: 22px; letter-spacing: 0.14em; }
 		.entry-head { flex-wrap: wrap; gap: 2px 16px; }
@@ -505,7 +503,6 @@
 		<button class="vb-btn primary" id="resume-print-btn" type="button">Print</button>
 		${pdfDataUrl ? `<a class="vb-btn secondary" id="resume-download-btn" href="${esc(pdfDataUrl)}" download="${esc(downloadName)}">Download PDF</a>` : `<span class="vb-btn secondary disabled" title="The PDF could not be generated in this browser. Use Print to save a PDF instead.">Download PDF</span>`}
 		<a class="vb-btn ghost" href="${esc(siteUrl)}">Back to Website</a>
-		<span class="vb-hint">Print not opening? Use your browser&rsquo;s menu &rarr; Share &rarr; Print, or Download the PDF instead.</span>
 	</div>
 </div>
 <main class="resume-sheet">
@@ -525,12 +522,58 @@
 <script>
 	(function () {
 		var printBtn = document.getElementById("resume-print-btn");
-		printBtn.addEventListener("click", function () {
-			try { window.print(); } catch (error) { window.alert("This browser blocked printing. Use Download PDF instead, or your browser's Share > Print option."); }
-		});
 		var dl = document.getElementById("resume-download-btn");
+		var dlName = (dl && dl.getAttribute("download")) || "Resume.pdf";
+		var cachedBlob = null;
+		var isTouch = !!(window.matchMedia && (window.matchMedia("(max-width: 640px)").matches || window.matchMedia("(pointer: coarse)").matches));
+		if (isTouch && printBtn) {
+			printBtn.textContent = "Share / Print";
+		}
+		var fallbackPrint = function () {
+			try {
+				if (!window.print) {
+					throw new Error("Printing is not available in this browser.");
+				}
+				window.print();
+			} catch (error) {
+				if (dl) {
+					dl.click();
+				} else {
+					window.alert("This browser blocked printing. Use Download PDF instead.");
+				}
+			}
+		};
+		if (printBtn) {
+			printBtn.addEventListener("click", function () {
+				// Touch devices: open the native share sheet with the finished
+				// PDF - Android and iOS both offer a Print target in it.
+				// Desktop: print this view directly.
+				var file = null;
+				if (isTouch && cachedBlob && window.File && navigator.canShare) {
+					try {
+						file = new File([cachedBlob], dlName, { type: "application/pdf" });
+					} catch (ignore) {
+						file = null;
+					}
+				}
+				if (file && navigator.canShare({ files: [file] })) {
+					try {
+						navigator.share({ files: [file], title: dlName }).catch(function (error) {
+							// A dismissed sheet is fine; anything else falls back
+							// to the print dialog.
+							if (!error || error.name !== "AbortError") {
+								fallbackPrint();
+							}
+						});
+					} catch (error) {
+						fallbackPrint();
+					}
+					return;
+				}
+				fallbackPrint();
+			});
+		}
 		if (dl && window.fetch && window.URL && URL.createObjectURL) {
-			var dlName = dl.getAttribute("download") || "Resume.pdf";
 			var dlBlobPromise = null;
 			var ensureBlobUrl = function () {
 				if (dl.href.indexOf("data:") !== 0) {
@@ -540,6 +583,7 @@
 					dlBlobPromise = fetch(dl.href).then(function (response) {
 						return response.blob();
 					}).then(function (blob) {
+						cachedBlob = blob;
 						var url = URL.createObjectURL(blob);
 						dl.href = url;
 						return url;
