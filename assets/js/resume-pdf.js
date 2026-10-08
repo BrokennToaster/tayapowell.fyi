@@ -9,7 +9,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-05-v5";
+	const pdfTemplateVersion = "2026-10-05-v6";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -225,10 +225,16 @@
 		if (content.education.length) {
 			addSection("Education");
 			content.education.forEach((item) => {
-				addText(`${item.degree} | ${item.organization} | ${item.date}`, { size: 8, after: 1.5 });
+				addExperienceHeading({
+					title: item.degree,
+					company: item.organization,
+					date: item.date,
+					location: ""
+				});
 				if (item.recognition) {
 					addBullet(item.recognition);
 				}
+				y += 2.5 * scale;
 			});
 		}
 
@@ -468,7 +474,10 @@
 			<ul class="bullet-list">${listItems(project.bullets)}</ul>
 		</article>`).join("");
 		const educationBody = content.education.map((item) => `<div class="entry education-entry">
-			<p class="edu-line">${esc([item.degree, item.organization, item.date].filter(Boolean).join(" | "))}</p>
+			<div class="entry-head">
+				<span class="entry-title">${esc([item.degree, item.organization].filter(Boolean).join(" | "))}</span>
+				${item.date ? `<span class="entry-date">${esc(item.date)}</span>` : ""}
+			</div>
 			${item.recognition ? `<ul class="bullet-list"><li>${esc(item.recognition)}</li></ul>` : ""}
 		</div>`).join("");
 
