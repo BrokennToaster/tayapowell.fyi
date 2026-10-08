@@ -191,6 +191,18 @@
 }
 
 @media (max-width: 575.98px) {
+	.top-bar-inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		justify-content: space-between;
+	}
+
+	.top-bar .top-bar-cta,
+	.top-bar .resume-print-button {
+		position: static;
+	}
+
 	.resume-name {
 		font-size: 1.5rem;
 		letter-spacing: 0.08em;

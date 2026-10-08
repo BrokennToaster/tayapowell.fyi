@@ -411,7 +411,8 @@
 	.vb-btn.ghost { background: transparent; color: #cfd6e0; border-color: #39485b; }
 	.vb-btn:hover { filter: brightness(1.08); }
 	.vb-btn.disabled { background: #8b97ad; color: #e8ecf3; cursor: not-allowed; }
-	.resume-sheet { width: 8.5in; min-height: 11in; margin: 28px auto; padding: 0.55in 0.62in; background: #fff; box-shadow: 0 8px 30px rgba(17, 24, 32, 0.18); }
+	.vb-hint { display: none; }
+	.resume-sheet { width: 8.5in; max-width: 100%; min-height: 11in; margin: 28px auto; padding: 0.55in 0.62in; background: #fff; box-shadow: 0 8px 30px rgba(17, 24, 32, 0.18); }
 	.resume-header { text-align: center; }
 	.resume-header h1 { margin: 0 0 8px; color: #111820; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase; }
 	.contact-line { margin: 2px 0; color: #39485b; font-size: 12.8px; }
@@ -429,6 +430,14 @@
 	.entry-location { margin: 2px 0 0; color: #58677a; font-size: 12px; }
 	.edu-line { margin: 0; font-size: 13px; }
 	.education-entry .bullet-list { margin-top: 6px; }
+	@media (max-width: 640px) {
+		.viewer-bar { padding: 8px 10px; gap: 8px; }
+		.viewer-bar .brand { font-size: 11px; }
+		.vb-hint { display: block; width: 100%; font-size: 11.5px; line-height: 1.4; color: #cfd6e0; }
+		.resume-sheet { margin: 0; padding: 18px 14px; box-shadow: none; }
+		.resume-header h1 { font-size: 22px; letter-spacing: 0.14em; }
+		.entry-head { flex-wrap: wrap; gap: 2px 16px; }
+	}
 	@media print {
 		@page { size: letter; margin: 0.4in; }
 		body { background: #fff; font-size: 12px; line-height: 1.28; }
@@ -494,8 +503,9 @@
 	<span class="brand">${esc(content.name)} &mdash; Resume</span>
 	<div class="viewer-actions">
 		<button class="vb-btn primary" id="resume-print-btn" type="button">Print</button>
-		${pdfDataUrl ? `<a class="vb-btn secondary" href="${esc(pdfDataUrl)}" download="${esc(downloadName)}">Download PDF</a>` : `<span class="vb-btn secondary disabled" title="The PDF could not be generated in this browser. Use Print to save a PDF instead.">Download PDF</span>`}
+		${pdfDataUrl ? `<a class="vb-btn secondary" id="resume-download-btn" href="${esc(pdfDataUrl)}" download="${esc(downloadName)}">Download PDF</a>` : `<span class="vb-btn secondary disabled" title="The PDF could not be generated in this browser. Use Print to save a PDF instead.">Download PDF</span>`}
 		<a class="vb-btn ghost" href="${esc(siteUrl)}">Back to Website</a>
+		<span class="vb-hint">Print not opening? Use your browser&rsquo;s menu &rarr; Share &rarr; Print, or Download the PDF instead.</span>
 	</div>
 </div>
 <main class="resume-sheet">
@@ -513,7 +523,62 @@
 	${section("Education", educationBody)}
 </main>
 <script>
-	document.getElementById("resume-print-btn").addEventListener("click", function () { window.print(); });
+	(function () {
+		var printBtn = document.getElementById("resume-print-btn");
+		printBtn.addEventListener("click", function () {
+			try { window.print(); } catch (error) { window.alert("This browser blocked printing. Use Download PDF instead, or your browser's Share > Print option."); }
+		});
+		var dl = document.getElementById("resume-download-btn");
+		if (dl && window.fetch && window.URL && URL.createObjectURL) {
+			var dlName = dl.getAttribute("download") || "Resume.pdf";
+			var dlBlobPromise = null;
+			var ensureBlobUrl = function () {
+				if (dl.href.indexOf("data:") !== 0) {
+					return Promise.resolve(dl.href);
+				}
+				if (!dlBlobPromise) {
+					dlBlobPromise = fetch(dl.href).then(function (response) {
+						return response.blob();
+					}).then(function (blob) {
+						var url = URL.createObjectURL(blob);
+						dl.href = url;
+						return url;
+					});
+					dlBlobPromise.catch(function () {
+						dlBlobPromise = null;
+					});
+				}
+				return dlBlobPromise;
+			};
+			ensureBlobUrl();
+			dl.addEventListener("click", function (event) {
+				if (dl.href.indexOf("data:") !== 0) {
+					return;
+				}
+				// Android Chrome ignores the download attribute on top-frame
+				// data: URLs and derives the filename from the URL itself (the
+				// entire base64 PDF). Block the native download, finish the
+				// Blob URL conversion, then download with the short filename.
+				event.preventDefault();
+				ensureBlobUrl().then(function (url) {
+					var link = document.createElement("a");
+					link.href = url;
+					link.download = dlName;
+					link.rel = "noopener";
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				}).catch(function () {
+					var link = document.createElement("a");
+					link.href = dl.getAttribute("href") || dl.href;
+					link.download = dlName;
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				});
+			});
+		}
+	})();
 </script>
 </body>
 </html>`;
