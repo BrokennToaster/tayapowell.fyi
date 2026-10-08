@@ -502,7 +502,7 @@
 	<div class="viewer-actions">
 		<button class="vb-btn primary" id="resume-print-btn" type="button">Print</button>
 		${pdfDataUrl ? `<a class="vb-btn secondary" id="resume-download-btn" href="${esc(pdfDataUrl)}" download="${esc(downloadName)}">Download PDF</a>` : `<span class="vb-btn secondary disabled" title="The PDF could not be generated in this browser. Use Print to save a PDF instead.">Download PDF</span>`}
-		<a class="vb-btn ghost" href="${esc(siteUrl)}">Back to Website</a>
+		<a class="vb-btn ghost" id="resume-back-btn" href="${esc(siteUrl)}">Back to Website</a>
 	</div>
 </div>
 <main class="resume-sheet">
@@ -573,6 +573,27 @@
 				fallbackPrint();
 			});
 		}
+		var backBtn = document.getElementById("resume-back-btn");
+		if (backBtn) {
+			backBtn.addEventListener("click", function (event) {
+				// Close this viewer tab so the visitor lands back on the
+				// original site tab instead of piling up duplicates. If the
+				// browser refuses to close (the viewer can replace the
+				// original tab), fall back to navigating this same tab
+				// back to the site - never opening a new one.
+				event.preventDefault();
+				try {
+					window.close();
+				} catch (ignore) {
+					// The fallback below handles it.
+				}
+				window.setTimeout(function () {
+					if (!window.closed) {
+						window.location.replace(backBtn.href);
+					}
+				}, 150);
+			});
+		}
 		if (dl && window.fetch && window.URL && URL.createObjectURL) {
 			var dlBlobPromise = null;
 			var ensureBlobUrl = function () {
@@ -628,6 +649,7 @@
 </html>`;
 	}
 
+	const viewerBlobUrls = [];
 	button.addEventListener("click", async () => {
 		let viewer = window.open("about:blank", "_blank");
 
@@ -664,10 +686,27 @@
 				console.error("Resume PDF unavailable:", pdfError);
 			}
 			const html = buildResumeHtml(content, pdfDataUrl, window.location.href.split("#")[0]);
-			if (!writeViewer(html)) {
-				const url = URL.createObjectURL(new Blob([html], { type: "text/html" }));
-				window.location.assign(url);
-				window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+			// Give the viewer tab a real, refreshable URL. A document written
+			// into about:blank reloads as a blank page on refresh or when the
+			// browser re-requests it (e.g. "Desktop site"), while a blob URL
+			// reloads the viewer itself. Keep a few alive so recent viewer
+			// tabs stay reloadable for the session.
+			const viewerUrl = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+			viewerBlobUrls.push(viewerUrl);
+			while (viewerBlobUrls.length > 5) {
+				URL.revokeObjectURL(viewerBlobUrls.shift());
+			}
+			let navigated = false;
+			try {
+				if (viewer && !viewer.closed && viewer.location) {
+					viewer.location.replace(viewerUrl);
+					navigated = true;
+				}
+			} catch (error) {
+				console.error("Resume viewer navigation failed:", error);
+			}
+			if (!navigated && !writeViewer(html)) {
+				window.location.assign(viewerUrl);
 			}
 		} catch (error) {
 			try {
