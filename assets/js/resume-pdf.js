@@ -191,7 +191,7 @@
 		const contactLine = [content.location, content.phone, content.email].filter(Boolean).join(" | ");
 		const webLine = [content.linkedIn, content.website].filter(Boolean).join(" | ");
 		addText(contactLine, { size: 7.8, align: "center", color: "#39485b", after: 0.8 });
-		addText(webLine, { size: 7.6, align: "center", color: "#39485b", after: 4.2 });
+		addText(webLine, { size: 7.6, align: "center", color: "#39485b", after: 7 });
 		addText(getRoleLine(content), { size: 9, style: "bold", align: "center", color: "#111820", after: 5 });
 
 		addSection("Professional Summary");
