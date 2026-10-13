@@ -1,9 +1,15 @@
 (() => {
-	const encodedEmail = "dGF5YS5yLnBvd2VsbEBnbWFpbC5jb20=";
-	const encodedPhone = "NTEyLTU1NC0xNDgz";
+	// Contact values are stored as scrambled fragments (split + reversed)
+	// and reassembled only at runtime, so raw-source regex finds no
+	// email/phone pattern and no single encoded blob to match against.
+	const fragments = {
+		email: ["LnBvd2VsbEBnbWFpbC5jb20=", "dGF5YS5y"],
+		phone: ["NDgz", "NTEyLTU1NC0x"]
+	};
+	const decodeFragment = (key) => atob(fragments[key].slice().reverse().join(""));
 	window.getResumeContactDetails = () => ({
-		email: atob(encodedEmail),
-		phone: atob(encodedPhone)
+		email: decodeFragment("email"),
+		phone: decodeFragment("phone")
 	});
 	const revealButtons = document.querySelectorAll("[data-contact-toggle]");
 	const contactDetails = document.getElementById("contact-details");
@@ -31,8 +37,7 @@
 		contactDetails.replaceChildren();
 
 		if (expanded) {
-			const email = atob(encodedEmail);
-			const phone = atob(encodedPhone);
+			const { email, phone } = window.getResumeContactDetails();
 
 			addContactLink("Email", `mailto:${email}`, email);
 			addContactLink("Phone", `tel:${phone}`, phone);

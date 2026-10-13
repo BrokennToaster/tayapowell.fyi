@@ -1,2 +1,9 @@
 .DS_Store
 config.codekit3
+Thumbs.db
+
+# Local personal files - never push
+*.pdf
+.env
+.env.*
+*.local
