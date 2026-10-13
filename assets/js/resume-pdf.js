@@ -417,6 +417,8 @@
 	.contact-line { margin: 2px 0; color: #39485b; font-size: 12.8px; }
 	.role-line { margin: 12px 0 0; color: #111820; font-size: 14px; font-weight: 700; letter-spacing: 0.05em; }
 	.resume-section h2 { margin: 24px 0 10px; color: #161d28; font-size: 15px; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
+	/* First section sits directly under the role line: match the gap above it. */
+	.resume-header + .resume-section h2 { margin-top: 12px; }
 	.summary { margin: 0; font-size: 13.2px; }
 	.plain-list { margin: 0; padding: 0; list-style: none; }
 	.plain-list li { margin: 3px 0; font-size: 12.8px; }
@@ -445,6 +447,7 @@
 		.contact-line { font-size: 11px; }
 		.role-line { margin-top: 7px; font-size: 12px; }
 		.resume-section h2 { margin: 10px 0 4px; font-size: 13px; }
+		.resume-header + .resume-section h2 { margin-top: 7px; }
 		.summary, .plain-list li, .bullet-list li, .edu-line { font-size: 11.4px; }
 		.entry { margin-top: 8px; }
 		.entry-title { font-size: 12.4px; }
