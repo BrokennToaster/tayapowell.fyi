@@ -175,9 +175,9 @@
 		}
 
 		addText(content.name, { size: 12, style: "bold", color: "#111820", after: 0 });
-		const contactLine = [content.location, content.phone, content.email, "LinkedIn"].filter(Boolean).join(" | ");
-		addText(contactLine, { size: 8, color: "#39485b", after: 11 });
-		addText(getRoleLine(content), { size: 9, style: "bold", color: "#111820", after: 0 });
+		const contactLine = [content.location, content.phone, content.email, content.linkedIn, content.website].filter(Boolean).join(" | ");
+		addText(contactLine, { size: 8, color: "#39485b", after: 15 });
+		addText(getRoleLine(content), { size: 9, style: "bold", color: "#111820", after: 14 });
 
 		addSection("Professional Summary");
 		addText(content.summary, { size: 8.1, after: 9 });
