@@ -9,7 +9,7 @@
 	const margin = 14;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - 16;
-	const pdfTemplateVersion = "2026-10-12-v7";
+	const pdfTemplateVersion = "2026-10-12-v8";
 	const pdfCacheKey = "taya-powell-resume-pdf-v5";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -175,8 +175,17 @@
 		}
 
 		addText(content.name, { size: 12, style: "bold", color: "#111820", after: 0 });
-		const contactLine = [content.location, content.phone, content.email, content.linkedIn, content.website].filter(Boolean).join(" | ");
-		addText(contactLine, { size: 8, color: "#39485b", after: 15 });
+		operations.push({
+			type: "contact",
+			head: [content.location, content.phone, content.email].filter(Boolean).join(" | "),
+			tail: content.website || "",
+			url: content.linkedIn ? `https://${content.linkedIn}` : "",
+			x: margin,
+			y,
+			size: 8 * scale,
+			color: "#39485b"
+		});
+		y += 8 * scale * 1.05 + 15 * scale;
 		addText(getRoleLine(content), { size: 9, style: "bold", color: "#111820", after: 14 });
 
 		addSection("Professional Summary");
@@ -230,6 +239,25 @@
 				pdf.setDrawColor(172, 181, 192);
 				pdf.setLineWidth(0.35);
 				pdf.line(operation.x, operation.y, operation.x + operation.width, operation.y);
+				return;
+			}
+
+			if (operation.type === "contact") {
+				pdf.setFont("helvetica", "normal");
+				pdf.setFontSize(operation.size);
+				pdf.setTextColor(operation.color || "#202a38");
+				let x = operation.x;
+				pdf.text(operation.head, x, operation.y);
+				x += pdf.getTextWidth(operation.head);
+				pdf.text(" | ", x, operation.y);
+				x += pdf.getTextWidth(" | ");
+				if (operation.url) {
+					pdf.textWithLink("LinkedIn", x, operation.y, { url: operation.url });
+					x += pdf.getTextWidth("LinkedIn");
+				}
+				if (operation.tail) {
+					pdf.text(" | " + operation.tail, x, operation.y);
+				}
 				return;
 			}
 
