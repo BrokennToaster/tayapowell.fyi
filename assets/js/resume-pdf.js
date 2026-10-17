@@ -6,11 +6,11 @@
 
 	const pageWidth = 612;
 	const pageHeight = 792;
-	const margin = 34;
+	const margin = 14;
 	const contentWidth = pageWidth - margin * 2;
-	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-05-v6";
-	const pdfCacheKey = "taya-powell-resume-pdf-v4";
+	const bottomLimit = pageHeight - 16;
+	const pdfTemplateVersion = "2026-10-12-v7";
+	const pdfCacheKey = "taya-powell-resume-pdf-v5";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
 
@@ -107,12 +107,11 @@
 				align: options.align || "left",
 				width: contentWidth - indent
 			});
-			y += lines.length * size * 1.18 + (options.after || 0) * scale;
+			y += lines.length * size * 1.05 + (options.after || 0) * scale;
 		}
 
 		function addSection(title) {
-			y += 7 * scale;
-			addText(title.toUpperCase(), { size: 9.6, style: "bold", align: "center", after: 6, color: "#161d28" });
+			addText(title, { size: 9.6, style: "bold", after: 8, color: "#161d28" });
 		}
 
 		function addBullet(value) {
@@ -120,7 +119,7 @@
 				return;
 			}
 			const size = 8.1 * scale;
-			const indent = 10 * scale;
+			const indent = 18 * scale;
 			pdf.setFont("helvetica", "normal");
 			pdf.setFontSize(size);
 			const lines = pdf.splitTextToSize(value, contentWidth - indent);
@@ -133,74 +132,60 @@
 				size,
 				color: "#202a38"
 			});
-			y += lines.length * size * 1.16 + 1.1 * scale;
+			y += lines.length * size * 1.05;
 		}
 
 		function addSideLabel(title, label) {
 			const size = 8.4 * scale;
 			pdf.setFont("helvetica", "bold");
 			pdf.setFontSize(size);
-			const labelWidth = label ? pdf.getTextWidth(label) + 10 * scale : 0;
-			const lines = pdf.splitTextToSize(title, contentWidth - labelWidth);
+			const lines = pdf.splitTextToSize(title, contentWidth);
+			const labelX = margin + pdf.getTextWidth(lines[0]) + size * 0.3;
 			operations.push({
 				type: "side-label",
 				lines,
 				label,
+				labelX,
 				x: margin,
-				rightX: margin + contentWidth,
 				y,
 				size,
 				style: "bold",
-				color: "#172131",
-				labelColor: "#58677a"
+				color: "#172131"
 			});
-			y += lines.length * size * 1.17 + 1.4 * scale;
+			y += lines.length * size * 1.05 + 8 * scale;
 		}
 
 		function addExperienceHeading(job) {
 			const size = 8.6 * scale;
-			const dateSize = 7.6 * scale;
-			pdf.setFont("helvetica", "bold");
-			pdf.setFontSize(size);
-			pdf.setTextColor("#172131");
-			pdf.setFontSize(dateSize);
-			const dateWidth = pdf.getTextWidth(job.date) + 8 * scale;
-			pdf.setFontSize(size);
-			const title = `${job.title} | ${job.company}`;
-			const lines = pdf.splitTextToSize(title, contentWidth - dateWidth);
 			operations.push({
-				type: "experience-heading",
-				lines,
+				type: "entry",
+				title: job.title,
+				company: job.company,
 				date: job.date,
+				sep: job.sep || " – ",
+				companyStyle: job.companyStyle || "italic",
 				x: margin,
-				rightX: margin + contentWidth,
+				dateX: margin + contentWidth - 40,
 				y,
 				size,
-				dateSize,
 				style: "bold",
-				color: "#172131",
-				dateColor: "#58677a"
+				color: "#172131"
 			});
-			y += lines.length * size * 1.16 + 1.2 * scale;
-			if (job.location) {
-				addText(job.location, { size: 7.3, color: "#58677a", after: 1.2 });
-			}
+			y += size * 1.05 + 8 * scale;
 		}
 
-		addText(content.name, { size: 16, style: "bold", align: "center", color: "#111820", after: 1 });
-		const contactLine = [content.location, content.phone, content.email].filter(Boolean).join(" | ");
-		const webLine = [content.linkedIn, content.website].filter(Boolean).join(" | ");
-		addText(contactLine, { size: 7.8, align: "center", color: "#39485b", after: 0.8 });
-		addText(webLine, { size: 7.6, align: "center", color: "#39485b", after: 7 });
-		addText(getRoleLine(content), { size: 9, style: "bold", align: "center", color: "#111820", after: 0 });
+		addText(content.name, { size: 12, style: "bold", color: "#111820", after: 0 });
+		const contactLine = [content.location, content.phone, content.email, "LinkedIn"].filter(Boolean).join(" | ");
+		addText(contactLine, { size: 8, color: "#39485b", after: 11 });
+		addText(getRoleLine(content), { size: 9, style: "bold", color: "#111820", after: 0 });
 
 		addSection("Professional Summary");
-		addText(content.summary, { size: 8.1, after: 1 });
+		addText(content.summary, { size: 8.1, after: 9 });
 
 		addSection("Technical Skills");
-		content.skills.forEach((skill) => addText(skill, { size: 7.8, after: 1.2 }));
+		content.skills.forEach(addBullet);
 		if (content.languages.length) {
-			addText(`Languages: ${content.languages.join(", ")}`, { size: 7.8, after: 1.2 });
+			addBullet(`Languages: ${content.languages.join(", ")}`);
 		}
 
 		if (content.certifications.length) {
@@ -212,29 +197,27 @@
 		content.experience.forEach((job) => {
 			addExperienceHeading(job);
 			job.bullets.forEach(addBullet);
-			y += 2.5 * scale;
 		});
 
 		addSection("Projects");
 		content.projects.forEach((project) => {
 			addSideLabel(project.title, project.type);
 			project.bullets.forEach(addBullet);
-			y += 2 * scale;
 		});
 
 		if (content.education.length) {
 			addSection("Education");
 			content.education.forEach((item) => {
 				addExperienceHeading({
-					title: item.degree,
-					company: item.organization,
+					title: item.organization,
+					company: item.degree,
 					date: item.date,
-					location: ""
+					sep: " ",
+					companyStyle: "bold"
 				});
 				if (item.recognition) {
 					addBullet(item.recognition);
 				}
-				y += 2.5 * scale;
 			});
 		}
 
@@ -255,17 +238,28 @@
 			pdf.setTextColor(operation.color || "#202a38");
 
 			if (operation.type === "bullet") {
-				pdf.text("-", operation.bulletX, operation.y);
+				pdf.text("\u2022", operation.bulletX, operation.y);
 				pdf.text(operation.lines, operation.x, operation.y);
 				return;
 			}
 
-			if (operation.type === "experience-heading") {
-				pdf.text(operation.lines, operation.x, operation.y);
-				pdf.setFont("helvetica", "normal");
-				pdf.setFontSize(operation.dateSize);
-				pdf.setTextColor(operation.dateColor);
-				pdf.text(operation.date, operation.rightX, operation.y, { align: "right" });
+			if (operation.type === "entry") {
+				let x = operation.x;
+				pdf.text(operation.title, x, operation.y);
+				x += pdf.getTextWidth(operation.title);
+				if (operation.company || operation.date) {
+					pdf.setFont("helvetica", "normal");
+					pdf.text(operation.sep, x, operation.y);
+					x += pdf.getTextWidth(operation.sep);
+				}
+				if (operation.company) {
+					pdf.setFont("helvetica", operation.companyStyle);
+					pdf.text(operation.company, x, operation.y);
+				}
+				if (operation.date) {
+					pdf.setFont("helvetica", "italic");
+					pdf.text(operation.date, operation.dateX, operation.y, { align: "right" });
+				}
 				return;
 			}
 
@@ -273,9 +267,7 @@
 				pdf.text(operation.lines, operation.x, operation.y);
 				if (operation.label) {
 					pdf.setFont("helvetica", "normal");
-					pdf.setFontSize(operation.size - 0.7);
-					pdf.setTextColor(operation.labelColor);
-					pdf.text(operation.label, operation.rightX, operation.y, { align: "right" });
+					pdf.text(operation.label, operation.labelX, operation.y);
 				}
 				return;
 			}
