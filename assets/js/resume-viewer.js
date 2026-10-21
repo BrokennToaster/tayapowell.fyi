@@ -8,7 +8,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v8";
+	const pdfTemplateVersion = "2026-10-21-v9";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -51,7 +51,7 @@
 
 		const polish = (value) => {
 			if (typeof value === "string") {
-				return value.replace(/(\d{4}) - ([A-Z]|\d)/g, "$1\u2013$2").replace(/(\w)'(\w)/g, "$1\u2019$2");
+				return value.replace(/(\w)'(\w)/g, "$1\u2019$2");
 			}
 			if (Array.isArray(value)) return value.map(polish);
 			if (value && typeof value === "object") {
