@@ -1,6 +1,5 @@
 (() => {
-	const button = document.querySelector("[data-resume-pdf]");
-	if (!button) {
+	if (!new URLSearchParams(window.location.search).has("resume-viewer")) {
 		return;
 	}
 
@@ -9,7 +8,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-05-v6";
+	const pdfTemplateVersion = "2026-10-21-v7";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -57,7 +56,7 @@
 			location,
 			phone: contact.phone || "",
 			email: contact.email || "",
-			linkedIn: linkedIn.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+			linkedIn,
 			website: "tayapowell.fyi",
 			languages,
 			summary: text(".resume-summary-desc"),
@@ -188,10 +187,28 @@
 		}
 
 		addText(content.name, { size: 16, style: "bold", align: "center", color: "#111820", after: 1 });
-		const contactLine = [content.location, content.phone, content.email].filter(Boolean).join(" | ");
-		const webLine = [content.linkedIn, content.website].filter(Boolean).join(" | ");
-		addText(contactLine, { size: 7.8, align: "center", color: "#39485b", after: 0.8 });
-		addText(webLine, { size: 7.6, align: "center", color: "#39485b", after: 4.2 });
+		const contactParts = [content.location, content.phone, content.email, content.linkedIn ? "LinkedIn" : "", content.website]
+			.filter(Boolean);
+		const contactText = contactParts.join(" | ");
+		const linkedInIndex = content.linkedIn ? contactParts.indexOf("LinkedIn") : -1;
+		if (contactText) {
+			const contactSize = 7.8 * scale;
+			pdf.setFont("helvetica", "normal");
+			pdf.setFontSize(contactSize);
+			const linkedInPrefix = linkedInIndex < 0 ? "" : `${contactParts.slice(0, linkedInIndex).join(" | ")}${linkedInIndex ? " | " : ""}`;
+			const linkedInWidth = linkedInIndex < 0 ? 0 : pdf.getTextWidth("LinkedIn");
+			operations.push({
+				type: "contact",
+				text: contactText,
+				url: linkedInIndex < 0 ? "" : content.linkedIn,
+				prefixWidth: linkedInIndex < 0 ? 0 : pdf.getTextWidth(linkedInPrefix),
+				linkWidth: linkedInWidth,
+				y,
+				size: contactSize,
+				color: "#39485b"
+			});
+			y += contactSize * 1.18 + 4.2 * scale;
+		}
 		addText(getRoleLine(content), { size: 9, style: "bold", align: "center", color: "#111820", after: 5 });
 
 		addSection("Professional Summary");
@@ -253,6 +270,21 @@
 			pdf.setFont("helvetica", operation.style || "normal");
 			pdf.setFontSize(operation.size);
 			pdf.setTextColor(operation.color || "#202a38");
+
+			if (operation.type === "contact") {
+				pdf.text(operation.text, pageWidth / 2, operation.y, { align: "center" });
+				if (operation.url) {
+					const textWidth = pdf.getTextWidth(operation.text);
+					pdf.link(
+						(pageWidth - textWidth) / 2 + operation.prefixWidth,
+						operation.y - operation.size,
+						operation.linkWidth,
+						operation.size * 1.2,
+						{ url: operation.url }
+					);
+				}
+				return;
+			}
 
 			if (operation.type === "bullet") {
 				pdf.text("-", operation.bulletX, operation.y);
@@ -414,8 +446,9 @@
 	.resume-sheet { width: 8.5in; max-width: 100%; min-height: 11in; margin: 28px auto; padding: 0.55in 0.62in; background: #fff; box-shadow: 0 8px 30px rgba(17, 24, 32, 0.18); }
 	.resume-header { text-align: center; }
 	.resume-header h1 { margin: 0 0 8px; color: #111820; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase; }
-	.contact-line { margin: 2px 0; color: #39485b; font-size: 12.8px; }
-	.role-line { margin: 12px 0 0; color: #111820; font-size: 14px; font-weight: 700; letter-spacing: 0.05em; }
+	.contact-line { margin: 0; color: #39485b; font-size: 12.8px; }
+	.contact-line a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+	.role-line { margin: 5.6px 0 0; color: #111820; font-size: 14px; font-weight: 700; letter-spacing: 0.05em; }
 	.resume-section h2 { margin: 24px 0 10px; color: #161d28; font-size: 15px; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
 	.summary { margin: 0; font-size: 13.2px; }
 	.plain-list { margin: 0; padding: 0; list-style: none; }
@@ -443,7 +476,7 @@
 		.resume-sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
 		.resume-header h1 { margin-bottom: 5px; font-size: 24px; }
 		.contact-line { font-size: 11px; }
-		.role-line { margin-top: 7px; font-size: 12px; }
+		.role-line { margin-top: 5.6px; font-size: 12px; }
 		.resume-section h2 { margin: 10px 0 4px; font-size: 13px; }
 		.summary, .plain-list li, .bullet-list li, .edu-line { font-size: 11.4px; }
 		.entry { margin-top: 8px; }
@@ -457,8 +490,16 @@
 
 	function buildResumeHtml(content, pdfDataUrl, siteUrl) {
 		const esc = escapeHtml;
-		const contactLine = [content.location, content.phone, content.email].filter(Boolean).join(" | ");
-		const webLine = [content.linkedIn, content.website].filter(Boolean).join(" | ");
+		const contactParts = [content.location, content.phone, content.email]
+			.filter(Boolean)
+			.map(esc);
+		if (content.linkedIn) {
+			contactParts.push(`<a href="${esc(content.linkedIn)}" target="_blank" rel="noopener">LinkedIn</a>`);
+		}
+		if (content.website) {
+			contactParts.push(esc(content.website));
+		}
+		const contactLine = contactParts.join(" | ");
 		const downloadName = `${(content.name || "Resume").trim().replace(/\s+/g, "_")}_Resume.pdf`;
 		const section = (title, body) => (body ? `<section class="resume-section"><h2>${esc(title)}</h2>${body}</section>` : "");
 		const listItems = (items) => items.map((item) => `<li>${esc(item)}</li>`).join("");
@@ -508,8 +549,7 @@
 <main class="resume-sheet">
 	<header class="resume-header">
 		<h1>${esc(content.name)}</h1>
-		<p class="contact-line">${esc(contactLine)}</p>
-		<p class="contact-line">${esc(webLine)}</p>
+		<p class="contact-line">${contactLine}</p>
 		<p class="role-line">${esc(getRoleLine(content))}</p>
 	</header>
 	${section("Professional Summary", summaryBody)}
@@ -573,75 +613,17 @@
 				fallbackPrint();
 			});
 		}
-		var backBtn = document.getElementById("resume-back-btn");
-		if (backBtn) {
-			backBtn.addEventListener("click", function (event) {
-				// Close this viewer tab so the visitor lands back on the
-				// original site tab instead of piling up duplicates. If the
-				// browser refuses to close (the viewer can replace the
-				// original tab), fall back to navigating this same tab
-				// back to the site - never opening a new one.
-				event.preventDefault();
-				try {
-					window.close();
-				} catch (ignore) {
-					// The fallback below handles it.
-				}
-				window.setTimeout(function () {
-					if (!window.closed) {
-						window.location.replace(backBtn.href);
-					}
-				}, 150);
-			});
-		}
-		if (dl && window.fetch && window.URL && URL.createObjectURL) {
-			var dlBlobPromise = null;
-			var ensureBlobUrl = function () {
-				if (dl.href.indexOf("data:") !== 0) {
-					return Promise.resolve(dl.href);
-				}
-				if (!dlBlobPromise) {
-					dlBlobPromise = fetch(dl.href).then(function (response) {
-						return response.blob();
-					}).then(function (blob) {
-						cachedBlob = blob;
-						var url = URL.createObjectURL(blob);
-						dl.href = url;
-						return url;
-					});
-					dlBlobPromise.catch(function () {
-						dlBlobPromise = null;
-					});
-				}
-				return dlBlobPromise;
-			};
-			ensureBlobUrl();
-			dl.addEventListener("click", function (event) {
-				if (dl.href.indexOf("data:") !== 0) {
-					return;
-				}
-				// Android Chrome ignores the download attribute on top-frame
-				// data: URLs and derives the filename from the URL itself (the
-				// entire base64 PDF). Block the native download, finish the
-				// Blob URL conversion, then download with the short filename.
-				event.preventDefault();
-				ensureBlobUrl().then(function (url) {
-					var link = document.createElement("a");
-					link.href = url;
-					link.download = dlName;
-					link.rel = "noopener";
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
-				}).catch(function () {
-					var link = document.createElement("a");
-					link.href = dl.getAttribute("href") || dl.href;
-					link.download = dlName;
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
+		if (dl && window.fetch && dl.href.indexOf("data:") === 0) {
+			fetch(dl.href)
+				.then(function (response) {
+					return response.blob();
+				})
+				.then(function (blob) {
+					cachedBlob = blob;
+				})
+				.catch(function (error) {
+					console.error("Resume PDF could not be prepared for sharing:", error);
 				});
-			});
 		}
 	})();
 </script>
@@ -649,32 +631,7 @@
 </html>`;
 	}
 
-	const viewerBlobUrls = [];
-	button.addEventListener("click", async () => {
-		let viewer = window.open("about:blank", "_blank");
-
-		const writeViewer = (markup) => {
-			if (!viewer || viewer.closed) {
-				return false;
-			}
-			try {
-				viewer.document.open();
-				viewer.document.write(markup);
-				viewer.document.close();
-				return true;
-			} catch (error) {
-				console.error("Resume viewer write failed:", error);
-				try {
-					viewer.close();
-				} catch (ignore) {
-					// The window is already gone.
-				}
-				viewer = null;
-				return false;
-			}
-		};
-
-		writeViewer(resumeLoadingHtml);
+	async function renderResumeViewer() {
 		try {
 			const content = readPageContent();
 			let pdfDataUrl = "";
@@ -685,38 +642,19 @@
 				// The HTML resume and Print still work without the PDF download.
 				console.error("Resume PDF unavailable:", pdfError);
 			}
-			const html = buildResumeHtml(content, pdfDataUrl, window.location.href.split("#")[0]);
-			// Give the viewer tab a real, refreshable URL. A document written
-			// into about:blank reloads as a blank page on refresh or when the
-			// browser re-requests it (e.g. "Desktop site"), while a blob URL
-			// reloads the viewer itself. Keep a few alive so recent viewer
-			// tabs stay reloadable for the session.
-			const viewerUrl = URL.createObjectURL(new Blob([html], { type: "text/html" }));
-			viewerBlobUrls.push(viewerUrl);
-			while (viewerBlobUrls.length > 5) {
-				URL.revokeObjectURL(viewerBlobUrls.shift());
-			}
-			let navigated = false;
-			try {
-				if (viewer && !viewer.closed && viewer.location) {
-					viewer.location.replace(viewerUrl);
-					navigated = true;
-				}
-			} catch (error) {
-				console.error("Resume viewer navigation failed:", error);
-			}
-			if (!navigated && !writeViewer(html)) {
-				window.location.assign(viewerUrl);
-			}
+			const siteUrl = new URL(window.location.href);
+			siteUrl.searchParams.delete("resume-viewer");
+			siteUrl.hash = "";
+			const html = buildResumeHtml(content, pdfDataUrl, siteUrl.href);
+			document.open();
+			document.write(html);
+			document.close();
 		} catch (error) {
-			try {
-				viewer?.close();
-			} catch (ignore) {
-				// The window is already gone.
-			}
 			console.error(error);
 			const detail = error && error.message ? ` (${error.message})` : "";
 			window.alert(`The resume could not be opened${detail}. Please reload the page and try again.`);
 		}
-	});
+	}
+
+	renderResumeViewer();
 })();
