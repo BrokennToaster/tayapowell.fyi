@@ -8,7 +8,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v12";
+	const pdfTemplateVersion = "2026-10-21-v13";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -580,6 +580,11 @@
 		if (isTouch && printBtn) {
 			printBtn.textContent = "Share / Print";
 		}
+		if (isTouch && dl) {
+			// Large data: URL downloads crash some mobile browsers; Share / Print covers it.
+			dl.style.display = "none";
+			dl.removeAttribute("download");
+		}
 		var fallbackPrint = function () {
 			try {
 				if (!window.print) {
@@ -627,17 +632,21 @@
 		var backBtn = document.getElementById("resume-back-btn");
 		if (backBtn) {
 			backBtn.addEventListener("click", function (event) {
-				// Opened from the site in a new tab: close this tab and return to it.
+				// Close this tab and return to the site; if the browser refuses
+				// to close it, fall back to navigating this tab to the site.
+				event.preventDefault();
+				var target = backBtn.href;
 				try {
 					if (window.opener && !window.opener.closed) {
-						event.preventDefault();
 						window.opener.focus();
-						window.close();
-						return;
 					}
 				} catch (ignore) {
-					// Fall through to normal navigation.
+					// Opener is not reachable; closing still works.
 				}
+				window.close();
+				setTimeout(function () {
+					window.location.href = target;
+				}, 250);
 			});
 		}
 		if (dl && window.fetch && dl.href.indexOf("data:") === 0) {
