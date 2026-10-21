@@ -8,7 +8,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v11";
+	const pdfTemplateVersion = "2026-10-21-v12";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -622,6 +622,22 @@
 					return;
 				}
 				fallbackPrint();
+			});
+		}
+		var backBtn = document.getElementById("resume-back-btn");
+		if (backBtn) {
+			backBtn.addEventListener("click", function (event) {
+				// Opened from the site in a new tab: close this tab and return to it.
+				try {
+					if (window.opener && !window.opener.closed) {
+						event.preventDefault();
+						window.opener.focus();
+						window.close();
+						return;
+					}
+				} catch (ignore) {
+					// Fall through to normal navigation.
+				}
 			});
 		}
 		if (dl && window.fetch && dl.href.indexOf("data:") === 0) {
