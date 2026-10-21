@@ -8,7 +8,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v9";
+	const pdfTemplateVersion = "2026-10-21-v10";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -240,14 +240,14 @@
 		content.experience.forEach((job) => {
 			addExperienceHeading(job);
 			job.bullets.forEach(addBullet);
-			y += 2.5 * scale;
+			y += 6.5 * scale;
 		});
 
 		addSection("Projects");
 		content.projects.forEach((project) => {
 			addSideLabel(project.title, project.type);
 			project.bullets.forEach(addBullet);
-			y += 2 * scale;
+			y += 6 * scale;
 		});
 
 		if (content.education.length) {
@@ -490,7 +490,7 @@
 		.role-line { margin-top: 10px; font-size: 12px; letter-spacing: 0.06em; }
 		.resume-section h2 { margin: 10px 0 4px; font-size: 13px; }
 		.summary, .plain-list li, .bullet-list li, .edu-line { font-size: 11.4px; }
-		.entry { margin-top: 8px; }
+		.entry { margin-top: 14px; }
 		.entry-title { font-size: 12.4px; }
 		.entry-date, .entry-type { font-size: 11px; }
 		.entry-location { margin-top: 1px; font-size: 10.5px; }
