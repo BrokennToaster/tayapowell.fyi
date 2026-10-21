@@ -448,7 +448,7 @@
 	.resume-header h1 { margin: 0 0 8px; color: #111820; font-size: 30px; letter-spacing: 0.22em; text-transform: uppercase; }
 	.contact-line { margin: 0; color: #39485b; font-size: 12.8px; }
 	.contact-line a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-	.role-line { margin: 24px 0 0; color: #0f1a2c; font-size: 14px; font-weight: 800; letter-spacing: 0.07em; }
+	.role-line { margin: 24px 0 0; color: #0f1a2c; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; }
 	.resume-section h2 { margin: 24px 0 10px; color: #161d28; font-size: 15px; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
 	.summary { margin: 0; font-size: 13.2px; }
 	.plain-list { margin: 0; padding: 0; list-style: none; }
