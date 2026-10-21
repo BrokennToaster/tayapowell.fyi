@@ -1,5 +1,26 @@
 (() => {
+	const channelName = "taya-resume-viewer";
 	if (!new URLSearchParams(window.location.search).has("resume-viewer")) {
+		// Main site: open the viewer from script so this tab can always close it again.
+		const button = document.querySelector(".resume-print-button");
+		if (button && window.BroadcastChannel) {
+			let viewerWindow = null;
+			const channel = new BroadcastChannel(channelName);
+			button.addEventListener("click", (event) => {
+				const opened = window.open(button.href, "resume-viewer-tab");
+				if (opened) {
+					event.preventDefault();
+					viewerWindow = opened;
+				}
+			});
+			channel.addEventListener("message", (message) => {
+				if (message.data === "close-viewer" && viewerWindow) {
+					viewerWindow.close();
+					viewerWindow = null;
+					channel.postMessage("viewer-closed");
+				}
+			});
+		}
 		return;
 	}
 
@@ -8,7 +29,7 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v13";
+	const pdfTemplateVersion = "2026-10-21-v14";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
@@ -632,8 +653,8 @@
 		var backBtn = document.getElementById("resume-back-btn");
 		if (backBtn) {
 			backBtn.addEventListener("click", function (event) {
-				// Close this tab and return to the site; if the browser refuses
-				// to close it, fall back to navigating this tab to the site.
+				// Ask the site tab that opened this one to close it. If no site tab
+				// answers (it was closed), load the site in this tab instead.
 				event.preventDefault();
 				var target = backBtn.href;
 				try {
@@ -641,12 +662,15 @@
 						window.opener.focus();
 					}
 				} catch (ignore) {
-					// Opener is not reachable; closing still works.
+					// Opener is not reachable.
+				}
+				if (window.BroadcastChannel) {
+					new BroadcastChannel("taya-resume-viewer").postMessage("close-viewer");
 				}
 				window.close();
 				setTimeout(function () {
 					window.location.href = target;
-				}, 250);
+				}, 400);
 			});
 		}
 		if (dl && window.fetch && dl.href.indexOf("data:") === 0) {
