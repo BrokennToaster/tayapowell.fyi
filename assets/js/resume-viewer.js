@@ -597,8 +597,11 @@
 		var dl = document.getElementById("resume-download-btn");
 		var dlName = (dl && dl.getAttribute("download")) || "Resume.pdf";
 		var cachedBlob = null;
-		// Judge by input type, not window width, so a narrowed desktop browser keeps Download PDF.
-		var isTouch = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+		// Detect an actual phone/tablet (not window width or touchscreen laptops), so desktop keeps Download PDF.
+		var ua = navigator.userAgent || "";
+		var isTouch = /Android|iPhone|iPad|iPod/i.test(ua)
+			|| (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+			|| !!(navigator.userAgentData && navigator.userAgentData.mobile);
 		if (isTouch && printBtn) {
 			printBtn.textContent = "Share / Print";
 		}
