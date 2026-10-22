@@ -190,6 +190,15 @@
 	margin: 0.4rem 0 0;
 }
 
+.resume-story {
+	font-size: 0.95rem;
+	line-height: 1.7;
+}
+
+.resume-story p:last-child {
+	margin-bottom: 0;
+}
+
 @media (max-width: 575.98px) {
 	.top-bar-inner {
 		display: flex;
