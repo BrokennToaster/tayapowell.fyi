@@ -26,10 +26,11 @@
 	<script defer src="assets/js/contact-reveal.js?v=20261012"></script>
 	<script defer src="assets/js/resume-viewer.js?v=20261021-19"></script>
 	<script defer src="assets/js/back-to-top.js?v=20261005"></script>
+	<script defer src="assets/js/resume-nav.js?v=20261021"></script>
 
 	<!-- Theme CSS -->  
 	<link id="theme-style" rel="stylesheet" href="assets/css/shine.css">
-	<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261005-2">
+	<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261021-14">
 
 </head> 
 
@@ -66,10 +67,14 @@
 									<div class="resume-contact-reveal" id="contact-details" hidden aria-live="polite"></div>
 								</div><!--//resume-contact-->
 								<nav class="resume-nav" aria-label="Resume sections">
-									<a href="#experience">Experience</a>
-									<a href="#projects">Projects</a>
-									<a href="#why-engineering">Why Engineering?</a>
-									<a href="#education">Education</a>
+									<button class="resume-nav-toggle" id="resume-nav-toggle" type="button" aria-expanded="false" aria-controls="resume-nav-links">Jump to<i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+									<div class="resume-nav-links" id="resume-nav-links">
+										<a href="#experience">Experience</a>
+										<a href="#education">Education</a>
+										<a href="#projects">Projects</a>
+										<a href="#why-engineering">Why Engineering?</a>
+										<a href="#additional-experience">Additional Experience</a>
+									</div>
 								</nav>
 							</div><!--//profile-holder-->
 						</div><!--//resume-header-->
@@ -311,7 +316,7 @@
 								<h4 class="resume-position-title mb-1">Full-Time Volunteer</h4>
 								<div class="resume-position-time">Chesapeake, Virginia</div>
 								<ul>
-									<li>Served as a full-time Spanish-speaking missionary for 18 months, teaching the gospel, working with Spanish-speaking communities, and communicating with people from a wide range of backgrounds.</li>
+									<li>Served as a full-time Spanish-speaking missionary for 18 months, teaching gospel doctrines, working with Spanish-speaking communities, and communicating with people from a wide range of backgrounds.</li>
 									<li>Developed strong conversational Spanish through daily immersion and independently conducted lessons, answered questions, and built relationships in Spanish; also learned French and Haitian Creole to communicate with members of the local Haitian community.</li>
 									<li>Led several assigned areas as a senior missionary, maintaining knowledge of people being taught, local members and resources, and area logistics, then training incoming companions to continue the work effectively.</li>
 									<li>Organized daily schedules, planned and adapted lessons, participated in community service, maintained records, and helped digitize apartment records so information could be passed between missionaries.</li>
