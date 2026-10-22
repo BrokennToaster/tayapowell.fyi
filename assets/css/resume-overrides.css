@@ -248,6 +248,32 @@
 	width: fit-content;
 }
 
+.resume-featured-project {
+	border-left: 2px solid #dfe5ee;
+	margin: 0.75rem 0 1rem;
+	padding: 0.1rem 0 0.1rem 0.9rem;
+}
+
+.resume-featured-project-label {
+	color: #64748b;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.resume-featured-project-title {
+	color: #273b56;
+	font-size: 0.95rem;
+	line-height: 1.4;
+	margin: 0.2rem 0 0.4rem;
+}
+
+.resume-featured-project p {
+	font-size: 0.95rem;
+	margin: 0;
+}
+
 .resume-projects-full {
 	font-size: 0.95rem;
 }
@@ -450,6 +476,10 @@
 	}
 
 	.resume-project-entry {
+		break-inside: avoid-page;
+	}
+
+	.resume-featured-project {
 		break-inside: avoid-page;
 	}
 
