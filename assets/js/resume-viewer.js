@@ -597,7 +597,8 @@
 		var dl = document.getElementById("resume-download-btn");
 		var dlName = (dl && dl.getAttribute("download")) || "Resume.pdf";
 		var cachedBlob = null;
-		var isTouch = !!(window.matchMedia && (window.matchMedia("(max-width: 640px)").matches || window.matchMedia("(pointer: coarse)").matches));
+		// Judge by input type, not window width, so a narrowed desktop browser keeps Download PDF.
+		var isTouch = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 		if (isTouch && printBtn) {
 			printBtn.textContent = "Share / Print";
 		}
