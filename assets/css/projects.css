@@ -1,4 +1,4 @@
-:root { --vh-base: max(100vh, 900px); }
+:root { --vh-base: max(100vh, 720px); }
 .project-intro {
 	color: #475569;
 	font-size: 1.05rem;
