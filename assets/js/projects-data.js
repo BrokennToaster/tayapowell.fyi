@@ -140,6 +140,7 @@ window.PROJECTS = [
 		sections: [
 			{
 				label: "Low-fidelity concept and ergonomic prototyping",
+				layout: "justified",
 				stack: true,
 				items: [
 					"Prototyped individual ergonomic forms in paper, clay and cardboard contour slices to test the form in hand before committing to CAD"
