@@ -129,7 +129,7 @@ window.PROJECTS = [
 				]
 			}
 		],
-		impact: "Delivered a reusable, wireless, durable lab set for ME 201 recitations to improve engagement and understanding of moment principles. The team met every performance measure, and the capstone was awarded \"Best Calculations.\"",
+		impact: "Delivered a reusable, wireless, durable lab set for ME 201 recitations to improve engagement and understanding of moment principles. The team met every performance measure, and the capstone was awarded \"Best Calculations\" by the ASME judges.",
 		tags: ["Statics", "Fabrication", "FEA (ANSYS)", "FMEA", "Pugh Matrices", "Design Validation", "Instructional Design"]
 	},
 	{
@@ -178,7 +178,7 @@ window.PROJECTS = [
 					"3D printed the model and gathered user feedback on fit"
 				],
 				images: [
-					{ src: "assets/images/projects/mouse-slicer-supports.jpg", alt: "Support structures in slicer", caption: "Support structures in slicer" },
+					{ src: "assets/images/projects/mouse-slicer-supports.jpg", alt: "Slicer error view showing support structures", caption: "Slicer error view: support structures" },
 					{ src: "assets/images/projects/mouse-print-top.jpg", alt: "Printed shell, top", caption: "Printed shell, top" },
 					{ src: "assets/images/projects/mouse-print-inside.jpg", alt: "Printed shell, interior", caption: "Printed shell, interior" }
 				]
@@ -261,7 +261,8 @@ window.PROJECTS = [
 				layout: "focus",
 				stack: true,
 				items: [
-					"Bonded two round magnets (~$7) to the back with JB-Weld to compensate for the loss in pull through the glass"
+					"Bonded two round magnets (~$7) to the back with JB-Weld to compensate for the loss in pull through the glass",
+					"Key lesson: a stronger magnet would have helped more than the composite body. The carbon fiber eraser is best suited to novelty rather than practicality"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-magnets.jpg", alt: "Two round magnets bonded to the back of the carbon shell", caption: "Magnets bonded to the back" }
