@@ -114,6 +114,8 @@ window.PROJECTS = [
 			},
 			{
 				label: "Testing and results",
+				stack: true,
+				layout: "fit",
 				items: [
 					"Triangle demo: 2.45% error in the recorded test (1.80 lb expected, 1.78 lb measured), about 1.5% on average, and 0.05% at best; found that both scales must be tared with no tension for best accuracy",
 					"Arm demo: 11% error (2.18 lb expected, 1.94 lb measured), tested by finding the point where the arm starts to move, with a bubble level for calibration",
@@ -146,10 +148,10 @@ window.PROJECTS = [
 					{ src: "assets/images/projects/mouse-sketch-concepts.jpg", alt: "Early mouse concept sketches: spaceship and spiral forms", caption: "Early concept sketches" },
 					{ src: "assets/images/projects/mouse-sketch-interim.jpg", alt: "Interim design sketch of the mouse with ventilation and palm-rest notes", caption: "Interim design sketch" },
 					{ src: "assets/images/projects/mouse-paper-top.jpg", alt: "Paper and tape form study", caption: "Paper and tape form study" },
-					{ src: "assets/images/projects/mouse-paper-side.jpg", alt: "Paper form, side view", caption: "Paper form, side view" },
+					{ src: "assets/images/projects/mouse-paper-side.jpg", alt: "Paper form, side view", caption: "Paper form, side view", newRow: true },
 					{ src: "assets/images/projects/mouse-paper-profile.jpg", alt: "Paper form, profile", caption: "Paper form, profile" },
 					{ src: "assets/images/projects/mouse-clay.jpg", alt: "Clay model", caption: "Clay model" },
-					{ src: "assets/images/projects/mouse-cardboard-contour.jpg", alt: "Cardboard contour slices from above, with numbered slices", caption: "Contoured cardboard slices" },
+					{ src: "assets/images/projects/mouse-cardboard-contour.jpg", alt: "Cardboard contour slices from above, with numbered slices", caption: "Contoured cardboard slices", newRow: true },
 					{ src: "assets/images/projects/mouse-cardboard-side.jpg", alt: "Cardboard contour slices, side profile", caption: "Contour profile, side view" },
 					{ src: "assets/images/projects/mouse-cardboard-grid.jpg", alt: "Interlocking honeycomb of the cardboard slices", caption: "Interlocking honeycomb structure" }
 				]
@@ -228,7 +230,7 @@ window.PROJECTS = [
 			{
 				label: "Forming the carbon fiber shell",
 				stack: true,
-				layout: "pair",
+				layout: "pair-narrow",
 				items: [
 					"Hand wet layup with a 226 resin-hardener system and carbon fiber",
 					"Vacuum-bagged over a $4 thrift-store glass bowl, since the contour needs vacuum to stay flush to the mold",
@@ -252,6 +254,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Solving the magnetic holding problem",
+				layout: "focus",
 				stack: true,
 				items: [
 					"Bonded two round magnets (~$7) to the back with JB-Weld to compensate for the loss in pull through the glass"
@@ -262,6 +265,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Wiping surface and final assembly",
+				layout: "large",
 				items: [
 					"Wrapped the face in a grey microfiber/terry cloth pad for the wiping surface",
 					"The finished eraser stays put on the glass and cleanly erases orange marker"
