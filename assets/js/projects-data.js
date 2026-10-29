@@ -43,7 +43,7 @@ window.PROJECTS = [
 			{ value: "< ½", label: "of budget spent" },
 			{ value: "3 to 4 ft", label: "accidental drop survived" }
 		],
-		context: "ME 201 Statics is notoriously challenging, and new students struggle to visualize how its concepts apply to real structures and machines.",
+		context: "ME 201 Statics is a challenging course, and new students struggle to visualize how its concepts apply to real structures and machines.",
 		objective: "Design, build, and validate lab demonstrations that let students see statics concepts and check their own homework answers with real force measurements.",
 		hero: [
 			{ src: "assets/images/projects/statics-demo-moment.jpg", alt: "Moment demonstration with rubber tube clamps resisting the moment and a luggage scale measuring force", caption: "Moment about an axis: rubber tube clamps resist the moment" },
@@ -63,7 +63,7 @@ window.PROJECTS = [
 					"Ran a blue-sky concept session, then organized the ideas into a concept table covering modularity, instrument placement, size, and results display",
 					"Used Pugh decision matrices to compare concepts for the carrier, component material, and instrument attachment subsystems",
 					"Built proof-of-concept prototypes (modular pegboard, string-and-frame, and large multi-problem box) and learned that restricted access, limited visibility, and fixed hole spacing outweighed their flexibility",
-					"Narrowed scope from 5 to 6 problems down to 3 demonstrations to protect quality, a decision that also relaxed the storage envelope"
+					"Narrowed scope from 5 to 6 problems down to 3 demonstrations to protect quality, which also relaxed the storage envelope"
 				],
 				images: [
 					{ src: "assets/images/projects/statics-proto-paper.jpg", alt: "Early paper and string proof-of-concept prototype", caption: "Proof of concept: paper and string frame" },
@@ -119,7 +119,7 @@ window.PROJECTS = [
 				items: [
 					"Triangle demo: 2.45% error in the recorded test (1.80 lb expected, 1.78 lb measured), about 1.5% on average, and 0.05% at best; found that both scales must be tared with no tension for best accuracy",
 					"Arm demo: 11% error (2.18 lb expected, 1.94 lb measured), tested by finding the point where the arm starts to move, with a bubble level for calibration",
-					"Clamp demo: 34.4% error (1.68 lb expected, 1.10 lb measured). Team review noted the mechanism is not static and its force readings are the least accurate, so it works best as a visual aid for reaction-force direction and machine function",
+					"Clamp demo: 34.4% error (1.68 lb expected, 1.10 lb measured). Team review found that the mechanism is not static and its force readings are the least accurate, so it works best as a visual aid for reaction-force direction and machine function",
 					"Results were consistent across more than 10 repeated trials, and the demos survived an accidental 3 to 4 ft drop",
 					"Final cost came in at just under half of the project budget"
 				],
@@ -129,7 +129,7 @@ window.PROJECTS = [
 				]
 			}
 		],
-		impact: "Delivered a reusable, wireless, durable lab set for ME 201 recitations to improve engagement and understanding of moment principles. The team met every performance measure, and the capstone was awarded \"Best Calculations\" by the ASME judges.",
+		impact: "Delivered a reusable, wireless, and durable lab set that supports student engagement and understanding of statics concepts in ME 201 recitations. The team met every performance measure, and the project received a \"Best Calculations\" award from ASME.",
 		tags: ["Statics", "Fabrication", "FEA (ANSYS)", "FMEA", "Pugh Matrices", "Design Validation", "Instructional Design"]
 	},
 	{
@@ -143,7 +143,7 @@ window.PROJECTS = [
 				layout: "justified",
 				stack: true,
 				items: [
-					"Prototyped individual ergonomic forms in paper, clay and cardboard contour slices to test the form in hand before committing to CAD"
+					"Prototyped individual ergonomic forms in paper, clay, and cardboard contour slices to test the form in hand before committing to CAD"
 				],
 				images: [
 					{ src: "assets/images/projects/mouse-sketch-concepts.jpg", alt: "Early mouse concept sketches: spaceship and spiral forms", caption: "Early concept sketches" },
@@ -175,7 +175,7 @@ window.PROJECTS = [
 				layout: "justified-wide",
 				stack: true,
 				items: [
-					"3D printed the model and gathered user feedback on fit"
+					"3D printed the model to validate fit and gathered user feedback"
 				],
 				images: [
 					{ src: "assets/images/projects/mouse-slicer-supports.jpg", alt: "Slicer error view showing support structures", caption: "Slicer error view: support structures" },
@@ -189,7 +189,7 @@ window.PROJECTS = [
 				stack: true,
 				items: [
 					"Evaluated team concepts and selected a two-tone hexagonal shell made with two-part silicone molds and dual-stage polymer resin overmolding",
-					"Investment metal casting for an accent emblem and a 3D-printed modular lower chassis"
+					"Used investment casting for the accent emblem and a 3D-printed modular lower chassis"
 				],
 				images: [
 					{ src: "assets/images/projects/mouse-5-hex-shell-cad.jpg", alt: "Selected hexagonal shell CAD", caption: "Selected hexagonal shell CAD" },
@@ -206,15 +206,15 @@ window.PROJECTS = [
 		type: "Individual",
 		problem: "Across just 4mm of glass a magnet loses 70–90% of its strength (pull force falls roughly with 1/r²), so heavy magnetic erasers slide or fall off glass whiteboards.",
 		objective: "Design a lightweight eraser that stays on a glass whiteboard, using the project to learn composite manufacturing.",
-		impact: "Built a working carbon fiber eraser for roughly $25 in materials that holds on the glass and erases marker. Evaluated production scaling (compression molding, prepreg vs. wet layup) and a conservative $25–30 price point.",
+		impact: "Built a working carbon fiber eraser for roughly $25 in materials that holds on the glass and erases marker. Evaluated production scaling (compression molding, prepreg vs. wet layup) and estimated a $25–30 price point.",
 		hero: [],
 		sections: [
 			{
 				label: "The physics problem",
 				items: [
-					"Magnetic pull force drops with distance, roughly as 1/r², so 4mm of glass costs a magnet 70–90% of its strength",
-					"Anything too heavy slides or falls off, which is what happened with a popular magnetic eraser that fell off immediately",
-					"No comparable product exists and the market for glass-whiteboard accessories is small, so this was built to scratch a personal itch and to learn composites"
+					"Pull force falls off roughly as 1/r² with distance, so 4mm of glass removes most of a magnet's strength",
+					"Heavy erasers slide or fall off the glass; a popular magnetic eraser fell off immediately",
+					"No comparable product exists and the market for glass-whiteboard accessories is small, so this was built to meet a personal need and to learn composites"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-force-graph.jpg", alt: "Graph of magnetic pull force falling with distance", caption: "Pull force vs. distance through the glass" }
@@ -223,8 +223,8 @@ window.PROJECTS = [
 			{
 				label: "Concept: a lightweight contoured shell",
 				items: [
-					"First concept was a contoured shell sketched as the \"Salmon Steak\"",
-					"Cheaper materials with stronger magnets would also work. Carbon fiber was chosen deliberately to gain hands-on composites experience"
+					"The first concept, a contoured shell, was sketched under the working name \"Salmon Steak\"",
+					"Cheaper materials with stronger magnets would also work; carbon fiber was chosen deliberately to gain hands-on composites experience"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-concept-sketch.jpg", alt: "Concept sketch of the contoured eraser shell", caption: "Initial contoured-shell concept" }
@@ -235,9 +235,9 @@ window.PROJECTS = [
 				stack: true,
 				layout: "pair-narrow",
 				items: [
-					"Hand wet layup with a 226 resin-hardener system and carbon fiber",
-					"Vacuum-bagged over a $4 thrift-store glass bowl, since the contour needs vacuum to stay flush to the mold",
-					"Precision was not critical, so a cheap found mold was viable. Vacuum bag ~$8, sealing tape ~$2–3, carbon fiber ~$2–5 used"
+					"Hand wet layup of carbon fiber with a 226 resin-hardener system",
+					"Vacuum-bagged over a $4 thrift-store glass bowl, since the contour needs vacuum pressure to stay flush to the mold",
+					"Tight precision was not required, so a low-cost found mold was sufficient. Materials: vacuum bag ~$8, sealing tape ~$2–3, carbon fiber ~$2–5"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-layup-1.jpg", alt: "Carbon fiber and resin on the mold surface", caption: "Wet layup on the mold" },
@@ -248,7 +248,7 @@ window.PROJECTS = [
 				label: "Post-processing",
 				layout: "justified-wide",
 				items: [
-					"Cured shells were sanded and filed along the edges and surface to remove paper-towel lint left from the acetone cleaning step"
+					"Sanded and filed the cured shells along the edges and surface to remove lint left by paper towels during acetone cleaning"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-shells.jpg", alt: "Cured carbon fiber shells", caption: "Cured shells" },
@@ -262,7 +262,7 @@ window.PROJECTS = [
 				stack: true,
 				items: [
 					"Bonded two round magnets (~$7) to the back with JB-Weld to compensate for the loss in pull through the glass",
-					"Key lesson: a stronger magnet would have helped more than the composite body. The carbon fiber eraser is best suited to novelty rather than practicality"
+					"Key lesson: a stronger magnet would have improved holding more than the composite body did, so this design suits novelty use better than practical use"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-magnets.jpg", alt: "Two round magnets bonded to the back of the carbon shell", caption: "Magnets bonded to the back" }
@@ -285,8 +285,8 @@ window.PROJECTS = [
 				label: "Manufacturing for market",
 				items: [
 					"Compression molding would suit large-scale production",
-					"Prepreg is faster and simpler but wet layup is cheaper at small scale. Prepreg could offset labor costs if the product took off",
-					"In-house production is easier than outsourcing at small volume. Conservative price ~$25–30, or $30–40 with design and process polish"
+					"Prepreg is faster and simpler, but wet layup is cheaper at small scale; prepreg could offset labor costs if volume grew",
+					"In-house production is simpler than outsourcing at small volume. Estimated price: ~$25–30, or $30–40 with design and process refinement"
 				]
 			}
 		],
