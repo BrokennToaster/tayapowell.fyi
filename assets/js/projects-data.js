@@ -227,16 +227,16 @@ window.PROJECTS = [
 			},
 			{
 				label: "Forming the carbon fiber shell",
+				stack: true,
+				layout: "pair",
 				items: [
 					"Hand wet layup with a 226 resin-hardener system and carbon fiber",
 					"Vacuum-bagged over a $4 thrift-store glass bowl, since the contour needs vacuum to stay flush to the mold",
 					"Precision was not critical, so a cheap found mold was viable. Vacuum bag ~$8, sealing tape ~$2–3, carbon fiber ~$2–5 used"
 				],
 				images: [
-					{ src: "assets/images/projects/eraser-layup-prep.jpg", alt: "Carbon fiber pieces on the work surface before layup", caption: "Carbon fiber and resin prepared on the bench" },
 					{ src: "assets/images/projects/eraser-layup-1.jpg", alt: "Carbon fiber and resin on the mold surface", caption: "Wet layup on the mold" },
-					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" },
-					{ src: "assets/images/projects/eraser-cured-shells.jpg", alt: "Cured carbon fiber flat sheet and curved shell", caption: "Cured carbon fiber flat sheet and curved shell" }
+					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" }
 				]
 			},
 			{
