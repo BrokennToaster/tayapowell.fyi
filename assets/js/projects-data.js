@@ -172,7 +172,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "3D-printed validation",
-				layout: "justified",
+				layout: "justified-wide",
 				stack: true,
 				items: [
 					"3D printed the model and gathered user feedback on fit"
@@ -185,7 +185,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Team concept and multi-material manufacturing",
-				layout: "justified",
+				layout: "justified-wide",
 				stack: true,
 				items: [
 					"Evaluated team concepts and selected a two-tone hexagonal shell made with two-part silicone molds and dual-stage polymer resin overmolding",
@@ -246,7 +246,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Post-processing",
-				layout: "justified",
+				layout: "justified-wide",
 				items: [
 					"Cured shells were sanded and filed along the edges and surface to remove paper-towel lint left from the acetone cleaning step"
 				],

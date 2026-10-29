@@ -785,3 +785,13 @@ html { scroll-behavior: smooth; }
 	.project-step.is-gallery .project-gallery.layout-justified .project-figure,
 	.project-step.is-gallery .project-gallery.layout-justified .project-figure.is-portrait { flex: var(--r) 1 0; max-width: none; width: auto; min-width: 0; }
 }
+
+/* Justified-wide: as justified, but fills the full row on wide screens */
+@media (min-width: 768px) {
+	.project-step.is-gallery .project-step-gallery.layout-justified-wide { max-width: 760px; margin-left: auto; margin-right: auto; }
+	.project-step.is-gallery .project-gallery.layout-justified-wide .project-figure,
+	.project-step.is-gallery .project-gallery.layout-justified-wide .project-figure.is-portrait { flex: var(--r) 1 0; max-width: none; width: auto; min-width: 0; }
+}
+@media (min-width: 1200px) {
+	.project-step.is-gallery .project-step-gallery.layout-justified-wide { max-width: none; }
+}
