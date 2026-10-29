@@ -243,6 +243,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Post-processing",
+				layout: "large",
 				items: [
 					"Cured shells were sanded and filed along the edges and surface to remove paper-towel lint left from the acetone cleaning step"
 				],

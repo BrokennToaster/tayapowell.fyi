@@ -1,3 +1,4 @@
+:root { --vh-base: max(100vh, 900px); }
 .project-intro {
 	color: #475569;
 	font-size: 1.05rem;
@@ -210,7 +211,7 @@
 
 /* Galleries */
 .project-gallery {
-	--img-h: clamp(200px, 36vh, 320px);
+	--img-h: clamp(200px, calc(var(--vh-base) * 0.36), 320px);
 	align-items: flex-start;
 	display: flex;
 	flex-wrap: wrap;
@@ -218,7 +219,7 @@
 }
 
 .project-hero {
-	--img-h: clamp(240px, 48vh, 440px);
+	--img-h: clamp(240px, calc(var(--vh-base) * 0.48), 440px);
 }
 
 .project-figure {
@@ -538,8 +539,8 @@ html { scroll-behavior: smooth; }
 @media (max-width: 767.98px) {
 	.project-head { padding: 1.5rem 1.25rem 0.25rem; }
 	.project-hero, .project-step-gallery { padding: 0.6rem; }
-	.project-gallery { --img-h: clamp(180px, 30vh, 260px); gap: 0.6rem; }
-	.project-hero { --img-h: clamp(220px, 40vh, 340px); }
+	.project-gallery { --img-h: clamp(180px, calc(var(--vh-base) * 0.30), 260px); gap: 0.6rem; }
+	.project-hero { --img-h: clamp(220px, calc(var(--vh-base) * 0.40), 340px); }
 	.project-step { padding: 1.75rem 0; }
 }
 
@@ -560,7 +561,7 @@ html { scroll-behavior: smooth; }
 }
 
 .project-step.is-gallery .project-step-gallery {
-	--img-h: clamp(170px, 26vh, 240px);
+	--img-h: clamp(170px, calc(var(--vh-base) * 0.26), 240px);
 	background: none;
 	gap: 0.75rem;
 	margin-top: 1.25rem;
@@ -568,7 +569,7 @@ html { scroll-behavior: smooth; }
 }
 
 @media (max-width: 767.98px) {
-	.project-step.is-gallery .project-step-gallery { --img-h: clamp(150px, 24vh, 210px); gap: 0.5rem; }
+	.project-step.is-gallery .project-step-gallery { --img-h: clamp(150px, calc(var(--vh-base) * 0.24), 210px); gap: 0.5rem; }
 }
 
 /* Impact: soft closing note */
@@ -746,19 +747,19 @@ html { scroll-behavior: smooth; }
 
 /* Compact galleries: keep each step close to one screen */
 @media (min-width: 768px) {
-	.project-step.is-gallery .project-step-gallery { --img-h: clamp(130px, 17vh, 175px); }
+	.project-step.is-gallery .project-step-gallery { --img-h: clamp(130px, calc(var(--vh-base) * 0.17), 175px); }
 	.project-step.is-gallery .project-figure, .project-step.is-gallery .project-figure.is-portrait { max-width: calc(var(--r) * var(--img-h) * 1.5); }
 }
 
 /* Large gallery: few photos, sized to fill one screen */
 @media (min-width: 768px) {
-	.project-step.is-gallery .project-step-gallery.layout-large { --img-h: clamp(200px, 36vh, 380px); }
+	.project-step.is-gallery .project-step-gallery.layout-large { --img-h: clamp(200px, calc(var(--vh-base) * 0.36), 380px); }
 	.project-step.is-gallery .project-gallery.layout-large .project-figure, .project-step.is-gallery .project-gallery.layout-large .project-figure.is-portrait { max-width: none; }
 }
 
 /* Fit: sized so text plus photos stay within one screen */
 @media (min-width: 768px) {
-	.project-step.is-gallery .project-step-gallery.layout-fit { --img-h: clamp(200px, 36vh, 380px); justify-content: center; }
+	.project-step.is-gallery .project-step-gallery.layout-fit { --img-h: clamp(200px, calc(var(--vh-base) * 0.36), 380px); justify-content: center; }
 	.project-step.is-gallery .project-gallery.layout-fit .project-figure, .project-step.is-gallery .project-gallery.layout-fit .project-figure.is-portrait { max-width: calc(var(--r) * var(--img-h) * 1.25); }
 }
 
@@ -775,5 +776,5 @@ html { scroll-behavior: smooth; }
 /* Focus: a single hero photo, centered and sized to stay on one screen */
 @media (min-width: 768px) {
 	.project-step.is-gallery .project-step-gallery.layout-focus { justify-content: center; }
-	.project-step.is-gallery .project-gallery.layout-focus .project-figure { flex: 0 0 auto; max-width: none; width: calc(var(--r) * min(56vh, 520px)); }
+	.project-step.is-gallery .project-gallery.layout-focus .project-figure { flex: 0 0 auto; max-width: none; width: calc(var(--r) * min(calc(var(--vh-base) * 0.56), 520px)); }
 }
