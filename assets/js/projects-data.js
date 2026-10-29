@@ -148,10 +148,10 @@ window.PROJECTS = [
 					{ src: "assets/images/projects/mouse-sketch-concepts.jpg", alt: "Early mouse concept sketches: spaceship and spiral forms", caption: "Early concept sketches" },
 					{ src: "assets/images/projects/mouse-sketch-interim.jpg", alt: "Interim design sketch of the mouse with ventilation and palm-rest notes", caption: "Interim design sketch" },
 					{ src: "assets/images/projects/mouse-paper-top.jpg", alt: "Paper and tape form study", caption: "Paper and tape form study" },
-					{ src: "assets/images/projects/mouse-paper-side.jpg", alt: "Paper form, side view", caption: "Paper form, side view", newRow: true },
+					{ src: "assets/images/projects/mouse-paper-side.jpg", alt: "Paper form, side view", caption: "Paper form, side view" },
 					{ src: "assets/images/projects/mouse-paper-profile.jpg", alt: "Paper form, profile", caption: "Paper form, profile" },
 					{ src: "assets/images/projects/mouse-clay.jpg", alt: "Clay model", caption: "Clay model" },
-					{ src: "assets/images/projects/mouse-cardboard-contour.jpg", alt: "Cardboard contour slices from above, with numbered slices", caption: "Contoured cardboard slices", newRow: true },
+					{ src: "assets/images/projects/mouse-cardboard-contour.jpg", alt: "Cardboard contour slices from above, with numbered slices", caption: "Contoured cardboard slices" },
 					{ src: "assets/images/projects/mouse-cardboard-side.jpg", alt: "Cardboard contour slices, side profile", caption: "Contour profile, side view" },
 					{ src: "assets/images/projects/mouse-cardboard-grid.jpg", alt: "Interlocking honeycomb of the cardboard slices", caption: "Interlocking honeycomb structure" }
 				]
