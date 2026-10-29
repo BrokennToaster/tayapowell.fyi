@@ -134,7 +134,7 @@ window.PROJECTS = [
 	},
 	{
 		title: "Custom Ergonomic Computer Mouse: Rapid Prototyping & Manufacturing",
-		type: "Individual & 20-person team",
+		type: "Individual & 10-person team",
 		problem: "Commercial mice lack a custom ergonomic fit, causing strain during long CAD sessions.",
 		objective: "Complete a full rapid prototyping lifecycle, from low-fidelity testing to SolidWorks organic surfacing and multi-material manufacturing.",
 		sections: [
