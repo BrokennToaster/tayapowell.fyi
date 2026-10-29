@@ -674,3 +674,66 @@ html { scroll-behavior: smooth; }
 @media (max-width: 359.98px) {
 	.project-stats { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Grouped galleries: each group of photos gets its own row on desktop, one per row on phones */
+.gallery-break { flex-basis: 100%; height: 0; }
+.project-step.is-gallery .project-gallery.is-grouped { justify-content: center; }
+@media (max-width: 767.98px) {
+	.gallery-break { display: none; }
+	.project-step.is-gallery .project-gallery.is-grouped .project-figure { flex: 0 0 100%; width: 100%; }
+}
+
+/* Phones: every photo gallery shows one photo per row */
+@media (max-width: 767.98px) {
+	.project-step.is-gallery .project-figure,
+	.project-step.is-gallery .project-figure.is-portrait,
+	.project-step.is-gallery .project-figure:last-child:nth-child(odd) { flex: 0 0 100%; width: 100%; }
+}
+
+/* Back to Resume: always on the left */
+.top-bar .top-bar-inner { display: flex; justify-content: flex-start; }
+.top-bar .top-bar-cta { left: 0; position: absolute; right: auto; }
+@media (max-width: 991.98px) {
+	.top-bar .top-bar-cta { position: static; }
+}
+
+/* Feature layout: one tall photo beside a wide photo and two smaller ones, no gaps */
+@media (min-width: 768px) {
+	.project-step.is-gallery .project-gallery.layout-feature {
+		display: grid;
+		gap: 0.75rem;
+		grid-template-areas: "a b b" "a c d";
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.layout-feature .project-figure { margin: 0; max-width: none; position: relative; width: auto; }
+	.layout-feature .project-figure:nth-of-type(1) { grid-area: a; }
+	.layout-feature .project-figure:nth-of-type(2) { grid-area: b; }
+	.layout-feature .project-figure:nth-of-type(3) { grid-area: c; }
+	.layout-feature .project-figure:nth-of-type(4) { grid-area: d; }
+	.layout-feature .project-figure:nth-of-type(1) img { height: 100%; position: absolute; inset: 0; }
+	.layout-feature .project-figure:nth-of-type(n+2) img { aspect-ratio: var(--r); height: auto; }
+	.layout-feature .project-figure img { object-fit: cover; }
+	.layout-feature figcaption {
+		background: linear-gradient(transparent, rgba(15, 23, 42, 0.7));
+		border-radius: 0 0 0.6rem 0.6rem;
+		bottom: 0;
+		color: #fff;
+		left: 0;
+		margin: 0;
+		padding: 1.2rem 0.8rem 0.55rem;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+	}
+}
+
+@media (min-width: 768px) {
+	.project-step.is-gallery .project-gallery.layout-feature { align-items: stretch; justify-content: stretch; justify-items: stretch; }
+	.project-step.is-gallery .project-gallery.layout-feature .project-figure { flex: none; max-width: none; width: auto; }
+}
+
+/* Pair layout: two equal columns on desktop */
+@media (min-width: 768px) {
+	.project-step.is-gallery .project-gallery.layout-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.project-step.is-gallery .project-gallery.layout-pair .project-figure { flex: none; max-width: none; width: auto; }
+}

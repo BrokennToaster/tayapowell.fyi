@@ -47,6 +47,7 @@
 	function gallery(images, extraClass) {
 		var wrap = el("div", "project-gallery" + (extraClass ? " " + extraClass : ""));
 		images.forEach(function (image) {
+			if (image.newRow) { wrap.classList.add("is-grouped"); wrap.appendChild(el("div", "gallery-break")); }
 			var figure = el("figure", "project-figure");
 			var img = el("img");
 			img.src = image.src;
@@ -121,7 +122,7 @@
 			var flow = el("div", "project-flow");
 			steps.forEach(function (section, i) {
 				var hasImages = section.images && section.images.length;
-				var isGallery = hasImages && section.images.length >= 3;
+				var isGallery = hasImages && (section.images.length >= 3 || section.stack);
 				var row = el("section", "project-step" + (hasImages ? " has-images" : "") + (isGallery ? " is-gallery" : ""));
 				var text = el("div", "project-step-text");
 				var label = el("h5", "project-step-label");
@@ -131,7 +132,7 @@
 				if (section.text) text.appendChild(el("p", "project-section-text", section.text));
 				if (section.items && section.items.length) text.appendChild(bullets(section.items));
 				row.appendChild(text);
-				if (hasImages) row.appendChild(gallery(section.images, "project-step-gallery"));
+				if (hasImages) row.appendChild(gallery(section.images, "project-step-gallery" + (section.layout ? " layout-" + section.layout : "")));
 				flow.appendChild(row);
 			});
 			body.appendChild(flow);

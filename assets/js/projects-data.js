@@ -78,14 +78,16 @@ window.PROJECTS = [
 				images: [
 					{ src: "assets/images/projects/statics-cad-1-top.png", alt: "CAD top view of the arm demonstration with rubber-lined clamps", caption: "Arm demo: top view" },
 					{ src: "assets/images/projects/statics-cad-1-back.png", alt: "CAD rear view of the arm demonstration", caption: "Arm demo: rear view" },
-					{ src: "assets/images/projects/statics-cad-2-iso.png", alt: "CAD isometric view of the triangle demonstration, two tubes meeting at a peak", caption: "Triangle demo: isometric view" },
+					{ src: "assets/images/projects/statics-cad-2-iso.png", alt: "CAD isometric view of the triangle demonstration, two tubes meeting at a peak", caption: "Triangle demo: isometric view", newRow: true },
 					{ src: "assets/images/projects/statics-cad-2-side.png", alt: "CAD side view of the triangle demonstration", caption: "Triangle demo: side view" },
-					{ src: "assets/images/projects/statics-cad-3-top.png", alt: "CAD top view of the clamp demonstration, linked bars", caption: "Clamp demo: top view" },
+					{ src: "assets/images/projects/statics-cad-3-top.png", alt: "CAD top view of the clamp demonstration, linked bars", caption: "Clamp demo: top view", newRow: true },
 					{ src: "assets/images/projects/statics-cad-3-iso.png", alt: "CAD isometric view of the clamp demonstration", caption: "Clamp demo: isometric view" }
 				]
 			},
 			{
 				label: "Analysis and design changes",
+				stack: true,
+				layout: "pair",
 				items: [
 					"Ran ANSYS FEA on the arm; deformation exceeded accepted values at first, so the components were thickened",
 					"Ran an FMEA that identified fracture from excessive stress as the most likely and most damaging failure mode",
@@ -98,6 +100,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Fabrication",
+				layout: "feature",
 				items: [
 					"Welded and laser-cut aluminum for the triangle and arm demos, and two-layer laser-cut 6mm birch for the clamp demo, all on stained and filleted wooden bases",
 					"Designed custom storage boxes: 33x14x4.5in side by side, 13x14x13.5in stacked"
@@ -135,35 +138,58 @@ window.PROJECTS = [
 		sections: [
 			{
 				label: "Low-fidelity concept and ergonomic prototyping",
+				stack: true,
 				items: [
-					"Prototyped individual ergonomic forms starting from a sketch and an initial concept model",
-					"Built cardboard contour slices to test the form in hand before committing to CAD"
+					"Prototyped individual ergonomic forms in paper, clay and cardboard contour slices to test the form in hand before committing to CAD"
 				],
 				images: [
-					{ src: "assets/images/projects/mouse-1-concept-cad.jpg", alt: "Initial concept CAD of the mouse", caption: "Initial concept CAD" },
-					{ src: "assets/images/projects/mouse-2-cardboard.jpg", alt: "Cardboard contour slices", caption: "Cardboard contour slices" }
+					{ src: "assets/images/projects/mouse-sketch-concepts.jpg", alt: "Early mouse concept sketches: spaceship and spiral forms", caption: "Early concept sketches" },
+					{ src: "assets/images/projects/mouse-sketch-interim.jpg", alt: "Interim design sketch of the mouse with ventilation and palm-rest notes", caption: "Interim design sketch" },
+					{ src: "assets/images/projects/mouse-paper-top.jpg", alt: "Paper and tape form study", caption: "Paper and tape form study" },
+					{ src: "assets/images/projects/mouse-paper-side.jpg", alt: "Paper form, side view", caption: "Paper form, side view" },
+					{ src: "assets/images/projects/mouse-paper-profile.jpg", alt: "Paper form, profile", caption: "Paper form, profile" },
+					{ src: "assets/images/projects/mouse-clay.jpg", alt: "Clay model", caption: "Clay model" },
+					{ src: "assets/images/projects/mouse-cardboard-contour.jpg", alt: "Cardboard contour slices from above, with numbered slices", caption: "Contoured cardboard slices" },
+					{ src: "assets/images/projects/mouse-cardboard-side.jpg", alt: "Cardboard contour slices, side profile", caption: "Contour profile, side view" },
+					{ src: "assets/images/projects/mouse-cardboard-grid.jpg", alt: "Interlocking honeycomb of the cardboard slices", caption: "Interlocking honeycomb structure" }
 				]
 			},
 			{
-				label: "Organic CAD surfacing and 3D-printed validation",
+				label: "Organic CAD surfacing",
+				stack: true,
 				items: [
-					"Modeled the organic form with SolidWorks surfacing",
+					"Modeled the organic form with SolidWorks surfacing and laid out the internal chassis"
+				],
+				images: [
+					{ src: "assets/images/projects/mouse-1-concept-cad.jpg", alt: "Initial concept CAD", caption: "Initial concept CAD" },
+					{ src: "assets/images/projects/mouse-3-cad-surfacing.jpg", alt: "SolidWorks surfacing model", caption: "SolidWorks surfacing model" },
+					{ src: "assets/images/projects/mouse-chassis-internals.jpg", alt: "Internal chassis layout", caption: "Internal chassis layout", newRow: true },
+					{ src: "assets/images/projects/mouse-exploded-assembly.jpg", alt: "Exploded assembly", caption: "Exploded assembly" }
+				]
+			},
+			{
+				label: "3D-printed validation",
+				stack: true,
+				items: [
 					"3D printed the model and gathered user feedback on fit"
 				],
 				images: [
-					{ src: "assets/images/projects/mouse-3-cad-surfacing.jpg", alt: "SolidWorks surfacing model", caption: "SolidWorks surfacing model" },
-					{ src: "assets/images/projects/mouse-4-3d-print.jpg", alt: "3D-printed mouse model", caption: "3D-printed model" }
+					{ src: "assets/images/projects/mouse-slicer-supports.jpg", alt: "Support structures in slicer", caption: "Support structures in slicer" },
+					{ src: "assets/images/projects/mouse-print-top.jpg", alt: "Printed shell, top", caption: "Printed shell, top" },
+					{ src: "assets/images/projects/mouse-print-inside.jpg", alt: "Printed shell, interior", caption: "Printed shell, interior" }
 				]
 			},
 			{
 				label: "Team concept and multi-material manufacturing",
+				stack: true,
 				items: [
 					"Evaluated team concepts and selected a two-tone hexagonal shell made with two-part silicone molds and dual-stage polymer resin overmolding",
 					"Investment metal casting for an accent emblem and a 3D-printed modular lower chassis"
 				],
 				images: [
 					{ src: "assets/images/projects/mouse-5-hex-shell-cad.jpg", alt: "Selected hexagonal shell CAD", caption: "Selected hexagonal shell CAD" },
-					{ src: "assets/images/projects/mouse-6-emblem-cad.jpg", alt: "Cast metal accent emblem CAD", caption: "Cast metal accent emblem CAD" }
+					{ src: "assets/images/projects/mouse-6-emblem-cad.jpg", alt: "Cast metal accent emblem CAD", caption: "Cast metal accent emblem CAD" },
+					{ src: "assets/images/projects/mouse-cast-emblem.jpg", alt: "Cast metal emblem piece held in hand", caption: "Cast metal piece" }
 				]
 			}
 		],
@@ -207,8 +233,10 @@ window.PROJECTS = [
 					"Precision was not critical, so a cheap found mold was viable. Vacuum bag ~$8, sealing tape ~$2–3, carbon fiber ~$2–5 used"
 				],
 				images: [
+					{ src: "assets/images/projects/eraser-layup-prep.jpg", alt: "Carbon fiber pieces on the work surface before layup", caption: "Carbon fiber and resin prepared on the bench" },
 					{ src: "assets/images/projects/eraser-layup-1.jpg", alt: "Carbon fiber and resin on the mold surface", caption: "Wet layup on the mold" },
-					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" }
+					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" },
+					{ src: "assets/images/projects/eraser-cured-shells.jpg", alt: "Cured carbon fiber flat sheet and curved shell", caption: "Cured carbon fiber flat sheet and curved shell" }
 				]
 			},
 			{
@@ -224,6 +252,7 @@ window.PROJECTS = [
 			},
 			{
 				label: "Solving the magnetic holding problem",
+				stack: true,
 				items: [
 					"Bonded two round magnets (~$7) to the back with JB-Weld to compensate for the loss in pull through the glass"
 				],
