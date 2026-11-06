@@ -29,22 +29,22 @@
 	const margin = 34;
 	const contentWidth = pageWidth - margin * 2;
 	const bottomLimit = pageHeight - margin;
-	const pdfTemplateVersion = "2026-10-21-v14";
+	const pdfTemplateVersion = "2026-11-06-v15";
 	const pdfCacheKey = "taya-powell-resume-pdf-v4";
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
 
-	function readPageContent() {
-		const text = (selector) => document.querySelector(selector)?.innerText.trim() || "";
-		const list = (selector) => Array.from(document.querySelectorAll(selector), (item) => item.innerText.trim());
+	function readPageContent(root = document) {
+		const text = (selector) => root.querySelector(selector)?.innerText.trim() || "";
+		const list = (selector) => Array.from(root.querySelectorAll(selector), (item) => item.innerText.trim());
 		const contact = window.getResumeContactDetails?.() || {};
-		const contactItems = Array.from(document.querySelectorAll(".resume-contact-list li"));
+		const contactItems = Array.from(root.querySelectorAll(".resume-contact-list li"));
 		const location = contactItems[0]?.innerText.trim() || "";
-		const linkedIn = document.querySelector('.resume-contact-list a[href*="linkedin.com"]')?.href || "";
+		const linkedIn = root.querySelector('.resume-contact-list a[href*="linkedin.com"]')?.href || "";
 		const skills = list("#technical-skills li");
 		const languages = list(".resume-lang-name");
 		const certifications = list("#certifications li");
-		const experience = Array.from(document.querySelectorAll("#experience article"), (article) => {
+		const experience = Array.from(root.querySelectorAll("#experience article"), (article) => {
 			const dates = article.querySelectorAll(".resume-timeline-item-header .resume-position-time");
 			const allBullets = Array.from(article.querySelectorAll(".resume-timeline-item-desc > ul > li"));
 			const selectedBullets = allBullets.filter((item) => item.hasAttribute("data-resume-pdf"));
@@ -56,12 +56,12 @@
 				bullets: (selectedBullets.length ? selectedBullets : allBullets.slice(0, 3)).map((item) => item.innerText.trim())
 			};
 		});
-		const projects = Array.from(document.querySelectorAll("#projects .resume-project-entry"), (article) => ({
+		const projects = Array.from(root.querySelectorAll("#projects .resume-project-entry"), (article) => ({
 			title: article.querySelector(".item-heading")?.innerText.trim() || "",
 			type: article.querySelector(".resume-project-type")?.innerText.trim() || "",
 			bullets: Array.from(article.querySelectorAll(".resume-timeline-list > li"), (item) => item.innerText.trim())
 		}));
-		const education = Array.from(document.querySelectorAll("#education li"))
+		const education = Array.from(root.querySelectorAll("#education li"))
 			.map((item) => ({
 				degree: item.querySelector(".resume-degree")?.innerText.trim() || "",
 				organization: item.querySelector(".resume-degree-org")?.innerText.trim() || "",
@@ -98,6 +98,22 @@
 			projects,
 			education
 		});
+	}
+
+	async function readLatestPageContent() {
+		try {
+			const sourceUrl = new URL(window.location.href);
+			sourceUrl.searchParams.delete("resume-viewer");
+			sourceUrl.searchParams.delete("resume-version");
+			sourceUrl.searchParams.set("_resume-check", Date.now().toString());
+			const response = await fetch(sourceUrl.href, { cache: "no-store" });
+			if (!response.ok) throw new Error("Resume source could not be refreshed.");
+			const sourceDocument = new DOMParser().parseFromString(await response.text(), "text/html");
+			if (!sourceDocument.querySelector(".resume-name")) throw new Error("Resume source was not found.");
+			return readPageContent(sourceDocument);
+		} catch (error) {
+			return readPageContent(document);
+		}
 	}
 
 	function escapeHtml(value) {
@@ -697,7 +713,7 @@
 
 	async function renderResumeViewer() {
 		try {
-			const content = readPageContent();
+			const content = await readLatestPageContent();
 			let pdfDataUrl = "";
 			try {
 				const pdfBlob = await getCachedPdf(content);
