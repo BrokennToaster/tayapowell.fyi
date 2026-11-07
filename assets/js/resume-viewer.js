@@ -660,6 +660,7 @@
 	.resume-header h1 { margin: 0 0 8px; color: #111820; font-size: 30px; letter-spacing: normal; }
 	.resume-page { display: none; }
 	.contact-line { margin: 0; color: #39485b; font-size: 12.8px; }
+	.contact-item { display: inline-block; white-space: nowrap; }
 	.contact-line a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 	.role-line { margin: 24px 0 0; color: #0f1a2c; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; }
 	.resume-section h2 { margin: 24px 0 10px; color: #161d28; font-size: 15px; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
@@ -695,7 +696,7 @@
 		.vb-btn { padding: 6px; font-size: 9px; }
 		.resume-sheet { padding: 8px; }
 		.resume-header h1 { font-size: 14px; letter-spacing: 0; }
-		.contact-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 4px; font-size: 9px; }
+		.contact-line { font-size: min(9px, 5vw); }
 		.role-line { font-size: 9px; letter-spacing: 0; }
 		.resume-section h2 { font-size: 10px; letter-spacing: 0; }
 		.summary, .plain-list li, .bullet-list li, .edu-line,
@@ -732,18 +733,18 @@
 	}`;
 
 	// Escape resume text before inserting it into this generated document.
-	// Punctuation provides optional contact-line break points on small screens.
 	function buildResumeHtml(content, pdfDataUrl, siteUrl, pageSvg) {
 		const esc = escapeHtml;
-		const breakAtPunctuation = (value) => esc(value).replace(/([.@])/g, "$1<wbr>");
-		const contactParts = [content.location, content.phone, content.email]
-			.filter(Boolean)
-			.map((part) => `<span>${breakAtPunctuation(part)}</span>`);
+		const contactParts = [];
+		if (content.location) contactParts.push(`<span>${esc(content.location)}</span>`);
+		[content.phone, content.email].filter(Boolean).forEach((part) => {
+			contactParts.push(`<span class="contact-item">${esc(part)}</span>`);
+		});
 		if (content.linkedIn) {
-			contactParts.push(`<span><a href="${esc(content.linkedIn)}" target="_blank" rel="noopener">LinkedIn</a></span>`);
+			contactParts.push(`<span class="contact-item"><a href="${esc(content.linkedIn)}" target="_blank" rel="noopener">LinkedIn</a></span>`);
 		}
 		if (content.website) {
-			contactParts.push(`<span><a href="https://${esc(content.website)}" target="_blank" rel="noopener">${breakAtPunctuation(content.website)}</a></span>`);
+			contactParts.push(`<span class="contact-item"><a href="https://${esc(content.website)}" target="_blank" rel="noopener">${esc(content.website)}</a></span>`);
 		}
 		const contactLine = contactParts.join(' <span aria-hidden="true">|</span> ');
 		const downloadName = `${(content.name || "Resume").trim().replace(/\s+/g, "_")}_Resume.pdf`;

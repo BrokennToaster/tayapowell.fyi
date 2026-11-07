@@ -30,7 +30,9 @@ JavaScript, and media files are served directly.
   changing the script itself so browsers fetch the new version.
 - The full-width preview, download, and print share a measured one-page layout.
   Narrow screens use a reflowing HTML view, which also remains available for
-  preview and printing when the PDF library is unavailable.
+  preview and printing when the PDF library is unavailable. In the reflowing
+  view, the phone number, email, and link labels stay intact while the contact
+  line wraps between items or at normal word boundaries.
 - Back to Website closes the script-opened viewer when its original site tab is
   still accessible on the site. If that tab is closed, has navigated away, or
   cannot be accessed, the viewer navigates to the site instead. A browser that
