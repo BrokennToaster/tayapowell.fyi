@@ -10,25 +10,14 @@
  * older cached PDF is not reused. Also bump this script's ?v= in index.html.
  */
 (() => {
-	const channelName = "taya-resume-viewer";
 	if (!new URLSearchParams(window.location.search).has("resume-viewer")) {
-		// Main site: open the viewer from script so this tab can always close it again.
+		// A script-opened viewer can close itself when returning to this tab.
 		const button = document.querySelector(".resume-print-button");
-		if (button && window.BroadcastChannel) {
-			let viewerWindow = null;
-			const channel = new BroadcastChannel(channelName);
+		if (button) {
 			button.addEventListener("click", (event) => {
 				const opened = window.open(button.href, "resume-viewer-tab");
 				if (opened) {
 					event.preventDefault();
-					viewerWindow = opened;
-				}
-			});
-			channel.addEventListener("message", (message) => {
-				if (message.data === "close-viewer" && viewerWindow) {
-					viewerWindow.close();
-					viewerWindow = null;
-					channel.postMessage("viewer-closed");
 				}
 			});
 		}
@@ -888,21 +877,25 @@ ${pageSvg}
 		var backBtn = document.getElementById("resume-back-btn");
 		if (backBtn) {
 			backBtn.addEventListener("click", function (event) {
-				// Ask the site tab that opened this one to close it. If no site tab
-				// answers (it was closed), load the site in this tab instead.
 				event.preventDefault();
 				var target = backBtn.href;
+				var siteIsOpen = false;
 				try {
 					if (window.opener && !window.opener.closed) {
-						window.opener.focus();
+						var openerUrl = new URL(window.opener.location.href);
+						siteIsOpen = openerUrl.origin === window.location.origin &&
+							!openerUrl.searchParams.has("resume-viewer");
 					}
-				} catch (ignore) {
-					// Opener is not reachable.
+				} catch (error) {
+					// An inaccessible or cross-origin opener is not the site tab.
 				}
-				if (window.BroadcastChannel) {
-					new BroadcastChannel("taya-resume-viewer").postMessage("close-viewer");
+				if (!siteIsOpen) {
+					window.location.href = target;
+					return;
 				}
+				window.opener.focus();
 				window.close();
+				// Browsers can refuse to close tabs that were not opened by script.
 				setTimeout(function () {
 					window.location.href = target;
 				}, 400);
