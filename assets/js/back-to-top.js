@@ -1,4 +1,8 @@
-/* Show the page's back-to-top control after the reader scrolls past one viewport. */
+/*
+ * Show #back-to-top after one viewport of scrolling (at least 400px).
+ * resume-overrides.css controls its visibility and animation. Reduced-motion
+ * users jump to the top without the smooth scroll.
+ */
 (() => {
 	const button = document.getElementById("back-to-top");
 
@@ -12,6 +16,7 @@
 		return Math.max(400, window.innerHeight);
 	}
 
+	// Change the class only when the visibility state actually changes.
 	function update() {
 		const shouldShow = window.scrollY > getThreshold();
 

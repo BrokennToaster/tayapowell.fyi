@@ -14,6 +14,7 @@
 	// Only collapse the links once this script is running, so they stay reachable without JavaScript.
 	nav.classList.add("is-enhanced");
 
+	// CSS reads is-open while assistive technology reads aria-expanded.
 	function setOpen(open) {
 		toggle.setAttribute("aria-expanded", String(open));
 		links.classList.toggle("is-open", open);
@@ -35,6 +36,7 @@
 		}
 	});
 
+	// Returning focus makes the menu easy to dismiss with a keyboard.
 	document.addEventListener("keydown", (event) => {
 		if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
 			setOpen(false);

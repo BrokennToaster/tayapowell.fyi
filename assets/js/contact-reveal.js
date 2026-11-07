@@ -6,6 +6,9 @@
 	// Contact values are stored as scrambled fragments (split + reversed)
 	// and reassembled only at runtime, so raw-source regex finds no
 	// email/phone pattern and no single encoded blob to match against.
+	// This is obfuscation, not encryption: visitors can still inspect the values.
+	// To update a value, Base64-encode it, split that encoded string into
+	// fragments, and store the fragments in reverse order as shown below.
 	const fragments = {
 		email: ["LnBvd2VsbEBnbWFpbC5jb20=", "dGF5YS5y"],
 		phone: ["NDgz", "NTEyLTU1NC0x"]
@@ -36,6 +39,7 @@
 		contactDetails.append(row);
 	}
 
+	// Rebuild the links when opening and synchronize the accessible button state.
 	function setExpanded(expanded) {
 		isExpanded = expanded;
 		contactDetails.replaceChildren();
@@ -59,6 +63,7 @@
 		button.addEventListener("click", () => setExpanded(!isExpanded));
 	});
 
+	// Show contact details on the printed page, then restore the previous state.
 	window.addEventListener("beforeprint", () => {
 		wasExpandedBeforePrint = isExpanded;
 		if (!isExpanded) {

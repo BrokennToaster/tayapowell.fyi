@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-<!-- Main resume page. The viewer script reads this markup to build the PDF. -->
+<!--
+	Main resume page: edit the visible content here rather than in the PDF.
+	resume-viewer.js reads specific IDs and class names below to build both the
+	printable viewer and downloadable PDF. Preserve those names when editing the
+	markup, or update readPageContent() in that script to match.
+	Follow the resume editorial and validation procedure in README.md when
+	adding material or revising the generated resume.
+	The full project case studies are maintained separately in projects-data.js.
+	In HTML text, write &amp; for an ampersand. Classes such as p-4 and col-lg-8
+	are Bootstrap spacing and column helpers supplied by the compiled theme.
+-->
 <html lang="en">
 	<head>
 		<title>Taya Powell | Mechanical Engineer</title>
@@ -25,9 +35,13 @@
 		<script defer src="assets/fontawesome/js/all.js"></script>
 		<script defer src="assets/js/jspdf.umd.min.js"></script>
 
-		<!-- Resume interactions and generated-viewer behavior. -->
+		<!--
+			Deferred scripts run after HTML parsing, in this order. Contact details
+			must be available before the viewer reads them. Change a file's ?v=
+			value after editing it so returning visitors receive the new version.
+		-->
 		<script defer src="assets/js/contact-reveal.js?v=20261012"></script>
-		<script defer src="assets/js/resume-viewer.js?v=20261106-9"></script>
+		<script defer src="assets/js/resume-viewer.js?v=20261107-14"></script>
 		<script defer src="assets/js/back-to-top.js?v=20261005"></script>
 		<script defer src="assets/js/resume-nav.js?v=20261021"></script>
 
@@ -43,7 +57,10 @@
 
 			<div class="main-content-wrapper">
 				<div class="container-fluid">
-					<!-- Page actions remain outside the resume content and print layout. -->
+					<!--
+						The viewer query parameter opens a generated resume view, not
+						a static PDF file. The contact button fills #contact-details.
+					-->
 					<div class="top-bar text-center position-relative">
 						<div class="top-bar-inner">
 
@@ -69,6 +86,8 @@
 									</ul>
 									<div class="resume-contact-reveal" id="contact-details" hidden aria-live="polite"></div>
 								</div>
+								<!-- Fragment links must match the IDs on the sections below.
+								     resume-nav.js collapses these links into a menu on phones. -->
 								<nav class="resume-nav" aria-label="Resume sections">
 									<button class="resume-nav-toggle" id="resume-nav-toggle" type="button" aria-expanded="false" aria-controls="resume-nav-links">Jump to<i class="bi bi-chevron-down" aria-hidden="true"></i></button>
 									<div class="resume-nav-links" id="resume-nav-links">
@@ -83,7 +102,8 @@
 							</div>
 						</div>
 
-						<!-- Only experience bullets marked data-resume-pdf enter the PDF. -->
+						<!-- The viewer reads the summary, skills, certifications, languages,
+						     experience, project highlights, and selected education below. -->
 						<div class="resume-body p-4 p-lg-5">
 							<div class="row">
 								<div class="col-main col-12 col-lg-8 pe-lg-4">
@@ -96,7 +116,14 @@
 
 									<hr>
 
-									<!-- This section supplies the selected engineering experience to the PDF. -->
+									<!--
+										Each article is one PDF job. Keep the title and company classes,
+										then list date followed by location as .resume-position-time.
+										If at least one bullet is marked data-resume-pdf, only marked
+										bullets are used; otherwise the first three are used. A nonempty
+										attribute supplies a shorter or combined version for the generated
+										resume; update it when its related website bullets change.
+									-->
 									<section id="experience" class="resume-experience-section resume-section">
 										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-briefcase me-2"></i>Engineering Experience</h3>
 										<div class="resume-timeline position-relative">
@@ -108,18 +135,19 @@
 														<div class="resume-position-time">Jul 2025 - May 2026</div>
 														<div class="resume-company-name">REDD Engineering &amp; Construction, Inc.</div>
 													</div>
+													<!-- wbr allows a line break after the slash without splitting either word. -->
 													<h4 class="resume-position-title mb-1">Mechanical Engineer/<wbr>Designer</h4>
 													<div class="resume-position-time">North Salt Lake, Utah</div>
 
 												</div>
 												<div class="resume-timeline-item-desc">
-													<!-- Mark only the bullets to include in the generated resume PDF with data-resume-pdf. -->
+													<!-- The featured project and narrative below remain web-only. -->
 													<ul class="resume-timeline-list">
-														<li data-resume-pdf>Assumed junior project engineering duties, tracking engineering project details, managing vendor coordination, compiling vendor bid tabulations, researching NFPA code compliance, and building technical comparison matrices for valve selection and fire suppression options.</li>
-														<li data-resume-pdf>Conducted preliminary research for a proposed industrial project, evaluating regional transport logistics, demographics, and economic feasibility.</li>
-														<li data-resume-pdf>Performed site walkdowns and engineering verification to reconcile CAD models with physical site conditions, authoring 35+ P&amp;IDs and rebuilding 3D scan point clouds into verified Plant 3D models.</li>
-														<li data-resume-pdf>Served as the primary CAD technical reference for a 20-person engineering team, advising designers on pipe routing, spatial constraints, and weld clearances.</li>
-														<li data-resume-pdf>Generated 130+ CAD drawing sheets across mechanical, structural, and architectural disciplines, authoring 100+ piping ISOs with Bills of Materials in AutoCAD Plant 3D.</li>
+														<li data-resume-pdf="Assumed junior project engineering duties, coordinating vendors, tracking details, and tabulating bids. Researched NFPA compliance and built comparison matrices for valve and fire suppression options.">Assumed junior project engineering duties, tracking engineering project details, managing vendor coordination, compiling vendor bid tabulations, researching NFPA code compliance, and building technical comparison matrices for valve selection and fire suppression options.</li>
+														<li data-resume-pdf="Researched transport logistics, demographics, and economic feasibility for a proposed industrial project.">Conducted preliminary research for a proposed industrial project, evaluating regional transport logistics, demographics, and economic feasibility.</li>
+														<li data-resume-pdf="Verified site conditions, rebuilt scan point clouds in Plant 3D, and authored 35+ P&amp;IDs and 130+ mechanical, structural, and architectural sheets, including 100+ piping ISOs with BOMs.">Performed site walkdowns and engineering verification to reconcile CAD models with physical site conditions, authoring 35+ P&amp;IDs and rebuilding 3D scan point clouds into verified Plant 3D models.</li>
+														<li data-resume-pdf="Advised a 20-person engineering team as primary CAD reference on pipe routing, spatial constraints, and weld clearances.">Served as the primary CAD technical reference for a 20-person engineering team, advising designers on pipe routing, spatial constraints, and weld clearances.</li>
+														<li>Generated 130+ CAD drawing sheets across mechanical, structural, and architectural disciplines, authoring 100+ piping ISOs with Bills of Materials in AutoCAD Plant 3D.</li>
 													</ul>
 													<div class="resume-featured-project">
 														<div class="resume-featured-project-label">Featured project</div>
@@ -145,10 +173,10 @@
 												</div>
 												<div class="resume-timeline-item-desc">
 													<ul class="resume-timeline-list">
-														<li data-resume-pdf>Standardized controller icons, notices, and port labels across product lines; designed custom control panel overlays and deployed 1,000+ physical machine labels using Adobe Illustrator.</li>
+														<li data-resume-pdf="Standardized controller graphics, designed panel overlays in Adobe Illustrator, and deployed 1,000+ machine labels.">Standardized controller icons, notices, and port labels across product lines; designed custom control panel overlays and deployed 1,000+ physical machine labels using Adobe Illustrator.</li>
 														<li>Developed advanced proficiency in Adobe Illustrator within three months and continued refining production-ready graphics for industrial equipment throughout the internship.</li>
-														<li data-resume-pdf>Optimized SolidWorks CAD libraries by repairing 50+ vendor fastener and hardware models, resolving geometry flaws and eliminating rebuild errors in large assemblies.</li>
-														<li data-resume-pdf>Supported engineering documentation and CAD standardization for automated welding systems serving industrial, aerospace, and nuclear applications.</li>
+														<li data-resume-pdf="Repaired 50+ SolidWorks hardware models to eliminate assembly rebuild errors. Supported CAD standards and documentation for industrial, aerospace, and nuclear welding systems.">Optimized SolidWorks CAD libraries by repairing 50+ vendor fastener and hardware models, resolving geometry flaws and eliminating rebuild errors in large assemblies.</li>
+														<li>Supported engineering documentation and CAD standardization for automated welding systems serving industrial, aerospace, and nuclear applications.</li>
 													</ul>
 													<p>My internship at AMET gave me an early opportunity to work at the intersection of engineering, visual design, and technical documentation. I learned to use Adobe Illustrator at a professional level very quickly, creating graphics and physical labeling for large automated welding systems while working within existing product standards. I also gained experience working with SolidWorks assemblies and troubleshooting vendor CAD models when geometry or rebuild issues caused problems. Although my role was primarily focused on documentation, CAD support, and visual communication, it taught me how much careful attention to detail matters when information will ultimately be used on real equipment.</p>
 												</div>
@@ -159,11 +187,13 @@
 								</div>
 								<div class="col-12 col-lg-4 ps-lg-4">
 
+									<!-- A data-resume-pdf value can shorten a skills item in the viewer;
+									     certifications are copied as written. -->
 									<section id="technical-skills" class="resume-skills-section resume-section">
 										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-gear me-2"></i>Technical Skills</h3>
 										<ul class="list-unstyled resume-timeline-list">
-											<li><strong>Mechanical Design:</strong> SolidWorks (part modeling, surface modeling, assemblies), AutoCAD &amp; Plant 3D, 3D scanning, point clouds, engineering drawings, BOMs</li>
-											<li><strong>Prototyping &amp; Manufacturing:</strong> 3D printing, injection molding, laser cutting, composite layups, reverse engineering, machining, fabrication</li>
+											<li data-resume-pdf="Mechanical Design: SolidWorks (parts, surfaces, assemblies), AutoCAD &amp; Plant 3D, 3D scanning, drawings, BOMs"><strong>Mechanical Design:</strong> SolidWorks (part modeling, surface modeling, assemblies), AutoCAD &amp; Plant 3D, 3D scanning, point clouds, engineering drawings, BOMs</li>
+											<li data-resume-pdf="Prototyping &amp; Manufacturing: 3D printing, injection molding, laser cutting, composites, reverse engineering, machining"><strong>Prototyping &amp; Manufacturing:</strong> 3D printing, injection molding, laser cutting, composite layups, reverse engineering, machining, fabrication</li>
 											<li><strong>Engineering Analysis:</strong> FEA, mechanical systems analysis, design validation, product testing</li>
 											<li><strong>Tools &amp; Programming:</strong> Python, MATLAB, Arduino (C++), Visual Basic, Microsoft Excel, Bluebeam, Adobe Illustrator, Photoshop</li>
 										</ul>
@@ -181,6 +211,8 @@
 									</section>
 									<hr>
 
+									<!-- The viewer currently includes only degrees containing
+									     "Mechanical Engineering"; other entries remain on the site. -->
 									<section id="education" class="resume-educate-section resume-section">
 										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-book me-2"></i>Education</h3>
 										<ul class="list-unstyled">
@@ -188,7 +220,7 @@
 												<div class="resume-degree">Bachelor's Degree (B.S.) in Mechanical Engineering</div>
 												<div class="resume-degree-org">Brigham Young University-Idaho</div>
 												<div class="resume-degree-time">Apr 2025</div>
-												<div class="resume-degree-highlight">Awarded “Best Calculations” for the capstone project designing hands-on statics lab demonstrations to support engineering instruction.</div>
+												<div class="resume-degree-highlight">Received the ASME “Best Calculations” award for hands-on statics lab demonstrations supporting engineering instruction.</div>
 											</li>
 											<li class="mb-2">
 												<div class="resume-degree">General Studies</div>
@@ -238,7 +270,11 @@
 								</div>
 							</div>
 							<hr>
-							<!-- Resume project highlights; the full case studies live on projects.html. -->
+							<!--
+								The viewer copies each project title, type, and bullet here.
+								These concise highlights are separate from the full case studies
+								in projects-data.js, so edit both when both need updating.
+							-->
 							<section id="projects" class="resume-section resume-projects-full">
 								<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-tools me-2"></i>Projects</h3>
 								<div class="resume-project-list">
@@ -248,8 +284,8 @@
 											<div class="resume-project-type">Team · Capstone project</div>
 										</div>
 										<ul class="resume-timeline-list">
-											<li>Designed and fabricated 3 statics demonstration units with integrated sensor measurement systems for department use in lab courses.</li>
-											<li>Applied LARD (Lean, Accurate, Reliable, and Direct) principles to technical report writing, reducing final report length by 50% while improving readability and clarity.</li>
+											<li>Co-designed and built three statics demonstrations with a team using CAD, FEA, and luggage scales. The triangle demo averaged about 1.5% force measurement error.</li>
+											<li>Applied Lean, Accurate, Reliable, and Direct (LARD) technical writing to cut the final report by nearly half.</li>
 										</ul>
 									</article>
 									<article class="resume-project-entry">
@@ -258,7 +294,7 @@
 											<div class="resume-project-type">Individual &amp; team</div>
 										</div>
 										<ul class="resume-timeline-list">
-											<li>Executed individual concept development (3D printing, rapid prototyping) and user surveys, collaborating in a team to produce selected mouse enclosures through manual injection molding and finishing.</li>
+											<li>Developed an ergonomic mouse using hand models, SolidWorks surfacing, 3D-printed fit prototypes, and user feedback. Collaborated on a selected enclosure using silicone molds, resin overmolding, and a modular 3D-printed chassis.</li>
 										</ul>
 									</article>
 									<article class="resume-project-entry">
@@ -267,8 +303,7 @@
 											<div class="resume-project-type">Individual</div>
 										</div>
 										<ul class="resume-timeline-list">
-											<li>Fabricated carbon fiber, fiberglass, and natural fiber composite samples utilizing vacuum bagging techniques.</li>
-											<li>Evaluated material performance through tensile testing and physical property analysis across iterative fabrication trials.</li>
+											<li>Vacuum-bagged carbon fiber, fiberglass, and natural fiber samples. Evaluated material properties through tensile testing.</li>
 										</ul>
 									</article>
 								</div>

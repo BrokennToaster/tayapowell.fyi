@@ -1,6 +1,7 @@
 /*
- * Add a project object at the TOP of this array (newest first).
- * `title` is required; all other fields are optional.
+ * Add a project object at the TOP of this array (newest first). Keep the comma
+ * between objects. `title` is required; all other fields are optional.
+ * The part of a title after ": " appears as a subtitle.
  *
  *   title, type, date, context   - short text
  *   problem, objective, impact   - short paragraphs
@@ -14,8 +15,34 @@
  *   tags                         - array of short labels
  *   gallery image                - { src, alt, caption, newRow }; `newRow` starts a desktop gallery row.
  *
- * Use repository-relative image paths, descriptive alt text, and captions that
- * explain relevant details. The renderer inserts text as text, not HTML.
+ * Example (add this inside the array and replace its placeholder details):
+ *
+ *   {
+ *     title: "Project name: Short subtitle",
+ *     type: "Personal project",
+ *     date: "2026",
+ *     objective: "What the project was intended to accomplish.",
+ *     sections: [{
+ *       label: "Design process",
+ *       items: ["A concise description of the work."],
+ *       images: [{
+ *         src: "assets/images/projects/example.jpg",
+ *         alt: "Description of the image",
+ *         caption: "What the image shows"
+ *       }]
+ *     }],
+ *     impact: "The result or lesson learned.",
+ *     tags: ["CAD", "Prototyping"]
+ *   },
+ *
+ * Use repository-relative paths and put image files in assets/images/projects/.
+ * Three or more section images automatically form a gallery; set stack: true
+ * to use the same presentation for one or two images. Layout options include
+ * feature, pair, pair-narrow, fit, large, focus, justified, and justified-wide;
+ * their sizing and breakpoints are defined in projects.css. Test the chosen
+ * layout with the actual photos on both desktop and mobile.
+ * Text is rendered as text, not HTML. After edits, update the ?v= value for
+ * projects-data.js in projects.html so returning browsers load the new data.
  */
 window.PROJECTS = [
 	{

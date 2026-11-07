@@ -1,6 +1,9 @@
 /*
  * Resume-specific styling layered over the bundled Shine theme.
- * The print and narrow-screen rules preserve the web and PDF reading layouts.
+ * Loaded after shine.css on both pages; projects.css adds project-only rules.
+ * Navigation and contact styles are followed by experience/project styling,
+ * print styles, and narrow-screen overrides. The generated viewer has its own
+ * styles in resume-viewer.js; this file does not control the generated PDF.
  */
 .resume-role-title {
 	color: #273b56;
@@ -71,6 +74,8 @@
 	outline-offset: 2px;
 }
 
+/* The menu collapses only after resume-nav.js adds is-enhanced. Without the
+ * script, the section links stay visible instead of becoming inaccessible. */
 @media (max-width: 575.98px) {
 	.resume-nav.is-enhanced {
 		display: block;
@@ -148,6 +153,7 @@
 	}
 }
 
+/* contact-reveal.js fills this container and toggles its hidden attribute. */
 .resume-contact-reveal {
 	align-items: center;
 	display: flex;
@@ -174,6 +180,7 @@
 	top: 1rem;
 }
 
+/* back-to-top.js toggles is-visible; the button remains out of view otherwise. */
 .back-to-top {
 	align-items: center;
 	background: #fe655c;
@@ -221,6 +228,7 @@
 	}
 }
 
+/* Experience headings and the featured project share styles across the page. */
 .resume-position-meta {
 	display: grid !important;
 	font-size: 0.8rem;
@@ -283,6 +291,7 @@
 	font-size: 0.95rem;
 }
 
+/* These are short resume highlights, not the full project portfolio cards. */
 .resume-project-list {
 	display: grid;
 	gap: 0;
@@ -381,7 +390,8 @@
 
 }
 
-/* The printable resume is a two-column, ink-friendly version of the web page. */
+/* Printing the main webpage uses these ink-friendly rules. The separately
+ * generated viewer and downloadable PDF have their own layout definitions. */
 @media print {
 	@page {
 		margin: 12mm;
@@ -509,6 +519,8 @@
 /*
  * Narrow-screen guardrails. Keep ordinary word wrapping and reduce spacing
  * before type size so text stays readable without introducing side scrolling.
+ * The extra-small breakpoints progressively reduce spacing and type size;
+ * they should not split ordinary words or hide overflowing content.
  */
 @media (max-width: 575.98px) {
 	.resume-name {

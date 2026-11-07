@@ -2,6 +2,8 @@
  * Project portfolio styles layered over the shared Shine theme.
  * The desktop gallery sizing is intentional; keep layout changes mobile-only
  * unless the approved 720px-tall desktop presentation is being matched.
+ * projects.js assigns layout classes from projects-data.js. Shared resume and
+ * theme styles load first, so these project rules can override them.
  */
 :root {
 	--vh-base: max(100vh, 720px);
@@ -227,7 +229,8 @@ html {
 	margin-top: 0.2rem;
 }
 
-/* Flexible photo rows use each image's aspect ratio to fill available width. */
+/* The renderer sets --r to each image's width/height ratio. --img-h sets the
+ * target row height; gallery variants below adjust it for specific layouts. */
 .project-gallery {
 	--img-h: clamp(200px, calc(var(--vh-base) * 0.36), 320px);
 	align-items: flex-start;
@@ -253,6 +256,8 @@ html {
 	width: calc(var(--r) * var(--img-h));
 }
 
+/* Limit image height to the viewport minus 3rem, leaving room around it.
+ * The matching width limit uses --r to keep portrait images proportional. */
 .project-figure img {
 	aspect-ratio: var(--r);
 	border-radius: 0.6rem;
@@ -260,10 +265,12 @@ html {
 	cursor: zoom-in;
 	display: block;
 	height: auto;
+	margin-inline: auto;
+	max-height: max(1px, calc(100vh - 3rem));
 	object-fit: cover;
 	opacity: 0;
 	transition: opacity 0.5s ease, transform 0.25s ease, box-shadow 0.25s ease;
-	width: 100%;
+	width: min(100%, calc(var(--r) * max(1px, calc(100vh - 3rem))));
 }
 
 .project-figure img.is-loaded {
@@ -283,7 +290,8 @@ html {
 	margin-top: 0.4rem;
 }
 
-/* Report-style project sections */
+/* Report-style steps: short image groups sit beside text on larger screens;
+ * is-gallery groups place the text above their images. */
 .project-flow {
 	border-top: 0;
 }
@@ -386,7 +394,8 @@ html {
 	justify-content: center;
 }
 
-/* Gallery variants used by the project data: feature, pair, fit, and more. */
+/* Gallery variants correspond to layout strings in projects-data.js. A section
+ * must also be a gallery (three or more images, or stack: true) to use them. */
 .project-step.is-gallery .project-figure {
 	flex: var(--r) 1 calc(var(--r) * var(--img-h));
 	max-width: calc(var(--r) * var(--img-h) * 1.5);
@@ -479,7 +488,10 @@ html {
 	}
 }
 
-/* Desktop sizing is based on the 720px minimum visual reference. */
+/* Desktop sizing is based on the 720px minimum visual reference. Keep these
+ * values stable when adjusting mobile layout so the approved gallery remains
+ * unchanged. pair and feature are defined above; fit, large, focus, and
+ * justified variants below adjust width, alignment, or target image size. */
 @media (min-width: 768px) {
 	.project-step.is-gallery .project-step-gallery {
 		--img-h: clamp(130px, calc(var(--vh-base) * 0.17), 175px);
@@ -636,7 +648,8 @@ html {
 	to { opacity: 1; transform: none; }
 }
 
-/* Shared page layout and breakpoints */
+/* Desktop retains sticky text for small image groups, but full-width gallery
+ * text stays static. Below 992px, steps stack instead of using two columns. */
 .top-bar .top-bar-inner {
 	display: flex;
 	justify-content: flex-start;
@@ -839,7 +852,8 @@ html {
 	}
 }
 
-/* Preserve readable one-column project cards on exceptionally narrow screens. */
+/* These narrow-only rules reduce spacing and font sizes rather than breaking
+ * words or clipping text. Recheck both the card and its contents after edits. */
 @media (max-width: 280px) {
 	.project-card .project-title {
 		font-size: clamp(0.65rem, 6vw, 1.45rem);

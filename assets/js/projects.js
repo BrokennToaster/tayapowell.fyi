@@ -1,6 +1,8 @@
 ﻿/*
  * Render project-index links and case-study cards from window.PROJECTS.
- * Text values are inserted as text nodes so project copy is never interpreted as markup.
+ * projects.html loads projects-data.js first and provides #project-list and
+ * #project-index. Text values become text nodes rather than HTML; change the
+ * content in projects-data.js and the presentation in projects.css.
  */
 (function () {
 	var root = document.getElementById("project-list");
@@ -60,6 +62,8 @@
 		document.body.appendChild(overlay);
 	}
 
+	// Each image produces a figure and optional caption. newRow inserts a
+	// flex break for grouped desktop rows; CSS controls the mobile layout.
 	function gallery(images, extraClass) {
 		var wrap = el("div", "project-gallery" + (extraClass ? " " + extraClass : ""));
 		images.forEach(function (image) {
@@ -72,7 +76,8 @@
 			img.src = image.src;
 			img.alt = image.alt || "";
 			img.loading = "eager";
-			// Figure width follows the source aspect ratio; CSS supplies each gallery's row height.
+			// Once the image has loaded, CSS uses --r (width / height) with
+			// --img-h to size the figure. Portraits get an extra layout class.
 			function size() {
 				var ratio = img.naturalWidth / img.naturalHeight;
 				if (ratio) {
@@ -104,6 +109,8 @@
 		return block;
 	}
 
+	// A card's generated ID and its jump link both use its array position.
+	// Reordering projects therefore changes their #project-N anchors.
 	function render(project, index) {
 		var parts = splitTitle(project.title);
 		var card = el("article", "project-card");
@@ -143,6 +150,8 @@
 
 		if (project.hero && project.hero.length) body.appendChild(gallery(project.hero, "project-hero"));
 
+		// Required functions and details become steps around the authored
+		// sections, keeping the numbered process in display order.
 		var steps = [];
 		if (project.functions && project.functions.length) steps.push({ label: "Required functions", items: project.functions });
 		(project.sections || []).forEach(function (section) {
@@ -154,6 +163,8 @@
 			var flow = el("div", "project-flow");
 			steps.forEach(function (section, i) {
 				var hasImages = section.images && section.images.length;
+				// Larger groups, or sections explicitly marked stack, put text
+				// above a gallery instead of beside a small image group.
 				var isGallery = hasImages && (section.images.length >= 3 || section.stack);
 				var row = el("section", "project-step" + (hasImages ? " has-images" : "") + (isGallery ? " is-gallery" : ""));
 				var text = el("div", "project-step-text");
@@ -215,7 +226,8 @@
 		root.appendChild(render(project, index));
 	});
 
-	// Fade cards in as they scroll into view
+	// Only enable the fade when the browser supports observation. Without it,
+	// cards stay visible; reduced-motion CSS also keeps them visible.
 	if ("IntersectionObserver" in window) {
 		var io = new IntersectionObserver(function (entries) {
 			entries.forEach(function (e) {
