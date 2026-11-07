@@ -1,6 +1,6 @@
 /*
- * Add a new project by pasting an object at the TOP of this array (newest first).
- * Only `title` is required; any field you leave out is simply not shown.
+ * Add a project object at the TOP of this array (newest first).
+ * `title` is required; all other fields are optional.
  *
  *   title, type, date, context   - short text
  *   problem, objective, impact   - short paragraphs
@@ -8,11 +8,14 @@
  *   stats                        - [{ value, label }] headline metrics row
  *   sections                     - [{ label, text, items: [bullets], images: [...] }] report-style groups;
  *                                  put images in the section they illustrate
- *   hero                         - images shown right after the intro (overview / finished product)
+ *                                  Optional `stack` promotes a short image group to a gallery;
+ *                                  `layout` selects a gallery layout defined in projects.css.
+ *   hero, images                 - image arrays; hero follows the intro, images is the closing gallery
  *   tags                         - array of short labels
- *   images                       - optional gallery at the end; prefer section images
- *                                  [{ src: "assets/images/projects/x.jpg", alt: "...", caption: "...", wide: true }]
- *                                  (wide is optional; it makes a panoramic image span the full width)
+ *   gallery image                - { src, alt, caption, newRow }; `newRow` starts a desktop gallery row.
+ *
+ * Use repository-relative image paths, descriptive alt text, and captions that
+ * explain relevant details. The renderer inserts text as text, not HTML.
  */
 window.PROJECTS = [
 	{

@@ -1,3 +1,7 @@
+/*
+ * Build the printable HTML view and one-page PDF from the current resume page.
+ * On the main site, coordinate the viewer tab so its Back action can close it.
+ */
 (() => {
 	const channelName = "taya-resume-viewer";
 	if (!new URLSearchParams(window.location.search).has("resume-viewer")) {
@@ -24,6 +28,7 @@
 		return;
 	}
 
+	// Letter-page geometry is measured in PDF points.
 	const pageWidth = 612;
 	const pageHeight = 792;
 	const margin = 34;
@@ -34,6 +39,7 @@
 	let lastFingerprint = "";
 	let lastPdfBlob = null;
 
+	// Keep the printable document in sync with the source resume markup.
 	function readPageContent(root = document) {
 		const text = (selector) => root.querySelector(selector)?.innerText.trim() || "";
 		const list = (selector) => Array.from(root.querySelectorAll(selector), (item) => item.innerText.trim());
@@ -65,8 +71,8 @@
 			.map((item) => ({
 				degree: item.querySelector(".resume-degree")?.innerText.trim() || "",
 				organization: item.querySelector(".resume-degree-org")?.innerText.trim() || "",
-					date: item.querySelector(".resume-degree-time")?.innerText.trim() || "",
-					recognition: item.querySelector(".resume-degree-highlight")?.innerText.trim() || ""
+				date: item.querySelector(".resume-degree-time")?.innerText.trim() || "",
+				recognition: item.querySelector(".resume-degree-highlight")?.innerText.trim() || ""
 			}))
 			.filter((item) => item.degree.includes("Mechanical Engineering"));
 
@@ -100,6 +106,7 @@
 		});
 	}
 
+	// Always read current source content before comparing it with the cached PDF.
 	async function readLatestPageContent() {
 		try {
 			const sourceUrl = new URL(window.location.href);
@@ -129,6 +136,7 @@
 		return `${content.role} | Product Development | Design & Prototyping`.toUpperCase();
 	}
 
+	// Build a PDF drawing plan first, then shrink uniformly if it exceeds one page.
 	function createLayout(pdf, content, scale) {
 		const operations = [];
 		let y = 28;
@@ -306,6 +314,7 @@
 		return { operations, endY: y };
 	}
 
+	// Render the measured operations using jsPDF's text, link, and line primitives.
 	function drawLayout(pdf, operations) {
 		operations.forEach((operation) => {
 			if (operation.type === "rule") {
@@ -398,6 +407,7 @@
 		return pdf.output("blob");
 	}
 
+	// Cache identity includes both normalized resume content and the PDF template version.
 	async function getContentFingerprint(content) {
 		const source = JSON.stringify({ version: pdfTemplateVersion, content });
 		if (window.crypto?.subtle && window.TextEncoder) {
@@ -431,6 +441,7 @@
 		return new Blob([bytes], { type: "application/pdf" });
 	}
 
+	// Reuse a PDF only when both the resume content and generator version still match.
 	async function getCachedPdf(content) {
 		const fingerprint = await getContentFingerprint(content);
 		if (fingerprint === lastFingerprint && lastPdfBlob) {
@@ -478,6 +489,7 @@
 </body>
 </html>`;
 
+	// Styles for the standalone HTML viewer; the print rules mirror the PDF page.
 	const resumeViewCss = `
 	* { box-sizing: border-box; }
 	html, body { margin: 0; padding: 0; }
@@ -516,6 +528,27 @@
 		.resume-sheet { margin: 0; padding: 18px 14px; box-shadow: none; }
 		.resume-header h1 { font-size: 22px; letter-spacing: 0.14em; }
 		.entry-head { flex-wrap: wrap; gap: 2px 16px; }
+		.entry-title { min-width: 0; overflow-wrap: normal; word-break: normal; }
+		.entry-date, .entry-type { max-width: 100%; overflow-wrap: normal; word-break: normal; white-space: normal; }
+	}
+	@media (max-width: 360px) {
+		.entry-head { display: block; }
+		.entry-date, .entry-type { display: block; margin-top: 2px; }
+	}
+	@media (max-width: 180px) {
+		.viewer-bar { padding: 6px; gap: 4px; }
+		.viewer-bar .brand { font-size: 8px; letter-spacing: 0; }
+		.viewer-actions { gap: 4px; }
+		.vb-btn { padding: 6px; font-size: 9px; }
+		.resume-sheet { padding: 8px; }
+		.resume-header h1 { font-size: 14px; letter-spacing: 0; }
+		.contact-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 4px; font-size: 9px; }
+		.role-line { font-size: 9px; letter-spacing: 0; }
+		.resume-section h2 { font-size: 10px; letter-spacing: 0; }
+		.summary, .plain-list li, .bullet-list li, .edu-line,
+		.entry-title, .entry-date, .entry-type, .entry-location {
+			font-size: 9px;
+		}
 	}
 	@media print {
 		@page { size: letter; margin: 0.4in; }
@@ -536,18 +569,20 @@
 		.entry, .resume-header { break-inside: avoid; page-break-inside: avoid; }
 	}`;
 
+	// Escape all resume text before inserting it into the generated document.
 	function buildResumeHtml(content, pdfDataUrl, siteUrl) {
 		const esc = escapeHtml;
+		const breakAtPunctuation = (value) => esc(value).replace(/([.@])/g, "$1<wbr>");
 		const contactParts = [content.location, content.phone, content.email]
 			.filter(Boolean)
-			.map(esc);
+			.map((part) => `<span>${breakAtPunctuation(part)}</span>`);
 		if (content.linkedIn) {
-			contactParts.push(`<a href="${esc(content.linkedIn)}" target="_blank" rel="noopener">LinkedIn</a>`);
+			contactParts.push(`<span><a href="${esc(content.linkedIn)}" target="_blank" rel="noopener">LinkedIn</a></span>`);
 		}
 		if (content.website) {
-			contactParts.push(esc(content.website));
+			contactParts.push(`<span>${breakAtPunctuation(content.website)}</span>`);
 		}
-		const contactLine = contactParts.join(" | ");
+		const contactLine = contactParts.join('<span aria-hidden="true">|</span>');
 		const downloadName = `${(content.name || "Resume").trim().replace(/\s+/g, "_")}_Resume.pdf`;
 		const section = (title, body) => (body ? `<section class="resume-section"><h2>${esc(title)}</h2>${body}</section>` : "");
 		const listItems = (items) => items.map((item) => `<li>${esc(item)}</li>`).join("");

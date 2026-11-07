@@ -1,7 +1,16 @@
-﻿(function () {
+﻿/*
+ * Render project-index links and case-study cards from window.PROJECTS.
+ * Text values are inserted as text nodes so project copy is never interpreted as markup.
+ */
+(function () {
 	var root = document.getElementById("project-list");
-	if (!root || !Array.isArray(window.PROJECTS)) return;
+	if (!root) return;
+	if (!Array.isArray(window.PROJECTS)) {
+		console.error("Project portfolio data could not be loaded.");
+		return;
+	}
 
+	// Create nodes with textContent so project copy cannot inject markup.
 	function el(tag, className, text) {
 		var node = document.createElement(tag);
 		if (className) node.className = className;
@@ -9,7 +18,9 @@
 		return node;
 	}
 
-	function pad(n) { return n < 10 ? "0" + n : String(n); }
+	function pad(n) {
+		return n < 10 ? "0" + n : String(n);
+	}
 
 	// "Main title: Subtitle" renders as a headline plus a quieter subtitle
 	function splitTitle(title) {
@@ -19,10 +30,13 @@
 
 	function bullets(items) {
 		var ul = el("ul", "project-list-items");
-		items.forEach(function (item) { ul.appendChild(el("li", null, item)); });
+		items.forEach(function (item) {
+			ul.appendChild(el("li", null, item));
+		});
 		return ul;
 	}
 
+	// Click-to-zoom uses the source image and closes on an overlay click or Escape.
 	function openLightbox(img, caption) {
 		var overlay = el("div", "project-lightbox");
 		overlay.setAttribute("role", "dialog");
@@ -37,7 +51,9 @@
 			document.removeEventListener("keydown", onKey);
 			document.body.classList.remove("project-lightbox-open");
 		}
-		function onKey(e) { if (e.key === "Escape") close(); }
+		function onKey(e) {
+			if (e.key === "Escape") close();
+		}
 		overlay.addEventListener("click", close);
 		document.addEventListener("keydown", onKey);
 		document.body.classList.add("project-lightbox-open");
@@ -47,20 +63,32 @@
 	function gallery(images, extraClass) {
 		var wrap = el("div", "project-gallery" + (extraClass ? " " + extraClass : ""));
 		images.forEach(function (image) {
-			if (image.newRow) { wrap.classList.add("is-grouped"); wrap.appendChild(el("div", "gallery-break")); }
+			if (image.newRow) {
+				wrap.classList.add("is-grouped");
+				wrap.appendChild(el("div", "gallery-break"));
+			}
 			var figure = el("figure", "project-figure");
 			var img = el("img");
 			img.src = image.src;
 			img.alt = image.alt || "";
 			img.loading = "eager";
-			// Each figure's width follows its aspect ratio; the row height comes from --img-h in CSS
+			// Figure width follows the source aspect ratio; CSS supplies each gallery's row height.
 			function size() {
 				var ratio = img.naturalWidth / img.naturalHeight;
-				if (ratio) figure.style.setProperty("--r", ratio.toFixed(4));
-				if (ratio && ratio < 1) figure.classList.add("is-portrait");
+				if (ratio) {
+					figure.style.setProperty("--r", ratio.toFixed(4));
+					if (ratio < 1) figure.classList.add("is-portrait");
+				}
 			}
-			function done() { size(); img.classList.add("is-loaded"); }
-			if (img.complete && img.naturalWidth) done(); else img.addEventListener("load", done);
+			function done() {
+				size();
+				img.classList.add("is-loaded");
+			}
+			if (img.complete && img.naturalWidth) {
+				done();
+			} else {
+				img.addEventListener("load", done);
+			}
 			img.addEventListener("click", function () { openLightbox(img, image.caption); });
 			figure.appendChild(img);
 			if (image.caption) figure.appendChild(el("figcaption", null, image.caption));
@@ -85,7 +113,9 @@
 		head.appendChild(el("div", "project-number", pad(index + 1)));
 		var headText = el("div", "project-head-text");
 		var meta = el("div", "project-meta");
-		[project.type, project.date].filter(Boolean).forEach(function (m) { meta.appendChild(el("span", "project-pill", m)); });
+		[project.type, project.date].filter(Boolean).forEach(function (value) {
+			meta.appendChild(el("span", "project-pill", value));
+		});
 		if (meta.childNodes.length) headText.appendChild(meta);
 		headText.appendChild(el("h4", "project-title", parts.main));
 		if (parts.sub) headText.appendChild(el("div", "project-subtitle", parts.sub));
@@ -115,7 +145,9 @@
 
 		var steps = [];
 		if (project.functions && project.functions.length) steps.push({ label: "Required functions", items: project.functions });
-		(project.sections || []).forEach(function (s) { steps.push(s); });
+		(project.sections || []).forEach(function (section) {
+			steps.push(section);
+		});
 		if (project.details && project.details.length) steps.push({ label: "Details", items: project.details });
 
 		if (steps.length) {
@@ -132,7 +164,12 @@
 				if (section.text) text.appendChild(el("p", "project-section-text", section.text));
 				if (section.items && section.items.length) text.appendChild(bullets(section.items));
 				row.appendChild(text);
-				if (hasImages) row.appendChild(gallery(section.images, "project-step-gallery" + (section.layout ? " layout-" + section.layout : "")));
+				if (hasImages) {
+					row.appendChild(gallery(
+						section.images,
+						"project-step-gallery" + (section.layout ? " layout-" + section.layout : "")
+					));
+				}
 				flow.appendChild(row);
 			});
 			body.appendChild(flow);
@@ -149,7 +186,9 @@
 
 		if (project.tags && project.tags.length) {
 			var tags = el("div", "project-tags");
-			project.tags.forEach(function (tag) { tags.appendChild(el("span", "project-tag", tag)); });
+			project.tags.forEach(function (tag) {
+				tags.appendChild(el("span", "project-tag", tag));
+			});
 			body.appendChild(tags);
 		}
 
@@ -172,13 +211,18 @@
 		});
 	}
 
-	window.PROJECTS.forEach(function (project, index) { root.appendChild(render(project, index)); });
+	window.PROJECTS.forEach(function (project, index) {
+		root.appendChild(render(project, index));
+	});
 
 	// Fade cards in as they scroll into view
 	if ("IntersectionObserver" in window) {
 		var io = new IntersectionObserver(function (entries) {
 			entries.forEach(function (e) {
-				if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+				if (e.isIntersecting) {
+					e.target.classList.add("is-visible");
+					io.unobserve(e.target);
+				}
 			});
 		}, { rootMargin: "0px 0px -8% 0px" });
 		root.querySelectorAll(".project-card").forEach(function (c) { c.classList.add("will-reveal"); io.observe(c); });

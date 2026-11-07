@@ -1,3 +1,4 @@
+/* Show the page's back-to-top control after the reader scrolls past one viewport. */
 (() => {
 	const button = document.getElementById("back-to-top");
 

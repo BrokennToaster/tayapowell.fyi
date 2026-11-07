@@ -1,3 +1,7 @@
+/*
+ * Resume-specific styling layered over the bundled Shine theme.
+ * The print and narrow-screen rules preserve the web and PDF reading layouts.
+ */
 .resume-role-title {
 	color: #273b56;
 	font-size: 1.5rem;
@@ -156,7 +160,8 @@
 .resume-contact-reveal a {
 	color: #405677;
 	font-weight: 600;
-	overflow-wrap: anywhere;
+	overflow-wrap: normal;
+	word-break: normal;
 }
 
 .resume-print-button {
@@ -336,7 +341,8 @@
 		font-size: 1rem;
 		letter-spacing: 0.08rem;
 		min-width: 0;
-		overflow-wrap: anywhere;
+		overflow-wrap: normal;
+		word-break: normal;
 	}
 
 	.resume-section-heading-icon {
@@ -375,6 +381,7 @@
 
 }
 
+/* The printable resume is a two-column, ink-friendly version of the web page. */
 @media print {
 	@page {
 		margin: 12mm;
@@ -497,4 +504,243 @@
 		color: inherit !important;
 		text-decoration: none !important;
 	}
+}
+
+/*
+ * Narrow-screen guardrails. Keep ordinary word wrapping and reduce spacing
+ * before type size so text stays readable without introducing side scrolling.
+ */
+@media (max-width: 575.98px) {
+	.resume-name {
+		max-width: 100%;
+		overflow-wrap: normal;
+		word-break: normal;
+		white-space: normal;
+	}
+
+	.resume-timeline {
+		padding-left: 1.75rem;
+	}
+
+	.resume-position-title,
+	.resume-company-name {
+		max-width: 100%;
+		overflow-wrap: normal;
+		word-break: normal;
+		white-space: normal;
+	}
+
+	.resume-featured-project p {
+		overflow-wrap: normal;
+		word-break: normal;
+	}
+
+	.resume-project-heading,
+	.resume-project-heading > * {
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.resume-project-type {
+		overflow-wrap: normal;
+		word-break: normal;
+		white-space: normal;
+	}
+
+	.resume-project-heading,
+	.resume-featured-project,
+	.resume-story,
+	.resume-timeline-item-desc {
+		overflow-wrap: normal;
+		word-break: normal;
+	}
+
+	.top-bar-inner > * {
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+@media (max-width: 280px) {
+	.main-content-wrapper,
+	.main-content-wrapper > .container-fluid {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+
+	.resume-header,
+	.resume-body {
+		padding-left: 0.5rem !important;
+		padding-right: 0.5rem !important;
+	}
+
+	.resume-timeline {
+		padding-left: 0.5rem;
+	}
+
+	.resume-name {
+		font-size: 1.1rem;
+		letter-spacing: 0.02em;
+	}
+
+	.resume-role-title {
+		font-size: 1rem;
+		letter-spacing: 0;
+	}
+
+	.resume-section-heading {
+		font-size: 0.875rem;
+		letter-spacing: 0;
+	}
+
+	.resume-company-name {
+		font-size: 0.75rem;
+	}
+
+	.resume-position-title {
+		font-size: 0.95rem;
+	}
+
+	.resume-timeline-item-desc,
+	.resume-timeline-list li,
+	.resume-summary-desc,
+	.resume-featured-project p,
+	.resume-story,
+	#additional-experience li {
+		font-size: 0.8rem;
+	}
+}
+
+@media (max-width: 220px) {
+	.resume-body {
+		padding-left: 0.25rem !important;
+		padding-right: 0.25rem !important;
+	}
+
+	.resume-timeline {
+		padding-left: 0.25rem;
+	}
+
+	.resume-section-heading {
+		display: block;
+		font-size: 0.75rem;
+		letter-spacing: 0;
+	}
+
+	.resume-section-heading-icon {
+		display: inline-flex;
+		vertical-align: middle;
+	}
+
+	.resume-timeline-list {
+		padding-left: 0.5rem;
+	}
+
+	.resume-summary-desc,
+	.resume-featured-project p,
+	.resume-timeline-list li,
+	#additional-experience li {
+		font-size: 0.75rem;
+	}
+
+}
+
+@media (max-width: 200px) {
+	.resume-contact-reveal {
+		font-size: clamp(0.5rem, 5vw, 0.75rem);
+	}
+
+	.resume-profile-pic {
+		height: 4rem;
+		margin: 0 auto 0.75rem;
+		max-width: 4rem;
+		position: static;
+		width: 4rem;
+	}
+
+	.resume-body .row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.resume-body .row > [class*="col-"] {
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+	}
+
+	.resume-timeline-list {
+		padding-left: 0.25rem;
+	}
+
+	.resume-timeline-list li,
+	.resume-summary-desc,
+	.resume-featured-project p,
+	.resume-story,
+	#additional-experience li {
+		font-size: 0.65rem;
+	}
+
+	#additional-experience ul {
+		padding-left: 0.75rem;
+	}
+
+}
+
+@media (max-width: 160px) {
+	.top-bar .top-bar-cta {
+		font-size: 0.65rem;
+		padding: 0.35rem 0.5rem;
+	}
+
+	.resume-name {
+		font-size: 0.85rem;
+		letter-spacing: 0;
+		white-space: normal;
+	}
+
+	.resume-role-title {
+		font-size: 0.75rem;
+		letter-spacing: 0;
+	}
+
+	.resume-specialties {
+		font-size: 0.55rem;
+	}
+
+	.resume-contact-list .list-inline-item {
+		display: block;
+	}
+
+	.resume-section-heading {
+		font-size: 0.65rem;
+	}
+
+	.resume-timeline-item-desc {
+		font-size: 0.55rem;
+	}
+
+	.resume-position-title,
+	.resume-timeline-list li,
+	.resume-summary-desc,
+	.resume-degree-highlight,
+	.resume-story,
+	#additional-experience li {
+		font-size: 0.55rem;
+	}
+
+	.resume-featured-project-title {
+		font-size: 0.55rem;
+	}
+
+	.resume-featured-project p {
+		font-size: 0.45rem;
+	}
+
+	.resume-projects-full .mt-3 .btn {
+		max-width: 100%;
+		padding: 0.25rem;
+		font-size: 0.55rem;
+		white-space: normal;
+	}
+
 }

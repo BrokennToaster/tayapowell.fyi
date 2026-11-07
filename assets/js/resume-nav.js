@@ -1,3 +1,7 @@
+/*
+ * Enhance the resume section links with a dismissible mobile menu.
+ * Without JavaScript, the links remain visible and usable.
+ */
 (() => {
 	const nav = document.querySelector(".resume-nav");
 	const toggle = document.getElementById("resume-nav-toggle");

@@ -1,3 +1,7 @@
+/*
+ * Expose contact details on request and while printing. The resume viewer
+ * reads the same decoded values when it builds the downloadable document.
+ */
 (() => {
 	// Contact values are stored as scrambled fragments (split + reversed)
 	// and reassembled only at runtime, so raw-source regex finds no
