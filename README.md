@@ -98,11 +98,14 @@ Regeneration alone is not a substitute for this review.
   paths in the data.
 - The project page's **View / Download Portfolio** link opens
   `portfolio-viewer.html`, which generates a letter-size page for every project
-  in the same order as `window.PROJECTS`. The preview, download, and PDF print
-  view use the same PDF. The layout and viewer behavior are in
+  in the same order as `window.PROJECTS`. The desktop preview, download, and
+  PDF print view use the same PDF. The layout and viewer behavior are in
   `assets/js/portfolio-pdf.js`; it uses bundled jsPDF and the selected site
   images. PDF preview support varies by browser, so the viewer also provides
-  direct open and download links. Back to Projects closes a script-opened
+  direct open and download links. Below 850px, a readable HTML preview reflows
+  the same curated project text and images rather than relying on the embedded
+  PDF viewer. Update `renderMobilePreview` in `portfolio-pdf.js` alongside
+  changes to PDF content. Back to Projects closes a script-opened
   viewer when its original projects tab is accessible; otherwise it navigates
   to the projects page.
 - Give every project a `portfolioPdf` object with a short `title`, a concise
@@ -187,7 +190,8 @@ There is no automated test runner. Before publishing, verify:
    page and contain the intended marked experience bullets.
 6. Reduced-motion preferences disable nonessential animations.
 7. The portfolio PDF downloads with one consistently formatted page per
-   project, correctly captioned images, and working project links.
+   project, correctly captioned images, and working project links. Check the
+   reflowed preview on a phone for complete text, images, captions, and links.
 8. On both pages at 768px and wider, scroll past the original navigation and
    top bar. Check the Sections menu, sticky actions, keyboard focus and Escape,
    and the contact reveal before and after returning to the top. Confirm the

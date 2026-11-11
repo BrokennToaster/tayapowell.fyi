@@ -15,8 +15,9 @@
 	const downloadLink = document.getElementById("portfolio-download");
 	const openPdf = document.getElementById("portfolio-open-pdf");
 	const preview = document.getElementById("portfolio-preview");
+	const mobilePreview = document.getElementById("portfolio-mobile-preview");
 	const back = document.getElementById("portfolio-back");
-	if (!status || !downloadLink || !openPdf || !preview || !back) return;
+	if (!status || !downloadLink || !openPdf || !preview || !mobilePreview || !back) return;
 
 	const pageWidth = 612;
 	const margin = 40;
@@ -188,6 +189,55 @@
 		pdf.text(`${index + 1} / ${total}`, pageWidth - margin, 752, { align: "right" });
 	}
 
+	// Like the resume viewer, narrow screens use readable, reflowing HTML.
+	// Use the same curated text, image order, and destinations as the PDF.
+	function renderMobilePreview(projects, contents) {
+		const contact = window.getResumeContactDetails();
+		const fragment = document.createDocumentFragment();
+		function add(parent, tag, className, text) {
+			const node = document.createElement(tag);
+			if (className) node.className = className;
+			if (text) node.textContent = text;
+			parent.appendChild(node);
+			return node;
+		}
+		projects.forEach((project, index) => {
+			const content = contents[index];
+			const article = add(fragment, "article", "portfolio-sheet");
+			const header = add(article, "header", "portfolio-sheet-header");
+			add(header, "h2", "portfolio-name", "Taya Powell");
+			const contacts = add(header, "div", "portfolio-contacts");
+			[
+				["Email", contact.email, `mailto:${contact.email}`],
+				["Phone", contact.phone, `tel:${contact.phone}`],
+				["LinkedIn", "linkedin.com/in/tayarpowell2828", "https://www.linkedin.com/in/tayarpowell2828/"],
+				["Website", "tayapowell.fyi", "https://tayapowell.fyi/"]
+			].forEach(([label, text, href]) => {
+				const row = add(contacts, "div", "portfolio-contact");
+				add(row, "strong", "", `${label}: `);
+				add(row, "a", "", text).href = href;
+			});
+			add(article, "h3", "portfolio-title", content.title);
+			add(article, "p", "portfolio-meta", [project.type, project.date].filter(Boolean).join(" | ").replace(/\s*·\s*/g, " | "));
+			add(article, "p", "", `Project objective: ${content.summary}`);
+			const approach = content.highlights.slice(0, -1).join(" ");
+			if (approach) add(article, "p", "", `Approach: ${approach}`);
+			const gallery = add(article, "div", "portfolio-images");
+			content.images.forEach((image) => {
+				const figure = add(gallery, "figure");
+				const picture = add(figure, "img");
+				picture.src = image.src;
+				picture.alt = image.caption;
+				add(figure, "figcaption", "", image.caption);
+			});
+			add(article, "p", "", `Project impact: ${content.highlights[content.highlights.length - 1]}`);
+			const footer = add(article, "footer", "portfolio-sheet-footer");
+			add(footer, "a", "", "View the full project portfolio").href = `projects.html#project-${index + 1}`;
+			add(footer, "span", "", `${index + 1} / ${projects.length}`);
+		});
+		mobilePreview.replaceChildren(fragment);
+	}
+
 	async function renderPortfolio() {
 		try {
 			if (!window.jspdf || !window.jspdf.jsPDF) throw new Error("The PDF library could not be loaded.");
@@ -204,14 +254,23 @@
 				if (index) pdf.addPage();
 				drawPage(pdf, project, content[index], images[index], index, projects.length);
 			});
+			renderMobilePreview(projects, content);
 			const downloadUrl = URL.createObjectURL(pdf.output("blob"));
 			downloadLink.href = downloadUrl;
 			downloadLink.hidden = false;
 			openPdf.href = downloadUrl;
 			openPdf.hidden = false;
-			preview.src = downloadUrl;
-			preview.hidden = false;
+			mobilePreview.hidden = false;
+			const mobileLayout = matchMedia("(max-width: 849.98px)");
+			function updatePreview() {
+				preview.hidden = mobileLayout.matches;
+				if (!mobileLayout.matches) preview.src = downloadUrl;
+				else preview.removeAttribute("src");
+			}
+			mobileLayout.addEventListener("change", updatePreview);
+			updatePreview();
 			status.textContent = "If the preview is unavailable in your browser, use Open PDF / Print or Download PDF.";
+			status.classList.add("portfolio-preview-help");
 		} catch (error) {
 			console.error("Portfolio PDF could not be generated:", error);
 			status.textContent = `The portfolio PDF could not be generated. ${error.message}`;
