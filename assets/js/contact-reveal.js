@@ -57,6 +57,8 @@
 		revealButtons.forEach((button) => {
 			button.setAttribute("aria-expanded", String(expanded));
 		});
+		// Desktop navigation mirrors the actual links and reveal state after this update.
+		document.dispatchEvent(new CustomEvent("resume-contact-change", { detail: { expanded } }));
 	}
 
 	revealButtons.forEach((button) => {

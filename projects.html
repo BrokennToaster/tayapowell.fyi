@@ -25,14 +25,17 @@
 		     execute in order; bump an edited file's ?v= to refresh browser caches. -->
 		<script defer src="assets/fontawesome/js/all.js"></script>
 		<script defer src="assets/js/back-to-top.js?v=20261005"></script>
-		<script defer src="assets/js/projects-data.js?v=20261106-1"></script>
+		<script defer src="assets/js/projects-data.js?v=20261111-14"></script>
 		<script defer src="assets/js/projects.js?v=20261106-1"></script>
+		<script defer src="assets/js/portfolio-pdf.js?v=20261111-9"></script>
+		<script defer src="assets/js/desktop-navigation.js?v=20261111-6"></script>
 
 		<!-- Styles are layered in order: compiled theme, shared overrides,
 		     then project-specific layout and responsive gallery rules. -->
 		<link id="theme-style" rel="stylesheet" href="assets/css/shine.css">
-		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261107-1">
-		<link rel="stylesheet" href="assets/css/projects.css?v=20261107-4">
+		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261111-4">
+		<link rel="stylesheet" href="assets/css/projects.css?v=20261111-4">
+		<link rel="stylesheet" href="assets/css/desktop-navigation.css?v=20261111-5">
 	</head>
 
 	<body class="light-mode">
@@ -41,10 +44,10 @@
 				<div class="container-fluid">
 					<div class="top-bar text-center position-relative">
 						<div class="top-bar-inner">
-							<a class="btn btn-primary top-bar-cta" href="index.html"><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Back to Resume</a>
+							<a class="btn btn-primary top-bar-cta" id="projects-resume-link" href="index.html"><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Back to Resume</a>
+							<a class="btn btn-primary top-bar-cta" id="portfolio-viewer-open" href="portfolio-viewer.html" target="_blank"><i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>View / Download Portfolio</a>
 						</div>
 					</div>
-
 					<div class="resume-wrapper mx-auto rounded-2">
 						<div class="resume-header px-4 px-lg-5">
 							<div class="resume-profile-holder text-center">

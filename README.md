@@ -9,12 +9,17 @@ JavaScript, and media files are served directly.
 - `index.html` is the resume and professional profile.
 - `projects.html` is the project portfolio. Its cards and index are generated
   from `assets/js/projects-data.js`.
+- `portfolio-viewer.html` generates and displays the downloadable project PDF.
+  The resume viewer is generated from `index.html?resume-viewer=1`.
 
 ## Editing the site
 
 ### Resume and generated PDF
 
 - Edit resume text and structure in `index.html`.
+- The profile header's View Project Portfolio link leads directly to
+  `projects.html`; the desktop scroll-in sidebar also links to the portfolio.
+  The header link is hidden when printing the website.
 - Add `data-resume-pdf` to each work-experience bullet that should appear in the
   generated PDF. Give the attribute a value for a concise or combined
   resume-only version; leave it empty to use the website text. Update combined
@@ -91,6 +96,40 @@ Regeneration alone is not a substitute for this review.
   `projects-data.js`; gallery-layout rules are in `projects.css`.
 - Store project media in `assets/images/projects/` and use repository-relative
   paths in the data.
+- The project page's **View / Download Portfolio** link opens
+  `portfolio-viewer.html`, which generates a letter-size page for every project
+  in the same order as `window.PROJECTS`. The preview, download, and PDF print
+  view use the same PDF. The layout and viewer behavior are in
+  `assets/js/portfolio-pdf.js`; it uses bundled jsPDF and the selected site
+  images. PDF preview support varies by browser, so the viewer also provides
+  direct open and download links. Back to Projects closes a script-opened
+  viewer when its original projects tab is accessible; otherwise it navigates
+  to the projects page.
+- Give every project a `portfolioPdf` object with a short `title`, a concise
+  `summary`, an array of `highlights`, and one to six `images` objects with
+  `src` and descriptive `caption` fields. Choose the most useful visuals and
+  application-relevant evidence from the case study; do not invent claims.
+  Update the curated PDF copy and image selections whenever the source project
+  changes. New projects appear in the download after their PDF fields are
+  added. Missing fields, image failures, or copy that exceeds the fixed page
+  layout produce an error rather than a partial or truncated download.
+- The PDF follows the supplied statics portfolio's serif contact header, rule,
+  project description, photo grid, and closing impact paragraph. The final
+  `highlights` item is the impact; preceding items form the approach paragraph.
+- The PDF is generated fresh on each viewer load. All project data and selected
+  images are validated or loaded before download links are shown. If an image
+  cannot load or copy and captions leave too little room, the viewer reports
+  the error; fix the named image or shorten the relevant copy, then reload.
+  Each project's PDF link uses its current `#project-N` position. Adding or
+  reordering projects changes those positions, so regenerate previously saved
+  PDFs if their links need to match the new order.
+- Keep the contact details in `assets/js/contact-reveal.js` current; both PDF
+  generators use its decoded values. After changing that script, update its
+  `?v=` in both `index.html` and `portfolio-viewer.html`.
+- After editing project or PDF data, update the corresponding script's `?v=`
+  in both `projects.html` and `portfolio-viewer.html` when applicable.
+  Download the PDF and inspect every page for legibility,
+  accurate claims and captions, image quality, and one page per project.
 
 ### Styles and interactions
 
@@ -100,6 +139,23 @@ Regeneration alone is not a substitute for this review.
 - `assets/js/contact-reveal.js`, `resume-nav.js`, and `back-to-top.js` each own
   one small, independent interaction. Keep them separate so page behavior is
   easy to locate and change.
+- The resume section links use centered three-and-two rows with consistent
+  spacing when their container is too narrow for one row; update that rule in
+  `assets/css/resume-overrides.css` if the number of links changes. On phones,
+  the enhanced navigation remains a collapsible menu.
+- `assets/js/desktop-navigation.js` and `assets/css/desktop-navigation.css`
+  add floating counterparts at widths of 768px and above after the original
+  controls scroll out of view, including Back to Resume on the projects page.
+  The side menu copies the current section or project links and adds the
+  header portfolio destination after Projects on the resume page; keep its
+  script after `projects.js`, which creates the project index. Its viewer actions
+  delegate ordinary clicks to the original links to preserve their named-tab
+  behavior. `contact-reveal.js` emits `resume-contact-change` after updating
+  the original contact links, and the compact floating details mirror those
+  links and state only when the original contact section is above the viewport.
+  Original controls remain in place, mobile layout is unchanged, focus returns
+  to an available control when floating controls disappear, and all floating
+  controls are hidden for print.
 - `assets/js/projects.js` renders cards from project data and controls image
   loading, lightbox behavior, and scroll reveal.
 - Bump the matching `?v=` value in the page markup whenever a changed CSS,
@@ -130,6 +186,12 @@ There is no automated test runner. Before publishing, verify:
 5. Both the downloaded PDF and the viewer's browser Print output fit on one
    page and contain the intended marked experience bullets.
 6. Reduced-motion preferences disable nonessential animations.
+7. The portfolio PDF downloads with one consistently formatted page per
+   project, correctly captioned images, and working project links.
+8. On both pages at 768px and wider, scroll past the original navigation and
+   top bar. Check the Sections menu, sticky actions, keyboard focus and Escape,
+   and the contact reveal before and after returning to the top. Confirm the
+   floating controls are absent below 768px and in print.
 
 ## Hosting and project files
 

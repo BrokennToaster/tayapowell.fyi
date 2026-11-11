@@ -22,8 +22,36 @@
 	max-width: 48rem;
 }
 
+.resume-portfolio-link {
+	align-items: center;
+	border: 1px solid #dce3eb;
+	border-radius: 2rem;
+	color: #354765;
+	display: inline-flex;
+	font-size: 0.9rem;
+	font-weight: 700;
+	gap: 0.4rem;
+	margin-top: 1rem;
+	min-height: 44px;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+}
+
+.resume-portfolio-link:hover,
+.resume-portfolio-link:focus-visible {
+	border-color: #fe655c;
+	color: #d34b42;
+	text-decoration: none;
+}
+
+.resume-portfolio-link:focus-visible {
+	outline: 2px solid #273b56;
+	outline-offset: 2px;
+}
+
 .resume-nav {
 	align-items: center;
+	container-type: inline-size;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0 1.25rem;
@@ -72,6 +100,30 @@
 .resume-nav a:focus-visible {
 	outline: 2px solid #273b56;
 	outline-offset: 2px;
+}
+
+/* Force a break after the third link without changing the links' natural width.
+ * The first link on the second row has no leading separator. */
+@media (min-width: 576px) {
+	@container (max-width: 43rem) {
+		.resume-nav-links {
+			width: 100%;
+		}
+
+		.resume-nav-links::before {
+			content: "";
+			flex-basis: 100%;
+			order: 1;
+		}
+
+		.resume-nav-links a:nth-child(n+4) {
+			order: 2;
+		}
+
+		.resume-nav-links a:nth-child(4) {
+			border-left: 0;
+		}
+	}
 }
 
 /* The menu collapses only after resume-nav.js adds is-enhanced. Without the
@@ -406,6 +458,7 @@
 
 	.top-bar,
 	.resume-nav,
+	.resume-portfolio-link,
 	.resume-print-button,
 	.back-to-top,
 	.footer {

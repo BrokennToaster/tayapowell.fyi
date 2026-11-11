@@ -14,6 +14,9 @@
  *   hero, images                 - image arrays; hero follows the intro, images is the closing gallery
  *   tags                         - array of short labels
  *   gallery image                - { src, alt, caption, newRow }; `newRow` starts a desktop gallery row.
+ *   portfolioPdf                - { title, summary, highlights, images }; curated
+ *                                  one-page application portfolio content.
+ *                                  images: [{ src, caption }] (one to six).
  *
  * Example (add this inside the array and replace its placeholder details):
  *
@@ -22,6 +25,12 @@
  *     type: "Personal project",
  *     date: "2026",
  *     objective: "What the project was intended to accomplish.",
+ *     portfolioPdf: {
+ *       title: "Project name",
+ *       summary: "The project's objective in one or two sentences.",
+ *       highlights: ["What was done.", "The resulting impact."],
+ *       images: [{ src: "assets/images/projects/example.jpg", caption: "What the image shows" }]
+ *     },
  *     sections: [{
  *       label: "Design process",
  *       items: ["A concise description of the work."],
@@ -42,13 +51,28 @@
  * their sizing and breakpoints are defined in projects.css. Test the chosen
  * layout with the actual photos on both desktop and mobile.
  * Text is rendered as text, not HTML. After edits, update the ?v= value for
- * projects-data.js in projects.html so returning browsers load the new data.
+ * projects-data.js in projects.html and portfolio-viewer.html so returning
+ * browsers load the new data.
+ * For the downloadable portfolio, add a portfolioPdf object to every project.
+ * Keep its claims and captions consistent with the full case study.
  */
 window.PROJECTS = [
 	{
 		title: "ANSOL Production Containers: 3D Scan-to-Model Package",
 		type: "Professional · REDD Engineering & Construction, Inc.",
 		date: "2025 - 2026",
+		portfolioPdf: {
+			title: "ANSOL Production Containers",
+			summary: "Rebuilt existing conditions for two portable production containers from 3D laser scans, creating as-built documentation before transport.",
+			highlights: [
+				"Processed point clouds and modeled the containers in AutoCAD Plant 3D.",
+				"Produced piping isometrics with bills of materials, updated P&IDs, and structural and architectural layouts.",
+				"Delivered client-ready drawing packages for both containers."
+			],
+			images: [
+				{ src: "assets/images/projects/ansol-redd-spotlight.jpg", caption: "REDD project spotlight featuring the container's as-built Plant 3D model." }
+			]
+		},
 		context: "Two portable production containers were scheduled for transport, and the client needed updated as-built documentation of their current condition.",
 		objective: "Convert 3D laser scan point clouds into verified AutoCAD Plant 3D as-built models and client-ready drawing packages for both containers prior to transport.",
 		hero: [
@@ -67,6 +91,23 @@ window.PROJECTS = [
 		title: "Statics Lab Demonstrations: Hands-On Teaching Aids for ME 201",
 		type: "4-person team · Capstone project",
 		date: "Winter 2025",
+		portfolioPdf: {
+			title: "Statics Lab Demonstrations",
+			summary: "Designed, built, and validated three hands-on teaching aids that let students visualize statics concepts and measure forces.",
+			highlights: [
+				"Modeled and fabricated demonstrations using aluminum, laser-cut birch, pulleys, and luggage scales.",
+				"Used FEA, FMEA, and repeated testing to refine and evaluate the designs. The triangle demo averaged about 1.5% error, with a 0.05% best result.",
+				"Delivered the set for under half the budget. The project received ASME's Best Calculations award."
+			],
+			images: [
+				{ src: "assets/images/projects/statics-cad-1-top.png", caption: "CAD: arm and rubber-lined clamps." },
+				{ src: "assets/images/projects/statics-cad-2-iso.png", caption: "CAD: triangle tension and compression model." },
+				{ src: "assets/images/projects/statics-cad-3-iso.png", caption: "CAD: linked machine demonstration." },
+				{ src: "assets/images/projects/statics-demo-moment.jpg", caption: "Moment demo: rubber-lined clamps resist rotation while a scale measures force." },
+				{ src: "assets/images/projects/statics-demo-tension.jpg", caption: "Triangle demo: scales measure forces in a 3D tension and compression problem." },
+				{ src: "assets/images/projects/statics-demo-machine.jpg", caption: "Machine demo: linked components illustrate reaction-force directions." }
+			]
+		},
 		stats: [
 			{ value: "0.05%", label: "lowest measured force error" },
 			{ value: "~1.5%", label: "average error, triangle demo" },
@@ -83,7 +124,7 @@ window.PROJECTS = [
 		functions: [
 			"Demonstrate three historically difficult homework problems: moment about an axis, 3D tension and compression, and machines",
 			"Measure and display forces with no wiring or programming, using luggage scales as force gauges",
-			"Accuracy within 10%, results readable in seconds, setup and takedown in under 120 seconds",
+			"Originally targeted accuracy within 10%, results readable in seconds, and setup and takedown in under 120 seconds",
 			"Fit within a 48in x 15.5in x 12.3in storage envelope and survive student handling"
 		],
 		sections: [
@@ -148,7 +189,7 @@ window.PROJECTS = [
 				layout: "fit",
 				items: [
 					"Triangle demo: 2.45% error in the recorded test (1.80 lb expected, 1.78 lb measured), about 1.5% on average, and 0.05% at best; found that both scales must be tared with no tension for best accuracy",
-					"Arm demo: 11% error (2.18 lb expected, 1.94 lb measured), tested by finding the point where the arm starts to move, with a bubble level for calibration",
+					"Arm demo: 11% error (2.18 lb expected, 1.94 lb measured), accepted as sufficiently close for its instructional purpose; tested by finding the point where the arm starts to move, with a bubble level for calibration",
 					"Clamp demo: 34.4% error (1.68 lb expected, 1.10 lb measured). Team review found that the mechanism is not static and its force readings are the least accurate, so it works best as a visual aid for reaction-force direction and machine function",
 					"Results were consistent across more than 10 repeated trials, and the demos survived an accidental 3 to 4 ft drop",
 					"Final cost came in at just under half of the project budget"
@@ -159,12 +200,29 @@ window.PROJECTS = [
 				]
 			}
 		],
-		impact: "Delivered a reusable, wireless, and durable lab set that supports student engagement and understanding of statics concepts in ME 201 recitations. The team met every performance measure, and the project received a \"Best Calculations\" award from ASME.",
+		impact: "Delivered a reusable, wireless, and durable lab set that supports student engagement and understanding of statics concepts in ME 201 recitations. The team met the revised performance requirements, and the project received a \"Best Calculations\" award from ASME.",
 		tags: ["Statics", "Fabrication", "FEA (ANSYS)", "FMEA", "Pugh Matrices", "Design Validation", "Instructional Design"]
 	},
 	{
 		title: "Custom Ergonomic Computer Mouse: Rapid Prototyping & Manufacturing",
 		type: "Individual & 10-person team",
+		portfolioPdf: {
+			title: "Custom Ergonomic Computer Mouse",
+			summary: "Explored ergonomic form and rapid prototyping, from hands-on models to surfaced CAD and a 3D-printed fit prototype.",
+			highlights: [
+				"Tested individual forms in paper, clay, and cardboard before modeling the organic shell and internal chassis in SolidWorks.",
+				"3D printed the model to validate fit and collect user feedback.",
+				"Personally hand injection-molded an individual blue-and-green marbled housing for the team design, paired with a 3D-printed internal chassis for electronics and snap-on housing."
+			],
+			images: [
+				{ src: "assets/images/projects/mouse-cardboard-contour.jpg", caption: "Cardboard contour-slice prototype used to test the ergonomic form." },
+				{ src: "assets/images/projects/mouse-3-cad-surfacing.jpg", caption: "Individual mouse concept modeled with SolidWorks surfacing." },
+				{ src: "assets/images/projects/mouse-print-top.jpg", caption: "3D-printed shell used to assess fit and gather feedback." },
+				{ src: "assets/images/projects/mouse-chassis-internals.jpg", caption: "CAD layout of the internal chassis." },
+				{ src: "assets/images/projects/mouse-5-hex-shell-cad.jpg", caption: "Selected team concept with a hexagonal shell." },
+				{ src: "assets/images/projects/mouse-cast-emblem.jpg", caption: "Cast metal accent emblem." }
+			]
+		},
 		problem: "Commercial mice lack a custom ergonomic fit, causing strain during long CAD sessions.",
 		objective: "Complete a full rapid prototyping lifecycle, from low-fidelity testing to SolidWorks organic surfacing and multi-material manufacturing.",
 		sections: [
@@ -219,21 +277,44 @@ window.PROJECTS = [
 				stack: true,
 				items: [
 					"Evaluated team concepts and selected a two-tone hexagonal shell made with two-part silicone molds and dual-stage polymer resin overmolding",
-					"Used investment casting for the accent emblem and a 3D-printed modular lower chassis"
+					"Used investment casting for the accent emblem"
 				],
 				images: [
 					{ src: "assets/images/projects/mouse-5-hex-shell-cad.jpg", alt: "Selected hexagonal shell CAD", caption: "Selected hexagonal shell CAD" },
 					{ src: "assets/images/projects/mouse-6-emblem-cad.jpg", alt: "Cast metal accent emblem CAD", caption: "Cast metal accent emblem CAD" },
 					{ src: "assets/images/projects/mouse-cast-emblem.jpg", alt: "Cast metal emblem piece held in hand", caption: "Cast metal piece" }
 				]
+			},
+			{
+				label: "Individual mouse fabrication",
+				items: [
+					"Personally hand injection-molded an individual housing with a marbled blue-and-green pattern for the team design, paired with a 3D-printed internal chassis that holds the battery, wiring, sensors, clickers, and scroll wheel and accepts the snap-on housing"
+				]
 			}
 		],
-		impact: "Demonstrated individual organic CAD surfacing and collaborative DFM under strict tooling budget constraints.",
-		tags: ["SolidWorks", "Surface Modeling", "3D Printing", "Molding & Casting", "DFM"]
+		impact: "Combined individual organic CAD surfacing and hands-on manufacturing with collaborative DFM under strict tooling budget constraints.",
+		tags: ["SolidWorks", "Surface Modeling", "3D Printing", "Injection Molding", "Casting", "DFM"]
 	},
 	{
 		title: "Ultralight Carbon Fiber Whiteboard Eraser: Materials & Magnetic Optimization",
 		type: "Individual",
+		portfolioPdf: {
+			title: "Carbon Fiber Whiteboard Eraser",
+			summary: "Built a lightweight magnetic eraser that stays on a glass whiteboard while learning composite manufacturing.",
+			highlights: [
+				"Hand-laid carbon fiber with resin and vacuum-bagged the contoured shell over a thrift-store glass bowl.",
+				"Finished the cured shell, bonded two magnets, and added a cloth wiping surface.",
+				"Produced a working prototype for roughly $25 in materials and evaluated manufacturing options for scaling."
+			],
+			images: [
+				{ src: "assets/images/projects/eraser-layup-2.jpg", caption: "Working resin into carbon fiber by hand during wet layup." },
+				{ src: "assets/images/projects/eraser-magnets.jpg", caption: "Two magnets bonded to the back of the cured shell." },
+				{ src: "assets/images/projects/eraser-in-use.jpg", caption: "Finished eraser holding on glass and wiping away marker." },
+				{ src: "assets/images/projects/eraser-concept-sketch.jpg", caption: "Initial contoured-shell concept." },
+				{ src: "assets/images/projects/eraser-sanded.jpg", caption: "Cured and sanded carbon fiber shell." },
+				{ src: "assets/images/projects/eraser-assembled.jpg", caption: "Assembled carbon fiber eraser." }
+			]
+		},
 		problem: "Across just 4mm of glass a magnet loses 70–90% of its strength (pull force falls roughly with 1/r²), so heavy magnetic erasers slide or fall off glass whiteboards.",
 		objective: "Design a lightweight eraser that stays on a glass whiteboard, using the project to learn composite manufacturing.",
 		impact: "Built a working carbon fiber eraser for roughly $25 in materials that holds on the glass and erases marker. Evaluated production scaling (compression molding, prepreg vs. wet layup) and estimated a $25–30 price point.",
@@ -244,7 +325,7 @@ window.PROJECTS = [
 				items: [
 					"Pull force falls off roughly as 1/r² with distance, so 4mm of glass removes most of a magnet's strength",
 					"Heavy erasers slide or fall off the glass; a popular magnetic eraser fell off immediately",
-					"No comparable product exists and the market for glass-whiteboard accessories is small, so this was built to meet a personal need and to learn composites"
+					"Built to meet a personal need and to learn composites in a small market for glass-whiteboard accessories"
 				],
 				images: [
 					{ src: "assets/images/projects/eraser-force-graph.jpg", alt: "Graph of magnetic pull force falling with distance", caption: "Pull force vs. distance through the glass" }
@@ -270,8 +351,8 @@ window.PROJECTS = [
 					"Tight precision was not required, so a low-cost found mold was sufficient. Materials: vacuum bag ~$8, sealing tape ~$2–3, carbon fiber ~$2–5"
 				],
 				images: [
-					{ src: "assets/images/projects/eraser-layup-1.jpg", alt: "Carbon fiber and resin on the mold surface", caption: "Wet layup on the mold" },
-					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" }
+					{ src: "assets/images/projects/eraser-layup-2.jpg", alt: "Working the resin into the carbon fiber by hand", caption: "Working resin into the fabric" },
+					{ src: "assets/images/projects/eraser-layup-1.jpg", alt: "Carbon fiber and resin during wet layup", caption: "Carbon fiber and resin during wet layup" }
 				]
 			},
 			{
