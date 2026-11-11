@@ -4,7 +4,7 @@ body { background: #e9edf2; color: #202a38; font: 14px Arial, Helvetica, sans-se
 .viewer-bar { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 20px; background: #111820; color: #fff; }
 .brand { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 .viewer-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.viewer-button { display: inline-flex; align-items: center; justify-content: center; padding: 9px 16px; border: 1px solid #53617a; border-radius: 6px; color: #fff; font-weight: 700; text-decoration: none; }
+.viewer-button { display: inline-flex; align-items: center; justify-content: center; padding: 9px 16px; border: 1px solid #53617a; border-radius: 6px; color: #fff; background: transparent; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
 .viewer-button.primary { background: #fe655c; border-color: #fe655c; color: #111820; }
 .viewer-button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .viewer-button[hidden], #portfolio-preview[hidden], #portfolio-mobile-preview[hidden] { display: none; }
@@ -46,4 +46,14 @@ main { padding: 12px 20px 20px; }
 	.portfolio-contacts { font-size: min(13px, 4vw); }
 	.portfolio-sheet { padding: 10px; }
 	.viewer-button { max-width: 100%; }
+}
+@media print {
+	.viewer-bar, #portfolio-status, #portfolio-preview { display: none !important; }
+	body { background: #fff; }
+	main { padding: 0; }
+	#portfolio-mobile-preview:not([hidden]) { display: block; }
+	.portfolio-sheet { margin: 0; padding: 0; max-width: none; break-after: page; }
+	.portfolio-sheet:last-child { break-after: auto; }
+	.portfolio-images { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.portfolio-images figure { break-inside: avoid; }
 }

@@ -14,10 +14,53 @@
 	const status = document.getElementById("portfolio-status");
 	const downloadLink = document.getElementById("portfolio-download");
 	const openPdf = document.getElementById("portfolio-open-pdf");
+	const sharePrint = document.getElementById("portfolio-share-print");
 	const preview = document.getElementById("portfolio-preview");
 	const mobilePreview = document.getElementById("portfolio-mobile-preview");
 	const back = document.getElementById("portfolio-back");
-	if (!status || !downloadLink || !openPdf || !preview || !mobilePreview || !back) return;
+	if (!status || !downloadLink || !openPdf || !sharePrint || !preview || !mobilePreview || !back) return;
+
+	const ua = navigator.userAgent || "";
+	const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(ua)
+		|| (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+		|| !!(navigator.userAgentData && navigator.userAgentData.mobile);
+
+	function printPreview() {
+		if (typeof window.print !== "function") {
+			window.alert("Printing is not available in this browser. Open this portfolio on another device to download the PDF.");
+			return;
+		}
+		window.alert("Your browser cannot share the PDF directly. Printing will use the reflowed preview, which may have a different page layout.");
+		try {
+			window.print();
+		} catch (error) {
+			console.error("Portfolio preview could not be printed:", error);
+			window.alert("This browser could not open the print dialog. Open this portfolio on another device to download the PDF.");
+		}
+	}
+
+	function setupSharePrint(blob) {
+		sharePrint.addEventListener("click", () => {
+			const name = downloadLink.download;
+			let file;
+			try {
+				if (window.File && navigator.canShare && navigator.share) {
+					file = new File([blob], name, { type: "application/pdf" });
+					if (navigator.canShare({ files: [file] })) {
+						navigator.share({ files: [file], title: name }).catch((error) => {
+							if (error && error.name === "AbortError") return;
+							console.error("Portfolio PDF could not be shared:", error);
+							printPreview();
+						});
+						return;
+					}
+				}
+			} catch (error) {
+				console.error("Portfolio PDF sharing is unavailable:", error);
+			}
+			printPreview();
+		});
+	}
 
 	const pageWidth = 612;
 	const margin = 40;
@@ -255,11 +298,17 @@
 				drawPage(pdf, project, content[index], images[index], index, projects.length);
 			});
 			renderMobilePreview(projects, content);
-			const downloadUrl = URL.createObjectURL(pdf.output("blob"));
+			const pdfBlob = pdf.output("blob");
+			const downloadUrl = URL.createObjectURL(pdfBlob);
 			downloadLink.href = downloadUrl;
-			downloadLink.hidden = false;
 			openPdf.href = downloadUrl;
-			openPdf.hidden = false;
+			if (isMobileDevice) {
+				setupSharePrint(pdfBlob);
+				sharePrint.hidden = false;
+			} else {
+				downloadLink.hidden = false;
+				openPdf.hidden = false;
+			}
 			mobilePreview.hidden = false;
 			const mobileLayout = matchMedia("(max-width: 849.98px)");
 			function updatePreview() {
@@ -269,7 +318,9 @@
 			}
 			mobileLayout.addEventListener("change", updatePreview);
 			updatePreview();
-			status.textContent = "If the preview is unavailable in your browser, use Open PDF / Print or Download PDF.";
+			status.textContent = isMobileDevice
+				? "If the preview is unavailable, use Share / Print."
+				: "If the preview is unavailable in your browser, use Open PDF / Print or Download PDF.";
 			status.classList.add("portfolio-preview-help");
 		} catch (error) {
 			console.error("Portfolio PDF could not be generated:", error);

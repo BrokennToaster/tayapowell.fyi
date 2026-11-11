@@ -105,7 +105,12 @@ Regeneration alone is not a substitute for this review.
   direct open and download links. Below 850px, a readable HTML preview reflows
   the same curated project text and images rather than relying on the embedded
   PDF viewer. Update `renderMobilePreview` in `portfolio-pdf.js` alongside
-  changes to PDF content. Back to Projects closes a script-opened
+  changes to PDF content. On phones and tablets, Share / Print passes the
+  generated PDF to the native share sheet, matching the resume viewer. If
+  file sharing is unavailable or fails, browser printing uses the reflowed
+  preview and may have a different page layout; dismissing the share sheet
+  does not invoke printing. Desktop retains its PDF open and download links.
+  Back to Projects closes a script-opened
   viewer when its original projects tab is accessible; otherwise it navigates
   to the projects page.
 - Give every project a `portfolioPdf` object with a short `title`, a concise
