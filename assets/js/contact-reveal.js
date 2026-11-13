@@ -18,8 +18,16 @@
 		email: decodeFragment("email"),
 		phone: decodeFragment("phone")
 	});
-	const revealButtons = document.querySelectorAll("[data-contact-toggle]");
+	const revealButtons = document.querySelectorAll("[data-contact-toggle]:not([data-contact-bottom]):not(.bottom-contact-hide)");
 	const contactDetails = document.getElementById("contact-details");
+	const bottomDetails = document.getElementById("bottom-contact-details");
+	const bottomLinks = bottomDetails?.querySelector(".bottom-contact-links");
+	const bottomButton = document.querySelector("[data-contact-bottom]");
+	const bottomHide = bottomDetails?.querySelector("[data-contact-toggle]");
+	const topDetails = document.getElementById("top-contact-details");
+	const topLinks = topDetails?.querySelector(".top-contact-links");
+	const topHide = topDetails?.querySelector(".top-contact-hide");
+	const topButton = document.querySelector(".top-bar [data-contact-toggle]");
 	let isExpanded = false;
 	let wasExpandedBeforePrint = false;
 
@@ -27,43 +35,80 @@
 		return;
 	}
 
-	function addContactLink(label, href, value) {
+	function addContactLink(container, label, href, value) {
 		const row = document.createElement("div");
-		const text = document.createElement("strong");
 		const link = document.createElement("a");
 
-		text.textContent = `${label}: `;
 		link.href = href;
 		link.textContent = value;
-		row.append(text, link);
-		contactDetails.append(row);
+		link.setAttribute("aria-label", `${label}: ${value}`);
+		row.append(link);
+		container.append(row);
 	}
 
 	// Rebuild the links when opening and synchronize the accessible button state.
 	function setExpanded(expanded) {
+		const restoreTopFocus = matchMedia("(min-width: 768px)").matches && (expanded
+			? document.activeElement === topButton
+			: topDetails?.contains(document.activeElement));
 		isExpanded = expanded;
 		contactDetails.replaceChildren();
 
 		if (expanded) {
 			const { email, phone } = window.getResumeContactDetails();
 
-			addContactLink("Email", `mailto:${email}`, email);
-			addContactLink("Phone", `tel:${phone}`, phone);
+			addContactLink(contactDetails, "Email", `mailto:${email}`, email);
+			addContactLink(contactDetails, "Phone", `tel:${phone}`, phone);
 			contactDetails.hidden = false;
 		} else {
 			contactDetails.hidden = true;
+		}
+		if (topDetails && topLinks) {
+			topLinks.replaceChildren(...Array.from(contactDetails.childNodes, (node) => node.cloneNode(true)));
+			topDetails.hidden = !expanded;
 		}
 
 		revealButtons.forEach((button) => {
 			button.setAttribute("aria-expanded", String(expanded));
 		});
+		if (restoreTopFocus) (expanded ? topHide : topButton)?.focus({ preventScroll: true });
 		// Desktop navigation mirrors the actual links and reveal state after this update.
 		document.dispatchEvent(new CustomEvent("resume-contact-change", { detail: { expanded } }));
 	}
 
+	function setBottomExpanded(expanded) {
+		if (!bottomDetails || !bottomLinks || !bottomButton || !bottomHide) return;
+		const restoreFocus = expanded
+			? document.activeElement === bottomButton
+			: bottomDetails.contains(document.activeElement);
+		bottomLinks.replaceChildren();
+		if (expanded) {
+			const { email, phone } = window.getResumeContactDetails();
+			addContactLink(bottomLinks, "Email", `mailto:${email}`, email);
+			addContactLink(bottomLinks, "Phone", `tel:${phone}`, phone);
+		}
+		bottomDetails.hidden = !expanded;
+		bottomButton.hidden = expanded;
+		bottomButton.setAttribute("aria-expanded", String(expanded));
+		bottomHide.setAttribute("aria-expanded", String(expanded));
+		if (restoreFocus) (expanded ? bottomHide : bottomButton).focus({ preventScroll: true });
+	}
+	bottomButton?.addEventListener("click", () => setBottomExpanded(true));
+	bottomHide?.addEventListener("click", () => setBottomExpanded(false));
+	topHide?.addEventListener("click", () => setExpanded(false));
+
 	revealButtons.forEach((button) => {
-		button.addEventListener("click", () => setExpanded(!isExpanded));
+		button.addEventListener("click", () => {
+			setExpanded(!isExpanded);
+			if (isExpanded && button.closest(".top-bar") && matchMedia("(max-width: 767.98px)").matches) {
+				contactDetails.scrollIntoView({
+					block: "center",
+					behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"
+				});
+			}
+		});
 	});
+	window.setResumeContactExpanded = setExpanded;
 
 	// Show contact details on the printed page, then restore the previous state.
 	window.addEventListener("beforeprint", () => {

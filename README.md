@@ -18,8 +18,28 @@ JavaScript, and media files are served directly.
 
 - Edit resume text and structure in `index.html`.
 - The profile header's View Project Portfolio link leads directly to
-  `projects.html`; the desktop scroll-in sidebar also links to the portfolio.
-  The header link is hidden when printing the website.
+  `projects.html`; the scroll-in sidebar also links to the portfolio. Website
+  project titles link directly to their case studies, while generated resume
+  project titles remain plain text. The header link is hidden when printing.
+- The scroll-in section menu starts open in the desktop side margin when there
+  is room, and collapsed on mobile or when the desktop margin is too narrow.
+  The desktop tab is disabled until the window is wide enough to open it
+  without covering page content. The mobile tab can open the section menu;
+  the open menu has a Hide menu control that restores the tab. When the menu
+  overlays the page, clicking or tapping outside it also closes it.
+  On desktop, floating contact information opens once after scrolling past
+  the top bar and can be hidden again. On mobile, the floating icon opens a
+  large contact panel only when selected. The bottom Contact Me button opens
+  independently and starts collapsed.
+  On desktop, the top button expands into the contact details with a hide
+  control; mobile retains the
+  profile location and the button scrolls to it. Contact fragments are
+  obfuscated, not encrypted.
+- The project page ends with a contact action linking to `#get-in-touch` on
+  the resume, where visitors can open the contact details.
+- The down-arrow shortcut appears after scrolling and leads to the bottom
+  actions; it disappears when those actions enter the viewport. The up arrow
+  appears above it after scrolling farther.
 - Add `data-resume-pdf` to each work-experience bullet that should appear in the
   generated PDF. Give the attribute a value for a concise or combined
   resume-only version; leave it empty to use the website text. Update combined
@@ -87,6 +107,8 @@ Regeneration alone is not a substitute for this review.
 
 - Add each new project to the beginning of `window.PROJECTS` in
   `assets/js/projects-data.js`; entries are shown newest first.
+- Assign each project a unique, permanent lowercase, hyphenated `id`; do not
+  use `project-N`, which is reserved for links from older portfolio PDFs.
 - Keep project content in the data file and rendering/layout behavior in
   `assets/js/projects.js` and `assets/css/projects.css`.
 - Each gallery image should have a descriptive `alt` value. Use `caption` for
@@ -110,9 +132,11 @@ Regeneration alone is not a substitute for this review.
   file sharing is unavailable or fails, browser printing uses the reflowed
   preview and may have a different page layout; dismissing the share sheet
   does not invoke printing. Desktop retains its PDF open and download links.
-  Back to Projects closes a script-opened
-  viewer when its original projects tab is accessible; otherwise it navigates
-  to the projects page.
+  Back to Projects asks the original projects tab to take focus and closes a
+  script-opened viewer only after that tab confirms it is visible and focused.
+  If focus cannot be confirmed, the opener has closed or navigated away, or
+  the browser refuses to close the viewer, it navigates to the projects page
+  in the current tab instead.
 - Give every project a `portfolioPdf` object with a short `title`, a concise
   `summary`, an array of `highlights`, and one to six `images` objects with
   `src` and descriptive `caption` fields. Choose the most useful visuals and
@@ -128,9 +152,8 @@ Regeneration alone is not a substitute for this review.
   images are validated or loaded before download links are shown. If an image
   cannot load or copy and captions leave too little room, the viewer reports
   the error; fix the named image or shorten the relevant copy, then reload.
-  Each project's PDF link uses its current `#project-N` position. Adding or
-  reordering projects changes those positions, so regenerate previously saved
-  PDFs if their links need to match the new order.
+  Each project's PDF link uses its stable ID. Legacy numbered anchors for the
+  original four projects remain attached to those projects after reordering.
 - Keep the contact details in `assets/js/contact-reveal.js` current; both PDF
   generators use its decoded values. After changing that script, update its
   `?v=` in both `index.html` and `portfolio-viewer.html`.
@@ -152,18 +175,17 @@ Regeneration alone is not a substitute for this review.
   `assets/css/resume-overrides.css` if the number of links changes. On phones,
   the enhanced navigation remains a collapsible menu.
 - `assets/js/desktop-navigation.js` and `assets/css/desktop-navigation.css`
-  add floating counterparts at widths of 768px and above after the original
-  controls scroll out of view, including Back to Resume on the projects page.
+  add floating counterparts after the original controls scroll out of view,
+  including Back to Resume on the projects page.
   The side menu copies the current section or project links and adds the
   header portfolio destination after Projects on the resume page; keep its
   script after `projects.js`, which creates the project index. Its viewer actions
   delegate ordinary clicks to the original links to preserve their named-tab
   behavior. `contact-reveal.js` emits `resume-contact-change` after updating
-  the original contact links, and the compact floating details mirror those
-  links and state only when the original contact section is above the viewport.
-  Original controls remain in place, mobile layout is unchanged, focus returns
-  to an available control when floating controls disappear, and all floating
-  controls are hidden for print.
+  the original contact links; the floating panel mirrors those links. Desktop
+  reveals it after scrolling past the top bar; mobile opens it on demand.
+  Original controls remain in place, focus returns to an available control
+  when floating controls disappear, and floating controls are hidden for print.
 - `assets/js/projects.js` renders cards from project data and controls image
   loading, lightbox behavior, and scroll reveal.
 - Bump the matching `?v=` value in the page markup whenever a changed CSS,
@@ -200,7 +222,8 @@ There is no automated test runner. Before publishing, verify:
 8. On both pages at 768px and wider, scroll past the original navigation and
    top bar. Check the Sections menu, sticky actions, keyboard focus and Escape,
    and the contact reveal before and after returning to the top. Confirm the
-   floating controls are absent below 768px and in print.
+   mobile floating icons and the on-demand contact panel work, and floating
+   controls are absent in print.
 
 ## Hosting and project files
 

@@ -40,16 +40,16 @@
 			must be available before the viewer reads them. Change a file's ?v=
 			value after editing it so returning visitors receive the new version.
 		-->
-		<script defer src="assets/js/contact-reveal.js?v=20261111-2"></script>
-		<script defer src="assets/js/resume-viewer.js?v=20261107-16"></script>
-		<script defer src="assets/js/back-to-top.js?v=20261005"></script>
+		<script defer src="assets/js/contact-reveal.js?v=20261113-6"></script>
+		<script defer src="assets/js/resume-viewer.js?v=20261112-2"></script>
+		<script defer src="assets/js/back-to-top.js?v=20261113-2"></script>
 		<script defer src="assets/js/resume-nav.js?v=20261021"></script>
-		<script defer src="assets/js/desktop-navigation.js?v=20261111-6"></script>
+		<script defer src="assets/js/desktop-navigation.js?v=20261113-7"></script>
 
 		<!-- The compiled theme is followed by editable site-specific styles. -->
 		<link id="theme-style" rel="stylesheet" href="assets/css/shine.css">
-		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261111-4">
-		<link rel="stylesheet" href="assets/css/desktop-navigation.css?v=20261111-5">
+		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261113-19">
+		<link rel="stylesheet" href="assets/css/desktop-navigation.css?v=20261113-11">
 
 	</head>
 
@@ -67,7 +67,11 @@
 						<div class="top-bar-inner">
 
 							<a class="btn btn-primary top-bar-cta resume-print-button" href="?resume-viewer=1&resume-version=20261106-4" target="_blank"><i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>View/Print Resume</a>
-							<button class="btn btn-primary top-bar-cta" type="button" data-contact-toggle aria-controls="contact-details" aria-expanded="false">Contact Me</button>
+							<div class="top-contact-details" id="top-contact-details" hidden>
+								<div class="top-contact-links" aria-live="polite"></div>
+								<button class="top-contact-hide" type="button" aria-controls="contact-details top-contact-details" aria-label="Hide contact information"><span aria-hidden="true"></span></button>
+							</div>
+							<button class="btn btn-primary top-bar-cta" type="button" data-contact-toggle aria-controls="contact-details top-contact-details" aria-expanded="false">Contact Me</button>
 
 						</div>
 
@@ -81,6 +85,7 @@
 								<h1 class="resume-name text-uppercase">Taya Powell</h1>
 								<div class="resume-role-title">Mechanical Engineer</div>
 								<div class="resume-specialties">Product Development <span aria-hidden="true">&middot;</span> Aesthetic &amp; Functional CAD Design <span aria-hidden="true">&middot;</span> Prototyping &amp; Testing</div>
+								<p class="resume-value-statement">Turning design requirements into buildable solutions, from CAD and field verification to prototyping and testing.</p>
 								<a class="resume-portfolio-link" href="projects.html">View Project Portfolio <span aria-hidden="true">&rarr;</span></a>
 								<div class="resume-contact mt-4">
 									<ul class="resume-contact-list list-unstyled list-inline mb-0 justify-content-between">
@@ -153,9 +158,10 @@
 													</ul>
 													<div class="resume-featured-project">
 														<div class="resume-featured-project-label">Featured project</div>
-														<h5 class="resume-featured-project-title">ANSOL Production Containers &ndash; 3D Scan-to-Model Package</h5>
-														<p>Converted 3D laser scan point clouds into updated AutoCAD Plant 3D as-built models for two ANSOL production containers prior to transport. Generated client-ready drawing packages including piping ISOs with Bills of Materials (BOMs), updated P&amp;IDs, and structural/architectural layouts. <a href="projects.html">See the project portfolio</a>.</p>
+														<h5 class="resume-featured-project-title"><a href="projects.html#ansol-containers">ANSOL Production Containers &ndash; 3D Scan-to-Model Package</a></h5>
+														<p>Converted 3D laser scan point clouds into updated AutoCAD Plant 3D as-built models for two ANSOL production containers prior to transport. Generated client-ready drawing packages including piping ISOs with Bills of Materials (BOMs), updated P&amp;IDs, and structural/architectural layouts.</p>
 													</div>
+													<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 													<p>This role gave me experience working within multidisciplinary engineering projects where accuracy, documentation, and coordination were critical. I worked across CAD design, field verification, equipment selection, and engineering documentation, while developing a stronger understanding of how design decisions translate into physical industrial systems. My work also gave me hands-on experience with 3D laser scanning and point-cloud processing, from collecting site data through rebuilding existing conditions in CAD.</p>
 												</div>
 
@@ -180,6 +186,7 @@
 														<li data-resume-pdf="Repaired 50+ SolidWorks hardware models to eliminate assembly rebuild errors. Supported CAD standards and documentation for industrial, aerospace, and nuclear welding systems.">Optimized SolidWorks CAD libraries by repairing 50+ vendor fastener and hardware models, resolving geometry flaws and eliminating rebuild errors in large assemblies.</li>
 														<li>Supported engineering documentation and CAD standardization for automated welding systems serving industrial, aerospace, and nuclear applications.</li>
 													</ul>
+													<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 													<p>My internship at AMET gave me an early opportunity to work at the intersection of engineering, visual design, and technical documentation. I learned to use Adobe Illustrator at a professional level very quickly, creating graphics and physical labeling for large automated welding systems while working within existing product standards. I also gained experience working with SolidWorks assemblies and troubleshooting vendor CAD models when geometry or rebuild issues caused problems. Although my role was primarily focused on documentation, CAD support, and visual communication, it taught me how much careful attention to detail matters when information will ultimately be used on real equipment.</p>
 												</div>
 
@@ -282,7 +289,7 @@
 								<div class="resume-project-list">
 									<article class="resume-project-entry">
 										<div class="resume-project-heading">
-											<h4 class="item-heading">Statics Instructional System</h4>
+											<h4 class="item-heading"><a href="projects.html#statics-demonstrations">Statics Instructional System</a></h4>
 											<div class="resume-project-type">Team · Capstone project</div>
 										</div>
 										<ul class="resume-timeline-list">
@@ -292,7 +299,7 @@
 									</article>
 									<article class="resume-project-entry">
 										<div class="resume-project-heading">
-											<h4 class="item-heading">Custom Ergonomic Mouse Prototype</h4>
+											<h4 class="item-heading"><a href="projects.html#ergonomic-mouse">Custom Ergonomic Mouse Prototype</a></h4>
 											<div class="resume-project-type">Individual &amp; team</div>
 										</div>
 										<ul class="resume-timeline-list">
@@ -301,7 +308,7 @@
 									</article>
 									<article class="resume-project-entry">
 										<div class="resume-project-heading">
-											<h4 class="item-heading">Composite Material Fabrication &amp; Testing</h4>
+											<h4 class="item-heading"><a href="projects.html#carbon-fiber-eraser">Composite Material Fabrication &amp; Testing</a></h4>
 											<div class="resume-project-type">Individual</div>
 										</div>
 										<ul class="resume-timeline-list">
@@ -335,6 +342,7 @@
 											<li>Digitized and reformatted a comprehensive emergency protocol manual, rebuilding pages with handwritten updates while preserving its organization and usability.</li>
 											<li>Created reference and training materials documenting role procedures, facility information, and privacy and security guidelines.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>Working in a memory care facility required organization, technical problem-solving, discretion, and adaptability. I became the first person staff came to when office technology stopped cooperating and learned to research solutions before escalating problems to IT. I also took on projects requiring careful attention to detail, including digitizing the emergency protocol manual and creating practical resources for future staff. Maintaining detailed records taught me the importance of documenting what happened, when, and in what context. Although the role was primarily administrative, I continued to interact with residents and families and help people feel heard and cared for during difficult moments.</p>
 									</li>
 									<li>
@@ -347,6 +355,7 @@
 											<li>Created original artwork for paid commissions as well as promotional and practice pieces to develop my style, evaluate customer interest, and build a portfolio.</li>
 											<li>Managed customer communication and delivered custom portraits for children and pets.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>I started ReNee Fine Arts Rendering as a self-directed creative project and maintained it for nearly ten years. The business began as an experiment in turning a creative skill into something people could actually purchase, and I handled the process independently from creating artwork and developing the visual identity to setting prices, communicating with customers, and building an online presence. Most of my work was created as practice or portfolio material, giving me room to experiment with different styles and learn what people responded to. The experience gave me an early opportunity to develop a product independently, present it to an audience, and take responsibility for the process from concept to delivery.</p>
 									</li>
 									<li>
@@ -359,6 +368,7 @@
 											<li>Coordinated with CNAs, families, new residents, vendors, and visiting entertainers to support resident needs and keep activities running smoothly.</li>
 											<li>Adapted communication and activities for residents with dementia, learning to meet individuals where they were and create moments of comfort, connection, and engagement.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>This position was one of the most personally meaningful experiences I've had. Working in memory care taught me that meaningful engagement often requires more creativity and flexibility than following a planned activity. I learned to adapt quickly to different personalities, abilities, moods, and circumstances, while finding ways to help residents feel comfortable, included, and understood. I also gained experience communicating with families, care staff, new residents, and outside vendors and entertainers, often balancing several needs at once. The experience gave me a deeper appreciation for a kind of empathy that requires both creativity and careful attention to the person in front of you.</p>
 									</li>
 									<li>
@@ -371,6 +381,7 @@
 											<li>Led several assigned areas as a senior missionary, maintaining knowledge of people being taught, local members and resources, and area logistics, then training incoming companions to continue the work effectively.</li>
 											<li>Organized daily schedules, planned and adapted lessons, participated in community service, maintained records, and helped digitize apartment records so information could be passed between missionaries.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>My mission taught me how to communicate with people who had very different backgrounds, personalities, beliefs, and levels of interest. Much of the work involved approaching complete strangers, starting conversations quickly, answering difficult questions, and inviting people to consider ideas that were unfamiliar to them. Rejection was a normal part of the work, and I learned to keep approaching people with genuine care rather than letting an unsuccessful conversation determine the next one. I also learned to adapt constantly, whether that meant changing a lesson to meet someone's needs, finding a way to communicate across language barriers, or taking responsibility for an area and helping a new companion understand the people and community there. Most importantly, I saw how meaningful it can be to help someone find hope, community, and a stronger connection to their faith.</p>
 									</li>
 									<li>
@@ -383,6 +394,7 @@
 											<li>Maintained detailed outreach logs and coordinated questions and follow-up with a manager based in Texas.</li>
 											<li>Researched answers to family questions with my manager and either provided the information directly or connected families with him for additional support.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>I worked remotely with a team based in Texas to recruit and support host families for international soccer camps. Much of the role involved reaching out to people I had never spoken with, starting conversations, learning what mattered to them, and helping them decide whether hosting was a good fit for their family. I especially enjoyed talking with previous hosts and collecting their experiences and testimonials to share with new families. The position gave me practical experience with outreach, customer communication, organized follow-up, and working independently while staying connected with a remote manager.</p>
 									</li>
 									<li>
@@ -395,6 +407,7 @@
 											<li>Created infographics, course banners, and video graphics using Adobe Photoshop and Illustrator, including graphics later incorporated into animated videos.</li>
 											<li>Helped replace copyrighted textbook imagery with royalty-free alternatives or recreated originals for a professor's course materials.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>I worked with the Faculty Technology Center to help professors build and manage their Brightspace courses and solve technical problems. The role required me to learn an unfamiliar system quickly, understand how changes affected both instructors and students, and translate technical solutions into practical instructions. I also developed my graphic design skills by creating visual materials for courses and educational content. One project involved reviewing a textbook's imagery for copyright concerns and helping replace the images with royalty-free or newly recreated graphics. The combination of technical troubleshooting, visual design, and customer support made this a particularly fun role and gave me a foundation I continued building on through later engineering and design work.</p>
 									</li>
 									<li>
@@ -407,6 +420,7 @@
 											<li>Managed photography workflow using Adobe Lightroom and Photo Mechanic, independently culling large collections of images and performing minor edits while contributing to my mother's photography business.</li>
 											<li>Assisted with real estate photography by transporting and setting up equipment, supporting on-location shoots, and helping prepare and process images.</li>
 										</ul>
+										<h5 class="takeaways-heading">KEY TAKEAWAYS</h5>
 										<p>I began assisting my mother with wedding photography at age 11 and continued through age 18, gradually taking on more responsibility as my photography skills developed. What started as basic assistance eventually became genuine second-shooter experience, with my own portfolio of wedding work and the ability to work independently within a larger photography team. I found that I particularly enjoyed candid photography and detail work, where composition, lighting, and attention to small visual details mattered. I also learned to work quickly and adapt when venues, lighting, schedules, and locations changed throughout a wedding day. My experience eventually gave me enough independent work to apply for photography positions outside my mother's business, including a paid second-shooting opportunity with another photographer.</p>
 									</li>
 								</ul>
@@ -417,10 +431,29 @@
 			</div>
 		</div>
 
+		<section id="get-in-touch" class="bottom-actions text-center" aria-labelledby="get-in-touch-heading" tabindex="-1">
+			<h2 id="get-in-touch-heading">Get in touch</h2>
+			<p>I'd love to hear from you.</p>
+			<div class="bottom-action-buttons">
+				<div class="bottom-contact">
+					<button class="btn btn-primary" type="button" data-contact-toggle data-contact-bottom aria-controls="bottom-contact-details" aria-expanded="false">Contact Me</button>
+					<div id="bottom-contact-details" class="bottom-contact-details" hidden>
+						<div class="bottom-contact-links"></div>
+						<button class="bottom-contact-hide" type="button" data-contact-toggle aria-controls="bottom-contact-details" aria-expanded="true" aria-label="Hide contact information"><span aria-hidden="true"></span></button>
+					</div>
+				</div>
+				<div class="bottom-view-buttons">
+					<a class="btn btn-primary" href="?resume-viewer=1&amp;resume-version=20261106-4" target="_blank" data-resume-viewer>View Resume</a>
+					<a class="btn btn-primary" href="projects.html">View Projects</a>
+				</div>
+			</div>
+		</section>
 		<footer class="footer text-center py-4">
-			<small class="copyright">Taya Powell &bull; Mechanical Engineer &bull; Theme by <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/shine-free-bootstrap-5-light-mode-resume-cv-template-for-developers/" target="_blank" rel="noopener">Xiaoying Riley</a></small>
+			<small class="copyright">Taya Powell &bull; Mechanical Engineer</small>
+			<small class="theme-credit">Theme by <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/shine-free-bootstrap-5-light-mode-resume-cv-template-for-developers/" target="_blank" rel="noopener">Xiaoying Riley</a></small>
 		</footer>
 
+		<a class="scroll-to-bottom" id="scroll-to-bottom" href="#get-in-touch" aria-label="Scroll to contact and links"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
 		<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
 	</body>
 </html>

@@ -11,6 +11,13 @@
 		console.error("Project portfolio data could not be loaded.");
 		return;
 	}
+	try {
+		window.validateProjectIds(window.PROJECTS);
+	} catch (error) {
+		console.error("Project portfolio data is invalid.", error);
+		root.textContent = "Project portfolio data contains an invalid or duplicate project ID.";
+		return;
+	}
 
 	// Create nodes with textContent so project copy cannot inject markup.
 	function el(tag, className, text) {
@@ -109,12 +116,22 @@
 		return block;
 	}
 
-	// A card's generated ID and its jump link both use its array position.
-	// Reordering projects therefore changes their #project-N anchors.
+	// Keep numbered anchors for links in previously generated PDFs.
 	function render(project, index) {
 		var parts = splitTitle(project.title);
 		var card = el("article", "project-card");
-		card.id = "project-" + (index + 1);
+		card.id = project.id;
+		var legacyIds = {
+			"ansol-containers": "project-1",
+			"statics-demonstrations": "project-2",
+			"ergonomic-mouse": "project-3",
+			"carbon-fiber-eraser": "project-4"
+		};
+		if (legacyIds[project.id]) {
+			var legacyAnchor = el("span");
+			legacyAnchor.id = legacyIds[project.id];
+			card.appendChild(legacyAnchor);
+		}
 
 		var head = el("header", "project-head");
 		head.appendChild(el("div", "project-number", pad(index + 1)));
@@ -212,7 +229,7 @@
 		window.PROJECTS.forEach(function (project, index) {
 			var parts = splitTitle(project.title);
 			var link = el("a", "project-index-item");
-			link.href = "#project-" + (index + 1);
+			link.href = "#" + project.id;
 			link.appendChild(el("span", "project-index-number", pad(index + 1)));
 			var t = el("span", "project-index-text");
 			t.appendChild(el("span", "project-index-title", parts.main));
@@ -225,6 +242,22 @@
 	window.PROJECTS.forEach(function (project, index) {
 		root.appendChild(render(project, index));
 	});
+	if (location.hash) {
+		var target = document.getElementById(location.hash.slice(1));
+		if (target) {
+			var scrollToTarget = function () { target.scrollIntoView({ behavior: "instant" }); };
+			requestAnimationFrame(scrollToTarget);
+			// Gallery dimensions settle as images load; restore the initial fragment
+			// once they have loaded unless the visitor has already interacted.
+			if (document.readyState !== "complete") {
+				var cancelRestore = function () { window.removeEventListener("load", scrollToTarget); };
+				["wheel", "touchstart", "pointerdown", "keydown", "hashchange"].forEach(function (name) {
+					window.addEventListener(name, cancelRestore, { once: true, passive: true });
+				});
+				window.addEventListener("load", scrollToTarget, { once: true });
+			}
+		}
+	}
 
 	// Only enable the fade when the browser supports observation. Without it,
 	// cards stay visible; reduced-motion CSS also keeps them visible.

@@ -24,18 +24,18 @@
 		<!-- Data must load before the renderer. All scripts are deferred and
 		     execute in order; bump an edited file's ?v= to refresh browser caches. -->
 		<script defer src="assets/fontawesome/js/all.js"></script>
-		<script defer src="assets/js/back-to-top.js?v=20261005"></script>
-		<script defer src="assets/js/projects-data.js?v=20261111-14"></script>
-		<script defer src="assets/js/projects.js?v=20261106-1"></script>
-		<script defer src="assets/js/portfolio-pdf.js?v=20261111-11"></script>
-		<script defer src="assets/js/desktop-navigation.js?v=20261111-6"></script>
+		<script defer src="assets/js/back-to-top.js?v=20261113-2"></script>
+		<script defer src="assets/js/projects-data.js?v=20261112-2"></script>
+		<script defer src="assets/js/projects.js?v=20261112-2"></script>
+		<script defer src="assets/js/portfolio-pdf.js?v=20261113-1"></script>
+		<script defer src="assets/js/desktop-navigation.js?v=20261113-7"></script>
 
 		<!-- Styles are layered in order: compiled theme, shared overrides,
 		     then project-specific layout and responsive gallery rules. -->
 		<link id="theme-style" rel="stylesheet" href="assets/css/shine.css">
-		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261111-4">
+		<link rel="stylesheet" href="assets/css/resume-overrides.css?v=20261113-19">
 		<link rel="stylesheet" href="assets/css/projects.css?v=20261111-4">
-		<link rel="stylesheet" href="assets/css/desktop-navigation.css?v=20261111-5">
+		<link rel="stylesheet" href="assets/css/desktop-navigation.css?v=20261113-11">
 	</head>
 
 	<body class="light-mode">
@@ -63,7 +63,7 @@
 								<h3 class="resume-section-heading text-uppercase py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-tools me-2"></i>Projects</h3>
 								<p class="project-intro">Selected engineering work, from professional as-built documentation to award-winning design projects. Each entry walks through the problem, the process, and the result.</p>
 								<!-- The renderer populates both containers using window.PROJECTS.
-								     The index points to automatically numbered project-card IDs. -->
+								     The index points to stable project-card IDs. -->
 								<nav id="project-index" class="project-index" aria-label="Project index"></nav>
 								<div id="project-list" class="project-list"></div>
 								<noscript><p>Please enable JavaScript to view the project list.</p></noscript>
@@ -74,10 +74,20 @@
 			</div>
 		</div>
 
+		<section id="projects-contact" class="bottom-actions text-center" aria-labelledby="projects-contact-heading" tabindex="-1">
+			<h2 id="projects-contact-heading">Interested in working together?</h2>
+			<p>Get in touch to discuss an opportunity or project.</p>
+			<div class="bottom-action-buttons">
+				<a class="btn btn-primary" href="index.html#get-in-touch">Contact Me</a>
+				<a class="btn btn-primary" href="index.html">View Resume</a>
+			</div>
+		</section>
 		<footer class="footer text-center py-4">
-			<small class="copyright">Taya Powell &bull; Mechanical Engineer &bull; Theme by <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/shine-free-bootstrap-5-light-mode-resume-cv-template-for-developers/" target="_blank" rel="noopener">Xiaoying Riley</a></small>
+			<small class="copyright">Taya Powell &bull; Mechanical Engineer</small>
+			<small class="theme-credit">Theme by <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/shine-free-bootstrap-5-light-mode-resume-cv-template-for-developers/" target="_blank" rel="noopener">Xiaoying Riley</a></small>
 		</footer>
 
+		<a class="scroll-to-bottom" id="scroll-to-bottom" href="#projects-contact" aria-label="Scroll to contact and links"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
 		<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
 	</body>
 </html>

@@ -67,20 +67,38 @@
 	const contentWidth = pageWidth - margin * 2;
 	back.addEventListener("click", (event) => {
 		event.preventDefault();
+		const target = back.href;
+		let opener;
 		try {
-			if (window.opener && !window.opener.closed) {
-				const openerUrl = new URL(window.opener.location.href);
+			opener = window.opener;
+			if (opener && !opener.closed) {
+				const openerUrl = new URL(opener.location.href);
 				if (openerUrl.origin === location.origin && openerUrl.pathname.endsWith("/projects.html")) {
-					window.opener.focus();
-					window.close();
-					setTimeout(() => { location.href = back.href; }, 400);
+					opener.focus();
+					// focus() is only a request: browsers can ignore it. Do not close
+					// until the projects tab confirms it actually received focus.
+					setTimeout(() => {
+						try {
+							const currentUrl = new URL(opener.location.href);
+							if (!opener.closed && currentUrl.origin === location.origin &&
+								currentUrl.pathname.endsWith("/projects.html") &&
+								opener.document.visibilityState === "visible" && opener.document.hasFocus()) {
+								window.close();
+								setTimeout(() => { location.href = target; }, 400);
+								return;
+							}
+						} catch (error) {
+							// The opener may have closed or navigated to another origin.
+						}
+						location.href = target;
+					}, 200);
 					return;
 				}
 			}
 		} catch (error) {
-			// A cross-origin opener cannot be used as the projects page.
+			// An inaccessible opener cannot be confirmed as the projects page.
 		}
-		location.href = back.href;
+		location.href = target;
 	});
 
 	function drawContactIcon(pdf, type, x, y) {
@@ -228,7 +246,7 @@
 		pdf.setFontSize(9);
 		pdf.setTextColor("#444444");
 		pdf.textWithLink("View the full project portfolio", margin, 752,
-			{ url: `https://tayapowell.fyi/projects.html#project-${index + 1}` });
+			{ url: `https://tayapowell.fyi/projects.html#${encodeURIComponent(project.id)}` });
 		pdf.text(`${index + 1} / ${total}`, pageWidth - margin, 752, { align: "right" });
 	}
 
@@ -257,8 +275,10 @@
 				["Website", "tayapowell.fyi", "https://tayapowell.fyi/"]
 			].forEach(([label, text, href]) => {
 				const row = add(contacts, "div", "portfolio-contact");
-				add(row, "strong", "", `${label}: `);
-				add(row, "a", "", text).href = href;
+				if (label !== "Email" && label !== "Phone") add(row, "strong", "", `${label}: `);
+				const link = add(row, "a", "", text);
+				link.href = href;
+				if (label === "Email" || label === "Phone") link.setAttribute("aria-label", `${label}: ${text}`);
 			});
 			add(article, "h3", "portfolio-title", content.title);
 			add(article, "p", "portfolio-meta", [project.type, project.date].filter(Boolean).join(" | ").replace(/\s*·\s*/g, " | "));
@@ -275,7 +295,7 @@
 			});
 			add(article, "p", "", `Project impact: ${content.highlights[content.highlights.length - 1]}`);
 			const footer = add(article, "footer", "portfolio-sheet-footer");
-			add(footer, "a", "", "View the full project portfolio").href = `projects.html#project-${index + 1}`;
+			add(footer, "a", "", "View the full project portfolio").href = `projects.html#${encodeURIComponent(project.id)}`;
 			add(footer, "span", "", `${index + 1} / ${projects.length}`);
 		});
 		mobilePreview.replaceChildren(fragment);
@@ -289,6 +309,7 @@
 				throw new Error("The project portfolio could not be loaded.");
 			}
 			const projects = window.PROJECTS;
+			window.validateProjectIds(projects);
 			const content = projects.map(requireContent);
 			// Finish loading and validating every page before exposing any PDF.
 			const images = await Promise.all(content.map((entry) => Promise.all(entry.images.map(loadImage))));

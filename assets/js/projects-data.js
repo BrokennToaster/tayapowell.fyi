@@ -1,6 +1,8 @@
 /*
  * Add a project object at the TOP of this array (newest first). Keep the comma
- * between objects. `title` is required; all other fields are optional.
+ * between objects. `id` and `title` are required; use lowercase letters,
+ * numbers, and hyphens for ids. Keep each id unique and
+ * unchanged so links continue to work when projects are reordered.
  * The part of a title after ": " appears as a subtitle.
  *
  *   title, type, date, context   - short text
@@ -21,6 +23,7 @@
  * Example (add this inside the array and replace its placeholder details):
  *
  *   {
+ *     id: "project-name",
  *     title: "Project name: Short subtitle",
  *     type: "Personal project",
  *     date: "2026",
@@ -58,6 +61,7 @@
  */
 window.PROJECTS = [
 	{
+		id: "ansol-containers",
 		title: "ANSOL Production Containers: 3D Scan-to-Model Package",
 		type: "Professional · REDD Engineering & Construction, Inc.",
 		date: "2025 - 2026",
@@ -88,6 +92,7 @@ window.PROJECTS = [
 		tags: ["AutoCAD Plant 3D", "3D Laser Scanning", "Point Clouds", "P&IDs", "Piping ISOs"]
 	},
 	{
+		id: "statics-demonstrations",
 		title: "Statics Lab Demonstrations: Hands-On Teaching Aids for ME 201",
 		type: "4-person team · Capstone project",
 		date: "Winter 2025",
@@ -204,6 +209,7 @@ window.PROJECTS = [
 		tags: ["Statics", "Fabrication", "FEA (ANSYS)", "FMEA", "Pugh Matrices", "Design Validation", "Instructional Design"]
 	},
 	{
+		id: "ergonomic-mouse",
 		title: "Custom Ergonomic Computer Mouse: Rapid Prototyping & Manufacturing",
 		type: "Individual & 10-person team",
 		portfolioPdf: {
@@ -296,6 +302,7 @@ window.PROJECTS = [
 		tags: ["SolidWorks", "Surface Modeling", "3D Printing", "Injection Molding", "Casting", "DFM"]
 	},
 	{
+		id: "carbon-fiber-eraser",
 		title: "Ultralight Carbon Fiber Whiteboard Eraser: Materials & Magnetic Optimization",
 		type: "Individual",
 		portfolioPdf: {
@@ -404,3 +411,14 @@ window.PROJECTS = [
 		tags: ["Composites", "Carbon Fiber", "Vacuum Bagging", "Magnetics", "Cost Analysis", "Prototyping"]
 	}
 ];
+
+window.validateProjectIds = function (projects) {
+	const ids = new Set();
+	projects.forEach((project) => {
+		if (!project || typeof project.id !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.id) ||
+			/^project-\d+$/.test(project.id) || ids.has(project.id)) {
+			throw new Error("Each project needs a unique lowercase, hyphenated ID that is not a numbered legacy anchor.");
+		}
+		ids.add(project.id);
+	});
+};

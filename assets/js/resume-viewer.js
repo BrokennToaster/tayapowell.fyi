@@ -648,7 +648,8 @@
 	body { background: #e9edf2; color: #202a38; font-family: Arial, Helvetica, "Helvetica Neue", sans-serif; font-size: 13.5px; line-height: 1.45; }
 	.viewer-bar { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 20px; background: #111820; color: #fff; box-shadow: 0 2px 10px rgba(17, 24, 32, 0.35); }
 	.viewer-bar .brand { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
-	.viewer-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+	.viewer-actions { display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: 10px; }
+	#resume-back-btn { margin-left: auto; }
 	.vb-btn { display: inline-flex; align-items: center; justify-content: center; padding: 9px 18px; border: 1px solid transparent; border-radius: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 13.5px; font-weight: 700; line-height: 1; text-decoration: none; cursor: pointer; }
 	.vb-btn.primary { background: #fe655c; color: #fff; }
 	.vb-btn.secondary { background: #4f6591; color: #fff; }
