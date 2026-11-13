@@ -201,7 +201,6 @@
 	}
 	document.body.appendChild(actions);
 
-	let autoOpened = false;
 	function update() {
 		fitRail();
 		const mobile = mobileLayout.matches;
@@ -214,10 +213,6 @@
 		const contactPassed = contactSection && (mobile
 			? contactSection.getBoundingClientRect().bottom <= 0
 			: showActions);
-		if (!mobile && !autoOpened && showActions && contactPassed) {
-			autoOpened = true;
-			if (!expanded) window.setResumeContactExpanded(true);
-		}
 		if (!showRail && !rail.hidden) {
 			if (rail.contains(document.activeElement)) {
 				const original = document.querySelector(".resume-nav-toggle") || sourceNav.querySelector("a");

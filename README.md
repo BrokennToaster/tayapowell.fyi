@@ -27,10 +27,9 @@ JavaScript, and media files are served directly.
   margin is too narrow. The open menu has a Hide menu control that restores
   the tab. When the menu
   overlays the page, clicking or tapping outside it also closes it.
-  On desktop, floating contact information opens once after scrolling past
-  the top bar and can be hidden again. On mobile, the floating icon opens a
-  large contact panel only when selected. The bottom Contact Me button opens
-  independently and starts collapsed.
+  Contact information starts hidden and is revealed on request. On mobile,
+  the floating icon opens a large contact panel only when selected. The bottom
+  Contact Me button opens independently and starts collapsed.
   On desktop, the top button expands into the contact details with a hide
   control; mobile retains the
   profile location and the button scrolls to it. Contact fragments are
@@ -182,8 +181,8 @@ Regeneration alone is not a substitute for this review.
   script after `projects.js`, which creates the project index. Its viewer actions
   delegate ordinary clicks to the original links to preserve their named-tab
   behavior. `contact-reveal.js` emits `resume-contact-change` after updating
-  the original contact links; the floating panel mirrors those links. Desktop
-  reveals it after scrolling past the top bar; mobile opens it on demand.
+  the original contact links; the floating panel mirrors those links. Contact
+  details are not automatically revealed when scrolling on desktop or mobile.
   Original controls remain in place, focus returns to an available control
   when floating controls disappear, and floating controls are hidden for print.
 - `assets/js/projects.js` renders cards from project data and controls image
