@@ -70,20 +70,19 @@
 	}
 	const mobileLayout = matchMedia("(max-width: 767.98px)");
 	const content = document.querySelector(".resume-wrapper");
+	const availableRailSpace = () => content ? Math.max(0, Math.floor(content.getBoundingClientRect().left) - 4) : 0;
 	let isMobile = mobileLayout.matches;
-	let wantsOpen = !isMobile;
+	let wantsOpen = !isMobile && availableRailSpace() >= 120;
 	function fitRail() {
 		const mobile = mobileLayout.matches;
+		const available = availableRailSpace();
 		if (mobile !== isMobile) {
 			isMobile = mobile;
-			wantsOpen = !mobile;
+			wantsOpen = !mobile && available >= 120;
 		}
-		const available = content ? Math.floor(content.getBoundingClientRect().left) - 4 : 0;
-		const fits = mobile || available >= 120;
-		rail.style.setProperty("--rail-space", `${Math.max(0, available)}px`);
-		toggle.disabled = !fits;
-		toggle.title = fits ? "" : "Widen the window to open the section sidebar";
-		setOpen(fits && wantsOpen);
+		rail.style.setProperty("--rail-space", `${available}px`);
+		rail.classList.toggle("is-overlay", mobile || available < 120);
+		setOpen(wantsOpen);
 	}
 	toggle.addEventListener("click", () => {
 		wantsOpen = links.hidden;

@@ -23,9 +23,9 @@ JavaScript, and media files are served directly.
   project titles remain plain text. The header link is hidden when printing.
 - The scroll-in section menu starts open in the desktop side margin when there
   is room, and collapsed on mobile or when the desktop margin is too narrow.
-  The desktop tab is disabled until the window is wide enough to open it
-  without covering page content. The mobile tab can open the section menu;
-  the open menu has a Hide menu control that restores the tab. When the menu
+  The section menu can be opened at any width, overlaying the page when the
+  margin is too narrow. The open menu has a Hide menu control that restores
+  the tab. When the menu
   overlays the page, clicking or tapping outside it also closes it.
   On desktop, floating contact information opens once after scrolling past
   the top bar and can be hidden again. On mobile, the floating icon opens a

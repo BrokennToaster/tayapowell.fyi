@@ -41,6 +41,7 @@
 	box-shadow: 0 4px 18px rgba(17, 24, 32, 0.14);
 	padding: 0.35rem;
 }
+.desktop-rail.is-overlay .desktop-rail-links { max-width: min(250px, 70vw); }
 .desktop-rail-links a {
 	display: block;
 	padding: 0.55rem 0.7rem;
